@@ -26,6 +26,11 @@ class TennisSet
      */
     private $nbJeuxDuPerdant;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\TennisMatch", inversedBy="tennisSets")
+     */
+    private $tennisMatch;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -51,6 +56,18 @@ class TennisSet
     public function setNbJeuxDuPerdant(int $nbJeuxDuPerdant): self
     {
         $this->nbJeuxDuPerdant = $nbJeuxDuPerdant;
+
+        return $this;
+    }
+
+    public function getTennisMatch(): ?TennisMatch
+    {
+        return $this->tennisMatch;
+    }
+
+    public function setTennisMatch(?TennisMatch $tennisMatch): self
+    {
+        $this->tennisMatch = $tennisMatch;
 
         return $this;
     }

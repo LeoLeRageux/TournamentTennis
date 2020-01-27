@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -100,6 +102,16 @@ class TennisTournoi
      * @ORM\Column(type="string", length=30)
      */
     private $statut;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TennisTour", mappedBy="tennisTournoi")
+     */
+    private $tennisTours;
+
+    public function __construct()
+    {
+        $this->tennisTours = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -306,6 +318,37 @@ class TennisTournoi
     public function setStatut(string $statut): self
     {
         $this->statut = $statut;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TennisTour[]
+     */
+    public function getTennisTours(): Collection
+    {
+        return $this->tennisTours;
+    }
+
+    public function addTennisTour(TennisTour $tennisTour): self
+    {
+        if (!$this->tennisTours->contains($tennisTour)) {
+            $this->tennisTours[] = $tennisTour;
+            $tennisTour->setTennisTournoi($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTennisTour(TennisTour $tennisTour): self
+    {
+        if ($this->tennisTours->contains($tennisTour)) {
+            $this->tennisTours->removeElement($tennisTour);
+            // set the owning side to null (unless already changed)
+            if ($tennisTour->getTennisTournoi() === $this) {
+                $tennisTour->setTennisTournoi(null);
+            }
+        }
 
         return $this;
     }
