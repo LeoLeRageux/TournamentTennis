@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TennisMatch index{% endblock %}
+
+{% block body %}
+    <h1>TennisMatch index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Etat</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tennis_match in tennis_matches %}
+            <tr>
+                <td>{{ tennis_match.id }}</td>
+                <td>{{ tennis_match.etat }}</td>
+                <td>
+                    <a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}">show</a>
+                    <a href="{{ path('tennis_match_edit', {'id': tennis_match.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('tennis_match_new') }}">Create new</a>
+{% endblock %}

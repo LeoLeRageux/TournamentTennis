@@ -25,7 +25,8 @@ class AppFixtures extends Fixture
         $tournoi->setEstVisible($faker->boolean($chanceOfGettingTrue = 50));
         $tournoi->setSurface($faker->realText($maxNbChars = 10, $indexSize = 2));
 		$age=$faker->regexify('[1-5][0-9]');
-        $tournoi->setCategorieAge('".$age."/".$age."');
+		$ageplusdeux=$age+2;
+        $tournoi->setCategorieAge("".$age."/".$ageplusdeux."");
         $tournoi->setGenreHomme($faker->boolean($chanceOfGettingTrue = 50));
         $tournoi->setDescription($faker->realText($maxNbChars = 50, $indexSize = 2));
         $tournoi->setDateDebutInscriptions($faker->dateTimeBetween($startDate = '-1 year', $endDate = '-1 month', $timezone = null));

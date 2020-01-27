@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TennisTour index{% endblock %}
+
+{% block body %}
+    <h1>TennisTour index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Type</th>
+                <th>DateFinTour</th>
+                <th>Statut</th>
+                <th>Numero</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tennis_tour in tennis_tours %}
+            <tr>
+                <td>{{ tennis_tour.id }}</td>
+                <td>{{ tennis_tour.type }}</td>
+                <td>{{ tennis_tour.dateFinTour ? tennis_tour.dateFinTour|date('Y-m-d') : '' }}</td>
+                <td>{{ tennis_tour.statut }}</td>
+                <td>{{ tennis_tour.numero }}</td>
+                <td>
+                    <a href="{{ path('tennis_tour_show', {'id': tennis_tour.id}) }}">show</a>
+                    <a href="{{ path('tennis_tour_edit', {'id': tennis_tour.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('tennis_tour_new') }}">Create new</a>
+{% endblock %}

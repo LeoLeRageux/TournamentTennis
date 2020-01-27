@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New TennisSet{% endblock %}
+
+{% block body %}
+    <h1>Create new TennisSet</h1>
+
+    {{ include('tennis_set/_form.html.twig') }}
+
+    <a href="{{ path('tennis_set_index') }}">back to list</a>
+{% endblock %}

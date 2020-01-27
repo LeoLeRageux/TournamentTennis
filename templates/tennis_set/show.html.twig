@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TennisSet{% endblock %}
+
+{% block body %}
+    <h1>TennisSet</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ tennis_set.id }}</td>
+            </tr>
+            <tr>
+                <th>NbJeuxDuGagnant</th>
+                <td>{{ tennis_set.nbJeuxDuGagnant }}</td>
+            </tr>
+            <tr>
+                <th>NbJeuxDuPerdant</th>
+                <td>{{ tennis_set.nbJeuxDuPerdant }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('tennis_set_index') }}">back to list</a>
+
+    <a href="{{ path('tennis_set_edit', {'id': tennis_set.id}) }}">edit</a>
+
+    {{ include('tennis_set/_delete_form.html.twig') }}
+{% endblock %}

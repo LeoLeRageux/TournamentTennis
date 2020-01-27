@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TennisTournoi{% endblock %}
+
+{% block body %}
+    <h1>TennisTournoi</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ tennis_tournoi.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ tennis_tournoi.nom }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ tennis_tournoi.adresse }}</td>
+            </tr>
+            <tr>
+                <th>DateDebutTournoi</th>
+                <td>{{ tennis_tournoi.dateDebutTournoi ? tennis_tournoi.dateDebutTournoi|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateFinTournoi</th>
+                <td>{{ tennis_tournoi.dateFinTournoi ? tennis_tournoi.dateFinTournoi|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>EstVisible</th>
+                <td>{{ tennis_tournoi.estVisible ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Surface</th>
+                <td>{{ tennis_tournoi.surface }}</td>
+            </tr>
+            <tr>
+                <th>CategorieAge</th>
+                <td>{{ tennis_tournoi.categorieAge }}</td>
+            </tr>
+            <tr>
+                <th>GenreHomme</th>
+                <td>{{ tennis_tournoi.genreHomme ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ tennis_tournoi.description }}</td>
+            </tr>
+            <tr>
+                <th>DateDebutInscriptions</th>
+                <td>{{ tennis_tournoi.dateDebutInscriptions ? tennis_tournoi.dateDebutInscriptions|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateFinInscriptions</th>
+                <td>{{ tennis_tournoi.dateFinInscriptions ? tennis_tournoi.dateFinInscriptions|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>InscriptionsManuelles</th>
+                <td>{{ tennis_tournoi.inscriptionsManuelles ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>NbPlaces</th>
+                <td>{{ tennis_tournoi.nbPlaces }}</td>
+            </tr>
+            <tr>
+                <th>MotDePasse</th>
+                <td>{{ tennis_tournoi.motDePasse }}</td>
+            </tr>
+            <tr>
+                <th>ValidationInscriptions</th>
+                <td>{{ tennis_tournoi.validationInscriptions ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>NbSetsGagnants</th>
+                <td>{{ tennis_tournoi.nbSetsGagnants }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{{ tennis_tournoi.statut }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('tennis_tournoi_index') }}">back to list</a>
+
+    <a href="{{ path('tennis_tournoi_edit', {'id': tennis_tournoi.id}) }}">edit</a>
+
+    {{ include('tennis_tournoi/_delete_form.html.twig') }}
+{% endblock %}
