@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block title %}Tableau de bord{% endblock %}
+{% block slider %}
+<style>
+    div {padding: 1% 5%;}
+    div {border: solid;}
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <a href="/"><img src="{{asset('/image/logo.png')}}" width="100" length="100"></a></li>
+        </div>
+        <div class="col-md-8">
+            <h1><center>Mes Tournois</center></h1>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>
+{% endblock %}

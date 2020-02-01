@@ -44,7 +44,7 @@ class AppFixtures extends Fixture
                 $tour = new TennisTour();
                 $tour->setType("Intermédiaire");
                 $tour->setDateFinTour($faker->dateTimeBetween($startDate = '-5 days', $endDate = 'now', $timezone = null));
-                $tour->setStatut($faker->randomElement(["Non Commencé", "Organisation", "Terminé"]));
+                $tour->setStatut($faker->randomElement(["Commencé", "Organisation", "Terminé"]));
                 $tour->setNumero($i);
                 $tour->setTennistournoi($tournoi);
                 $tournoi->addTennisTour($tour);

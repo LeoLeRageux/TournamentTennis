@@ -1,33 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}TennisTour index{% endblock %}
-
+{% block title %}Liste des tours{% endblock %}
+{% block titre %}<h1><center>Liste des tours</center></h1>{% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+{% endblock %}
 {% block body %}
-    <h1>TennisTour index</h1>
-
-    <table class="table">
+<div class="card shadow mb-4">
+<div class="card-body">
+<div class="table-responsive">
+    <table class="display" id="myTable">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Type</th>
-                <th>DateFinTour</th>
-                <th>Statut</th>
                 <th>Numero</th>
-                <th>actions</th>
+                <th>Date limite</th>
+                <th>Matchs joués</th>
+                <th>Statut</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for tennis_tour in tennis_tours %}
             <tr>
-                <td>{{ tennis_tour.id }}</td>
-                <td>{{ tennis_tour.type }}</td>
-                <td>{{ tennis_tour.dateFinTour ? tennis_tour.dateFinTour|date('Y-m-d') : '' }}</td>
+                <td>Tour {{ tennis_tour.numero }}</td>
+                <td>{{ tennis_tour.dateFinTour ? tennis_tour.dateFinTour|date('d-m-Y') : '' }}</td>
+                <td> ... </td>
                 <td>{{ tennis_tour.statut }}</td>
-                <td>{{ tennis_tour.numero }}</td>
+                {% if tennis_tour.statut == "Terminé" %}
                 <td>
-                    <a href="{{ path('tennis_tour_show', {'id': tennis_tour.id}) }}">show</a>
-                    <a href="{{ path('tennis_tour_edit', {'id': tennis_tour.id}) }}">edit</a>
+                    <a href="">Liste matchs</a>
                 </td>
+                {% elseif tennis_tour.statut == "Commencé" %}
+                <td>
+                    <a href="">Liste matchs</a>
+                    -
+                    <a href="{{ path('tennis_tour_edit', {'id': tennis_tour.id}) }}">Modifier</a>
+                </td>
+                {% else %}
+                <td>
+                    <a href="/matchs/matchs-tour/{{ tennis_tour.id }}">Liste matchs</a>
+                    -
+                    <a href="{{ path('tennis_tour_edit', {'id': tennis_tour.id}) }}">Modifier</a>
+                    -
+                    <a href="">Supprimer</a>
+                </td>
+                {% endif %}
             </tr>
         {% else %}
             <tr>
@@ -36,6 +54,22 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('tennis_tour_new') }}">Create new</a>
+</div>
+</div>
+	<div class="row">
+		<div class="col-md-5">
+	<input type="button" onclick="window.location.href = '../new';" value="Creer un nouveau tour">
+		</div>
+	</div>
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script>
+	<script>
+		$(document).ready(function() {
+		$('#myTable').DataTable();
+	});
+	</script>
 {% endblock %}

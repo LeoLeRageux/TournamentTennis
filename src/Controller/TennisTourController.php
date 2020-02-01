@@ -16,12 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class TennisTourController extends AbstractController
 {
     /**
-     * @Route("/", name="tennis_tour_index", methods={"GET"})
+     * @Route("/tours-tournoi/{id}", name="tennis_tour_index", methods={"GET"})
      */
-    public function index(TennisTourRepository $tennisTourRepository): Response
+    public function index(TennisTourRepository $tennisTourRepository, $id): Response
     {
         return $this->render('tennis_tour/index.html.twig', [
-            'tennis_tours' => $tennisTourRepository->findAll(),
+            'tennis_tours' => $tennisTourRepository->findByTennisTournoi($id),
         ]);
     }
 
