@@ -56,7 +56,8 @@ class AppFixtures extends Fixture
                     $tour->addTennisMatch($match);
                     $manager->persist($tour);
                     $manager->persist($match);
-                    for($k=1; $k<=$nbSetsGagnants+2; $k++){
+                    // Ajout de sets dans chaque match
+                    for($k=1; $k<=$nbSetsGagnants; $k++){
                         $set = new TennisSet();
                         $set->setNbJeuxDuGagnant(6);
                         $set->setNbJeuxDuPerdant($faker->numberBetween(0,4));
