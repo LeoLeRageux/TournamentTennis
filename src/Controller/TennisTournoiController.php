@@ -34,7 +34,7 @@ class TennisTournoiController extends AbstractController
         $form = $this->createForm(TennisTournoiType::class, $tennisTournoi);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tennisTournoi);
             $entityManager->flush();
