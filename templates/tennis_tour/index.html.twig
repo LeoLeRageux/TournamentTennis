@@ -25,7 +25,8 @@
             <tr>
                 <td>Tour {{ tennis_tour.numero }}</td>
                 <td>{{ tennis_tour.dateFinTour ? tennis_tour.dateFinTour|date('d-m-Y') : '' }}</td>
-                <td> ... </td>
+                {% set nbMatchsTotaux = tennis_tour.tennisMatchs|length %}
+                <td> ... /  {{ nbMatchsTotaux }}</td>
                 <td>{{ tennis_tour.statut }}</td>
                 {% if tennis_tour.statut == "Terminé" %}
                 <td>
@@ -39,7 +40,7 @@
                 </td>
                 {% else %}
                 <td>
-                    <a href="/matchs/matchs-tour/{{ tennis_tour.id }}">Liste matchs</a>
+                    <a href="/matchs/matchs-tour/{{tennis_tour.id}}">Liste matchs</a>
                     -
                     <a href="{{ path('tennis_tour_edit', {'id': tennis_tour.id}) }}">Modifier</a>
                     -
@@ -56,9 +57,10 @@
     </table>
 </div>
 </div>
+</div>
 	<div class="row">
-		<div class="col-md-5">
-	<input type="button" onclick="window.location.href = '../new';" value="Creer un nouveau tour">
+		<div class="col-md-12">
+	<center><input type="button" onclick="window.location.href = '../new';" value="Creer un nouveau tour"></center>
 		</div>
 	</div>
 {% endblock %}

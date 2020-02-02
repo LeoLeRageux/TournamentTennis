@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\TennisMatch;
 use App\Form\TennisMatchType;
 use App\Repository\TennisMatchRepository;
+use App\Repository\TennisSetRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +19,11 @@ class TennisMatchController extends AbstractController
     /**
      * @Route("/matchs-tour/{id}", name="tennis_match_index", methods={"GET"})
      */
-    public function index(TennisMatchRepository $tennisMatchRepository, $id): Response
+    public function index(TennisMatchRepository $tennisMatchRepository, TennisSetRepository $tennisSetRepository, $id): Response
     {
         return $this->render('tennis_match/index.html.twig', [
             'tennis_matches' => $tennisMatchRepository->findByTennisTour($id),
+            'tennis_sets' => $tennisSetRepository->findAll()
         ]);
     }
 
