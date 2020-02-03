@@ -1,0 +1,65 @@
+{% extends 'baseNonConnecte.html.twig' %}
+
+{% block title %}
+Créer un compte
+{% endblock %}
+
+{% block titre %}
+<h1 align="center">Création de compte</h1>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-4">
+		</div>
+		<div class="col-md-4">
+			<form role="form">
+
+				<div class="form-group">
+					<label for="exNom">
+					Nom
+					</label>
+					<input type="text" class="form-control" id="exNom" />
+				</div>
+
+				<div class="form-group"> 
+					<label for="exPrenom">
+					Prénom
+					</label>
+					<input type="text" class="form-control" id="exPrenom" />
+				</div>
+
+				<div class="form-group"> 
+					<label for="exEmail">
+					Adresse mail
+					</label>
+					<input type="email" class="form-control" id="exEmail" />
+				</div>
+
+				<div class="form-group">
+					<label for="exMdp">
+					Mot de passe
+					</label>
+					<input type="password" class="form-control" id="exMdp" />
+				</div>
+
+				<div class="form-group">
+					<label for="exMdp2">
+					Confirmation du mot de passe
+					</label>
+					<input type="password" class="form-control" id="exMdp2" />
+				</div>
+
+				<center>
+				<button type="submit" class="btn btn-primary">
+				Créer le compte
+				</button>
+				</center>
+			</form>
+		</div>
+		<div class="col-md-4">
+		</div>
+	</div>
+</div>
+{% endblock %}
