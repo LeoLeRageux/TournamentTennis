@@ -3,7 +3,22 @@
 {% block body %}
 
 	<label id="text"> {% block text %}Nouvelle date : </br>{% endblock %} </label>
-	<input id="date_form" type="date" name="new-date">
+	<input id="date_form" type="datetime-local" name="new-date">
 	</br>
-	<button id="confirm" onclick="">Valider</button>
+	<button id="confirm" onclick="modifDate()">Valider</button>
+	<p id="message"></p>
+
+	<script type="text/javascript">
+		function modifDate(){
+			var newDate = document.getElementById("date_form").value;
+			if(newDate != null){
+				document.getElementById("message").innerHTML = newDate;
+			} else {
+				document.getElementById("message").innerHTML = "Date = null";
+			}
+		}
+	</script>
+
 {% endblock %}
+
+
