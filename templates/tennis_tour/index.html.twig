@@ -41,7 +41,7 @@ fin dans {{ tennis_tours[num].dateFinTour.diff(date()).days }} jours
 {% endif %}
 
 {% else %}
-Tournoi terminé le {{ tournoi.dateFinTournoi }}
+Tournoi terminé le {{ tournoi.dateFinTournoi.format("d/m/Y")}}
 {% endif %}
 </center></h2>
 <div class="card shadow mb-4">
@@ -95,7 +95,7 @@ Tournoi terminé le {{ tournoi.dateFinTournoi }}
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">Aucun match crée</td>
             </tr>
         {% endfor %}
         </tbody>
