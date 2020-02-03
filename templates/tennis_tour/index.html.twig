@@ -1,12 +1,49 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Liste des tours{% endblock %}
-{% block titre %}<h1><center>Liste des tours</center></h1>{% endblock %}
+{% block titre %}<h1><center>Liste des tours du tournoi {{tournoi.nom}} </center></h1>{% endblock %}
 {% block stylesheets %}
 	{{ parent() }}
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
 {% endblock %}
 {% block body %}
+<h2><center>
+{% if tournoi.statut == "Non Commencé" %}
+Ouverture des inscriptions dans {{ date().diff(tournoi.dateFinInscriptions).days }} jours
+<a href=""> Repousser </a>
+-
+<a href=""> Terminer le tour </a>
+
+{% elseif tournoi.statut == "Phase d'incriptions" %}
+Debut du tournoi dans {{ tournoi.dateDebutTournoi.diff(date()).days }} jours
+<a href=""> Repousser </a>
+-
+<a href=""> Terminer le tour </a>
+
+{% elseif tournoi.statut == "Commencé" %}
+
+{% set num = null %}
+{% for tennis_tour in tennis_tours %}
+    {% if tennis_tour.statut == "Commencé" %}
+        {% set num = tennis_tour.numero - 1 %}
+    {% endif %}
+{% endfor %}
+
+<a href=""> Repousser </a> <br/>
+Fin du tournoi dans {{ date().diff(tournoi.dateFinTournoi).days }} jours
+<a href=""> Repousser </a>
+-
+<a href=""> Terminer le tour </a><br/>
+
+{% if num != null %}
+Tour {{ num + 1 }} en cours, 
+fin dans {{ tennis_tours[num].dateFinTour.diff(date()).days }} jours
+{% endif %}
+
+{% else %}
+Tournoi terminé le {{ tournoi.dateFinTournoi }}
+{% endif %}
+</center></h2>
 <div class="card shadow mb-4">
 <div class="card-body">
 <div class="table-responsive">
@@ -25,16 +62,24 @@
             <tr>
                 <td>Tour {{ tennis_tour.numero }}</td>
                 <td>{{ tennis_tour.dateFinTour ? tennis_tour.dateFinTour|date('d-m-Y') : '' }}</td>
+
+                {% set nbMatchsJoues = 0 %}
                 {% set nbMatchsTotaux = tennis_tour.tennisMatchs|length %}
-                <td> ... /  {{ nbMatchsTotaux }}</td>
+                {% for match in tennis_tour.tennisMatchs %}
+                    {% if match.etat != "Pas encore joué" %}
+                        {% set nbMatchsJoues = nbMatchsJoues + 1 %}
+                    {% endif %}
+                {% endfor %}
+                
+                <td> {{ nbMatchsJoues }} /  {{ nbMatchsTotaux }}</td>
                 <td>{{ tennis_tour.statut }}</td>
                 {% if tennis_tour.statut == "Terminé" %}
                 <td>
-                    <a href="">Liste matchs</a>
+                    <a href="/matchs/matchs-tour/{{tennis_tour.id}}">Liste matchs</a>
                 </td>
                 {% elseif tennis_tour.statut == "Commencé" %}
                 <td>
-                    <a href="">Liste matchs</a>
+                    <a href="/matchs/matchs-tour/{{tennis_tour.id}}">Liste matchs</a>
                     -
                     <a href="{{ path('tennis_tour_edit', {'id': tennis_tour.id}) }}">Modifier</a>
                 </td>
@@ -58,11 +103,19 @@
 </div>
 </div>
 </div>
+    {% if tournoi.statut == "Commencé" %}
 	<div class="row">
 		<div class="col-md-12">
 	<center><input type="button" onclick="window.location.href = '../new';" value="Creer un nouveau tour"></center>
 		</div>
 	</div>
+    {% elseif tournoi.statut == "Non Commencé" or tournoi.statut == "Phase d'incriptions" %}
+    <div class="row">
+		<div class="col-md-12">
+	<center><input type="button" disabled value="Creer un nouveau tour"></center>
+		</div>
+	</div>
+    {% endif %}
 {% endblock %}
 {% block javascripts %}
 	{{ parent() }}
