@@ -24,4 +24,12 @@ class TournamenttennisController extends AbstractController
         return $this->render('tournamenttennis\changer_de_mot_passe.html.twig');
     }
 
+    /**
+     * @Route("/nouvelle-date", name="set_date")
+     */
+    public function demandeDate()
+    {
+        return $this->render('tournamenttennis\changement_de_date.html.twig');
+    }
+
 }

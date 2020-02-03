@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	<label id="text"> {% block text %}Nouvelle date : </br>{% endblock %} </label>
+	<input id="date_form" type="date" name="new-date">
+	</br>
+	<button id="confirm" onclick="">Valider</button>
+{% endblock %}
