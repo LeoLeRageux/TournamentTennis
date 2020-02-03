@@ -15,8 +15,9 @@ class AppFixtures extends Fixture
     {
         $faker = \Faker\Factory::create('fr_FR'); // create a French faker
 
-        // On crée un Tournoi <dateTimeBetween('1980-10-10', '1980-10-10')>
-		for($t=1; $t<=5; $t++){
+        // On crée un Tournoi
+		$tableauStatutTournoi = array("Non Commencé", "Phase d'incriptions", "Commencé", "Terminé");
+		for($t=1; $t<=4; $t++){
         $tournoi = new TennisTournoi();
         $tournoi->setNom($faker->realText($maxNbChars = 10, $indexSize = 2));
         $tournoi->setAdresse($faker->realText($maxNbChars = 10, $indexSize = 2));
@@ -37,21 +38,42 @@ class AppFixtures extends Fixture
         $tournoi->setValidationInscriptions($faker->boolean($chanceOfGettingTrue = 50));
 		$nbSetsGagnants=$faker->numberBetween(2,3);
         $tournoi->setNbSetsGagnants($nbSetsGagnants);
-        $tournoi->setStatut($faker->randomElement(["Non Commencé", "Phase d'incriptions", "Commencé", "Terminé"]));
+        $tournoi->setStatut($tableauStatutTournoi[$t-1]);
         $manager->persist($tournoi);
-        // Ajout de tours dans ce Tournoi
+        // Ajout de tours dans ce Tournoi (sauf s tournoi non commencé ou en phase d'inscriptions (pas possible de creer de tour & matchs)
+		if($tournoi->getStatut() != "Non Commencé" && $tournoi->getStatut() != "Phase d'incriptions"){
+			$tableauStatutTour = array("Terminé", "Commencé", "Organisation");
             for($i=1; $i<=3; $i++){
                 $tour = new TennisTour();
                 $tour->setType("Intermédiaire");
                 $tour->setDateFinTour($faker->dateTimeBetween($startDate = '-5 days', $endDate = 'now', $timezone = null));
-                $tour->setStatut($faker->randomElement(["Commencé", "Organisation", "Terminé"]));
+				if($tournoi->getStatut() == "Terminé")
+				{
+					$tour->setStatut("Terminé");
+				}
+				else 
+				{
+					$tour->setStatut($tableauStatutTour[$i-1]);
+				}
                 $tour->setNumero($i);
                 $tour->setTennistournoi($tournoi);
                 $tournoi->addTennisTour($tour);
                 // Ajout de matchs dans chaque tour
-                for($j=1; $j<=3; $j++){
+				$tableauEtatMatch = array("Pas encore joué", "Terminé");
+                for($j=1; $j<=2; $j++){
                     $match = new TennisMatch();
-                    $match->setEtat($faker->randomElement(["Pas encore joué", "Terminé"]));
+					if($tour->getStatut() == "Terminé")
+					{
+						$match->setEtat("Terminé");
+					}
+					else if($tour->getStatut() == "Commencé")
+					{
+						$match->setEtat($tableauEtatMatch[$j-1]);
+					}
+					else //Organisation (crétion des matchs, aucun joués)
+					{
+						$match->setEtat("Pas encore joué");
+					}
                     $match->setTennisTour($tour);
                     $tour->addTennisMatch($match);
                     $manager->persist($tour);
@@ -70,5 +92,6 @@ class AppFixtures extends Fixture
             }
         $manager->flush();
 		}
-    }
+		}
+	}
 }
