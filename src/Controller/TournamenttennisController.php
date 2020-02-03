@@ -15,4 +15,13 @@ class TournamenttennisController extends AbstractController
     {
         return $this->render('tournamenttennis/index.html.twig');
     }
+
+    /**
+     * @Route("/changer-mdp", name="changer_de_mot_passe")
+     */
+    public function changerDeMotDePasse()
+    {
+        return $this->render('tournamenttennis\changer_de_mot_passe.html.twig');
+    }
+
 }
