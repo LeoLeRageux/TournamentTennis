@@ -9,16 +9,16 @@
 {% block body %}
 <h2><center>
 {% if tournoi.statut == "Non Commencé" %}
-Ouverture des inscriptions dans {{ date().diff(tournoi.dateFinInscriptions).days }} jours
+Ouverture des inscriptions dans {{ date().settime(0,0).diff(tournoi.dateFinInscriptions).days }} jour(s)
 <a href=""> Repousser </a>
 -
-<a href=""> Terminer le tour </a>
+<a href=""> Terminer le tournoi </a>
 
 {% elseif tournoi.statut == "Phase d'incriptions" %}
-Debut du tournoi dans {{ tournoi.dateDebutTournoi.diff(date()).days }} jours
+Debut du tournoi dans {{ tournoi.dateDebutTournoi.diff(date().settime(0,0)).days }} jour(s)
 <a href=""> Repousser </a>
 -
-<a href=""> Terminer le tour </a>
+<a href=""> Terminer le tournoi </a>
 
 {% elseif tournoi.statut == "Commencé" %}
 
@@ -29,16 +29,14 @@ Debut du tournoi dans {{ tournoi.dateDebutTournoi.diff(date()).days }} jours
     {% endif %}
 {% endfor %}
 
-<a href=""> Repousser </a> <br/>
-Fin du tournoi dans {{ date().diff(tournoi.dateFinTournoi).days }} jours
+Fin du tournoi dans {{ date().settime(0,0).diff(tournoi.dateFinTournoi).days }} jour(s)
 <a href=""> Repousser </a>
 -
-<a href=""> Terminer le tour </a><br/>
+<a href=""> Terminer le tournoi </a><br/>
 
-{% if num != null %}
 Tour {{ num + 1 }} en cours, 
-fin dans {{ tennis_tours[num].dateFinTour.diff(date()).days }} jours
-{% endif %}
+fin dans {{ tennis_tours[num].dateFinTour.diff(date().settime(0,0)).days }} jour(s)
+<a href=""> Repousser </a>
 
 {% else %}
 Tournoi terminé le {{ tournoi.dateFinTournoi.format("d/m/Y")}}
