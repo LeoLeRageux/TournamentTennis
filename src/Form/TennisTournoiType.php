@@ -70,6 +70,7 @@ class TennisTournoiType extends AbstractType
             ))
             ->add('nbPlaces')
             ->add('motDePasse', PasswordType::class , [
+                'required' => false, // Règle de gestion : mot de passe pas nécessaire, (vide si pas de mdp)
                 'help' => 'Laisser vide si vous ne souhaitez pas de mot de passe.',
             ])
             
