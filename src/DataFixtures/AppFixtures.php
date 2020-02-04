@@ -21,8 +21,6 @@ class AppFixtures extends Fixture
         $tournoi = new TennisTournoi();
         $tournoi->setNom($faker->realText($maxNbChars = 10, $indexSize = 2));
         $tournoi->setAdresse($faker->realText($maxNbChars = 10, $indexSize = 2));
-        $tournoi->setDateDebuttournoi($faker->dateTimeBetween($startDate = '-1 year', $endDate = '-1 month', $timezone = null));
-        $tournoi->setDateFintournoi($faker->dateTimeBetween($startDate = '-1 month', $endDate = 'now', $timezone = null));
         $tournoi->setEstVisible($faker->boolean($chanceOfGettingTrue = 50));
         $tournoi->setSurface($faker->realText($maxNbChars = 10, $indexSize = 2));
 		$age=$faker->regexify('[1-5][0-9]');
@@ -30,8 +28,6 @@ class AppFixtures extends Fixture
         $tournoi->setCategorieAge("".$age."/".$ageplusdeux."");
         $tournoi->setGenreHomme($faker->boolean($chanceOfGettingTrue = 50));
         $tournoi->setDescription($faker->realText($maxNbChars = 50, $indexSize = 2));
-        $tournoi->setDateDebutInscriptions($faker->dateTimeBetween($startDate = '-1 year', $endDate = '-1 month', $timezone = null));
-        $tournoi->setDateFinInscriptions($faker->dateTimeBetween($startDate = '-1 month', $endDate = 'now', $timezone = null));
         $tournoi->setInscriptionsManuelles($faker->boolean($chanceOfGettingTrue = 50));
         $tournoi->setNbPlaces($faker->numberBetween(10,20));
         $tournoi->setMotDePasse($faker->realText($maxNbChars = 10, $indexSize = 2));
@@ -39,6 +35,31 @@ class AppFixtures extends Fixture
 		$nbSetsGagnants=$faker->numberBetween(2,3);
         $tournoi->setNbSetsGagnants($nbSetsGagnants);
         $tournoi->setStatut($tableauStatutTournoi[$t-1]);
+		if($tournoi->getStatut() == "Non Commencé"){
+			$tournoi->setDateDebutInscriptions($faker->dateTimeBetween($startDate = 'now', $endDate = '+1 month', $timezone = null));
+			$tournoi->setDateFinInscriptions($faker->dateTimeBetween($startDate = '+1 month', $endDate = '+2 month', $timezone = null));
+			$tournoi->setDateDebuttournoi($faker->dateTimeBetween($startDate = '+2 month', $endDate = '+3 month', $timezone = null));
+			$tournoi->setDateFintournoi($faker->dateTimeBetween($startDate = '+3 month', $endDate = '+4 month', $timezone = null));	
+		}
+		else if($tournoi->getStatut() == "Phase d'incriptions"){
+			$tournoi->setDateDebutInscriptions($faker->dateTimeBetween($startDate = '-1 month', $endDate = 'now', $timezone = null));
+			$tournoi->setDateFinInscriptions($faker->dateTimeBetween($startDate = 'now', $endDate = '+1 month', $timezone = null));
+			$tournoi->setDateDebuttournoi($faker->dateTimeBetween($startDate = '+1 month', $endDate = '+2 month', $timezone = null));
+			$tournoi->setDateFintournoi($faker->dateTimeBetween($startDate = '+2 month', $endDate = '+3 month', $timezone = null));	
+		}
+		else if($tournoi->getStatut() == "Commencé"){
+			$tournoi->setDateDebutInscriptions($faker->dateTimeBetween($startDate = '-2 month', $endDate = '-1 month', $timezone = null));
+			$tournoi->setDateFinInscriptions($faker->dateTimeBetween($startDate = '-1 month', $endDate = 'now', $timezone = null));
+			$tournoi->setDateDebuttournoi($faker->dateTimeBetween($startDate = '-1 month', $endDate = '+1 month', $timezone = null));
+			$tournoi->setDateFintournoi($faker->dateTimeBetween($startDate = '+1 month', $endDate = '+2 month', $timezone = null));	
+		}
+		else /* Terminé */ {
+			$tournoi->setDateDebutInscriptions($faker->dateTimeBetween($startDate = '-4 month', $endDate = '-3 month', $timezone = null));
+			$tournoi->setDateFinInscriptions($faker->dateTimeBetween($startDate = '-3 month', $endDate = '-2 month', $timezone = null));
+			$tournoi->setDateDebuttournoi($faker->dateTimeBetween($startDate = '-2 month', $endDate = '-1 month', $timezone = null));
+			$tournoi->setDateFintournoi($faker->dateTimeBetween($startDate = '-1 month', $endDate = 'now', $timezone = null));
+		}
+		
         $manager->persist($tournoi);
         // Ajout de tours dans ce Tournoi (sauf s tournoi non commencé ou en phase d'inscriptions (pas possible de creer de tour & matchs)
 		if($tournoi->getStatut() != "Non Commencé" && $tournoi->getStatut() != "Phase d'incriptions"){
@@ -46,14 +67,21 @@ class AppFixtures extends Fixture
             for($i=1; $i<=3; $i++){
                 $tour = new TennisTour();
                 $tour->setType("Intermédiaire");
-                $tour->setDateFinTour($faker->dateTimeBetween($startDate = '-5 days', $endDate = 'now', $timezone = null));
 				if($tournoi->getStatut() == "Terminé")
 				{
 					$tour->setStatut("Terminé");
+					$tour->setDateFinTour($faker->dateTimeBetween($startDate = '-5 days', $endDate = 'now', $timezone = null));
 				}
-				else 
+				else // Commencé
 				{
 					$tour->setStatut($tableauStatutTour[$i-1]);
+					if($tour->getStatut() == "Terminé"){
+						$tour->setDateFinTour($faker->dateTimeBetween($startDate = '-5 days', $endDate = 'now', $timezone = null));
+					} else if ($tour->getStatut() == "Commencé"){
+						$tour->setDateFinTour($faker->dateTimeBetween($startDate = 'now', $endDate = '+1 month', $timezone = null));
+					} else /* Organisation */ {
+						$tour->setDateFinTour($faker->dateTimeBetween($startDate = '+1 month', $endDate = '+2 month', $timezone = null));
+					}
 				}
                 $tour->setNumero($i);
                 $tour->setTennistournoi($tournoi);
