@@ -46,7 +46,7 @@
 					-
 					<a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}">Voir l'avancement</a>
 					-
-					<a href="">Supprimer</a>
+					{{ include('tennis_tournoi/_delete_form.html.twig') }}
                 </td>
                 {% else %}
                 <td>
@@ -57,8 +57,8 @@
 					<a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}">Voir l'avancement</a>
 					-
                     <a href="{{ path('tennis_tournoi_edit', {'id': tennis_tournoi.id}) }}">Modifier</a>
-					-
-					<a href="">Supprimer</a>
+					- 
+					{{ include('tennis_tournoi/_delete_form.html.twig') }}
                 </td>
                 {% endif %}
             </tr>

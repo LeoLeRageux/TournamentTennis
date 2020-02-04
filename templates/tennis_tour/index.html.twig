@@ -87,7 +87,7 @@ Tournoi terminé le {{ tournoi.dateFinTournoi.format("d/m/Y")}}
                     -
                     <a href="{{ path('tennis_tour_edit', {'id': tennis_tour.id}) }}">Modifier</a>
                     -
-                    <a href="">Supprimer</a>
+                    {{ include('tennis_tour/_delete_form.html.twig') }}
                 </td>
                 {% endif %}
             </tr>
