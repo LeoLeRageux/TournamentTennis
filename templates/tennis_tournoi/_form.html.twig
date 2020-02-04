@@ -1,3 +1,4 @@
+{{ form_start(form) }}
 
 <div class="container-fluid">
 	<div class="row">
@@ -14,83 +15,80 @@
 	</div>
 	<div class="row">
 		<div class="col-md-6">
-			<form role="form">
+			
+                        <form role="form">
+
 		<div class="form-group">
                         {{ form_label(form.nom,'Nom du tournoi ') }}
                         {{ form_errors(form.nom) }}
                         {{ form_widget(form.nom) }}
-                        {{ form_help(form.nom) }}
 		</div>
+
                 <div class="form-group">
                         {{ form_label(form.adresse,'Adresse ') }}
                         {{ form_errors(form.adresse) }}
                         {{ form_widget(form.adresse) }}
-                        {{ form_help(form.adresse) }}
                 </div>
 
                 <div class="form-group">
                         {{ form_label(form.dateDebutTournoi,'Date de début du tournoi ') }}
                         {{ form_errors(form.dateDebutTournoi) }}
                         {{ form_widget(form.dateDebutTournoi) }}
-                        {{ form_help(form.dateDebutTournoi) }}
                 </div>
+
                 <div class="form-group">
                         {{ form_label(form.dateFinTournoi,'Date de fin du tournoi ') }}
                         {{ form_errors(form.dateFinTournoi) }}
                         {{ form_widget(form.dateFinTournoi) }}
-                        {{ form_help(form.dateFinTournoi) }}
                 </div>
+
                 <div class="form-group">
                         {{ form_label(form.estVisible,'Le tournoi sera-t-il visible ? ') }}
                         {{ form_errors(form.estVisible) }}
                         {{ form_widget(form.estVisible) }}
                         {{ form_help(form.estVisible) }}
                 </div>
+
                 <div class="form-group">
                         {{ form_label(form.surface,'Surface des terrains ') }}
                         {{ form_errors(form.surface) }}
                         {{ form_widget(form.surface) }}
-                        {{ form_help(form.surface) }}
                 </div>
+
                 <div class="form-group">
                         {{ form_label(form.categorieAge,"Catégorie d'age du tournoi ") }}
                         {{ form_errors(form.categorieAge) }}
                         {{ form_widget(form.categorieAge) }}
                         {{ form_help(form.categorieAge) }}
                 </div>
+
                 <div class="form-group">
                         {{ form_label(form.nbSetsGagnants,'Nombre de sets gagnants ')}}
-                        {{ form_errors(form.nbSetsGagnants)}}
                         {{ form_widget(form.nbSetsGagnants) }}
-                        {{ form_help(form.nbSetsGagnants) }}
-				</div>
+		</div>
+
                 <div class="form-group">
                         {{ form_label(form.genreHomme,'Genre') }}
-                        {{ form_errors(form.genreHomme) }}
                         {{ form_widget(form.genreHomme) }}
-                        {{ form_help(form.genreHomme) }}
                 </div>
+                
                 <div class="form-group">
                         {{ form_label(form.description,'Description ')}}
                         {{ form_errors(form.description)}}
                         {{ form_widget(form.description) }}
-                        {{ form_help(form.description) }}
                 </div> 
-            </form>
 		</div>
+
 		<div class="col-md-6">
-			<form role="form">
 				<div class="form-group">
                         {{ form_label(form.dateDebutInscriptions,'Date du début des inscriptions ')}}
                         {{ form_errors(form.dateDebutInscriptions)}}
                         {{ form_widget(form.dateDebutInscriptions) }}
-                        {{ form_help(form.dateDebutInscriptions) }}
 				</div>
                 <div class="form-group">
                         {{ form_label(form.dateFinInscriptions,'Date de fin des inscriptions ')}}
                         {{ form_errors(form.dateFinInscriptions)}}
                         {{ form_widget(form.dateFinInscriptions) }}
-                        {{ form_help(form.dateFinInscriptions) }}
 				</div>
                 <div class="form-group">
                         {{ form_label(form.inscriptionsManuelles,"Les joueurs peuvent s'inscrire eux-mêmes ")}}
@@ -102,7 +100,6 @@
                         {{ form_label(form.nbPlaces,'Nombre de joueurs ')}}
                         {{ form_errors(form.nbPlaces)}}
                         {{ form_widget(form.nbPlaces) }}
-                        {{ form_help(form.nbPlaces) }}
 				</div>
                 <div class="form-group">
                         {{ form_label(form.motDePasse,'Je veux que les joueurs saisissent un mot de passe pour participer à mon tournoi')}}
@@ -116,14 +113,17 @@
                         {{ form_widget(form.validationInscriptions) }}
                         {{ form_help(form.validationInscriptions) }}
 				</div>
-
-            <button type="submit" class="btn btn-primary">Valider</button>  
+                        <button class="btn">{{ button_label|default('Valider') }}</button>
 			</form>
+                               
+
             
 		</div>
+
 	</div>
 </div>
+{{ form_end(form) }}
 
-   
+                
 
-</div>
+

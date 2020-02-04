@@ -32,27 +32,27 @@ class TennisTournoiType extends AbstractType
                 
             ->add('surface', ChoiceType::class, array(
                 'choices'  => array(
-                    'Dur' => null,
-                    'Terre Battue' => false,
-                    'Gazon' => true,
-                    'Indoor' => false,
+                    'Dur' => "dur",
+                    'Terre Battue' => "terre",
+                    'Gazon' => "gazon",
+                    'Indoor' => "indoor",
                 )))
             ->add('categorieAge', ChoiceType::class, array(
                 'choices'  => array(
-                    '11/12 ans' => null,
-                    '13/14 ans' => false,
-                    '15/16 ans' => true,
-                    '17/18 ans' => false,
-                    'Seniors' => null,
-                    '35+' => false,
-                    '40+' => true,
-                    '45+' => false,
-                    '50+' => false,
-                    '55+' => true,
-                    '60+' => false,
-                    '65+' => false,
-                    '70+' => true,
-                    '75+' => false,
+                    '11/12 ans' => "11/12",
+                    '13/14 ans' => "13/14",
+                    '15/16 ans' => "15/16",
+                    '17/18 ans' => "17/18",
+                    'Seniors' => "seniors",
+                    '35+' => "35",
+                    '40+' => "40",
+                    '45+' => "45",
+                    '50+' => "50",    
+                    '55+' => "55",
+                    '60+' => "60",
+                    '65+' => "65",
+                    '70+' => "70",
+                    '75+' => "75",
                 )))
             ->add('genreHomme',ChoiceType::class, array(
                 'choices'  => array(
@@ -66,7 +66,7 @@ class TennisTournoiType extends AbstractType
                 'choices'  => array(
                     'Oui' => true,
                     'Non' => false,),
-                'help' => "L'inscription des joueurs sera faîte manuellement par le créateur du tournoi.",
+                'help' => "L'inscription des joueurs peut être faîte manuellement par le créateur du tournoi.",
             ))
             ->add('nbPlaces')
             ->add('motDePasse', PasswordType::class , [
@@ -82,8 +82,8 @@ class TennisTournoiType extends AbstractType
             ))
             ->add('nbSetsGagnants', ChoiceType::class, array(
                 'choices'  => array(
-                    '2' => true,
-                    '3' => false,
+                    '2' => 2,
+                    '3' => 3,
                 )))
         ;
     }

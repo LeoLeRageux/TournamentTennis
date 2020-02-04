@@ -26,7 +26,7 @@ class TennisTournoiController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="tennis_tournoi_new", methods={"GET","POST"})
+     * @Route("/new", name="tennis_tournoi_new", methods={"POST","GET"})
      */
     public function new(Request $request): Response
     {
@@ -34,13 +34,19 @@ class TennisTournoiController extends AbstractController
         $form = $this->createForm(TennisTournoiType::class, $tennisTournoi);
         $form->handleRequest($request);
 
+    
         if ($form->isSubmitted()) {
+
+            //Définir le statut
+            $tennisTournoi->setStatut("Non commencé");
+
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tennisTournoi);
             $entityManager->flush();
 
             return $this->redirectToRoute('tennis_tournoi_index');
-        }
+       }
 
         return $this->render('tennis_tournoi/new.html.twig', [
             'tennis_tournoi' => $tennisTournoi,
