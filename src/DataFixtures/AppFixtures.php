@@ -17,12 +17,13 @@ class AppFixtures extends Fixture
 
         // On crée un Tournoi
 		$tableauStatutTournoi = array("Non Commencé", "Phase d'incriptions", "Commencé", "Terminé");
+		$listeSurfaces = array("Dur", "Gazon", "Terre Battue", "Indoor");
 		for($t=1; $t<=4; $t++){
         $tournoi = new TennisTournoi();
         $tournoi->setNom($faker->realText($maxNbChars = 10, $indexSize = 2));
         $tournoi->setAdresse($faker->realText($maxNbChars = 10, $indexSize = 2));
         $tournoi->setEstVisible($faker->boolean($chanceOfGettingTrue = 50));
-        $tournoi->setSurface($faker->realText($maxNbChars = 10, $indexSize = 2));
+        $tournoi->setSurface($faker->randomElement($listeSurfaces));
 		$age=$faker->regexify('[1-5][0-9]');
 		$ageplusdeux=$age+2;
         $tournoi->setCategorieAge("".$age."/".$ageplusdeux."");
