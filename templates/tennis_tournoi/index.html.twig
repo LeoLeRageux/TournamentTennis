@@ -15,8 +15,8 @@
         <thead>
             <tr>
                 <th>Nom</th>
-                <th>Date de debut du tournoi</th>
-                <th>Date de fin du tournoi</th>
+                <th>DateDebutTournoi</th>
+                <th>DateFinTournoi</th>
                 <th>Statut</th>
                 <th>Actions</th>
             </tr>
@@ -25,8 +25,8 @@
         {% for tennis_tournoi in tennis_tournois %}
             <tr>
                 <td>{{ tennis_tournoi.nom }}</td>
-                <td>{{ tennis_tournoi.dateDebutTournoi ? tennis_tournoi.dateDebutTournoi|date('d/m/Y') : '' }}</td>
-                <td>{{ tennis_tournoi.dateFinTournoi ? tennis_tournoi.dateFinTournoi|date('d/m/Y') : '' }}</td>
+                <td>{{ tennis_tournoi.dateDebutTournoi ? tennis_tournoi.dateDebutTournoi|date('d-m-Y') : '' }}</td>
+                <td>{{ tennis_tournoi.dateFinTournoi ? tennis_tournoi.dateFinTournoi|date('d-m-Y') : '' }}</td>
                 <td>{{ tennis_tournoi.statut }}</td>
                 {% if tennis_tournoi.statut == "Commencé" %}
                 <td>
@@ -85,14 +85,9 @@
 	<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/plug-ins/1.10.20/sorting/date-eu.js"></script>
 	<script>
 		$(document).ready(function() {
-		$('#myTable').DataTable({
-		"oLanguage": {
-			"sUrl": "http://cdn.datatables.net/plug-ins/1.10.20/i18n/French.json"
-		}
-		});
+		$('#myTable').DataTable();
 	});
 	</script>
 {% endblock %}
