@@ -29,7 +29,7 @@ class TennisMatch
     private $tennisTour;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TennisSet", mappedBy="tennisMatch")
+     * @ORM\OneToMany(targetEntity="App\Entity\TennisSet", mappedBy="tennisMatch", cascade={"persist", "remove"})
      */
     private $tennisSets;
 

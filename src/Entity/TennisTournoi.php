@@ -104,7 +104,7 @@ class TennisTournoi
     private $statut;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TennisTour", mappedBy="tennisTournoi")
+     * @ORM\OneToMany(targetEntity="App\Entity\TennisTour", mappedBy="tennisTournoi", cascade={"persist", "remove"})
      */
     private $tennisTours;
 

@@ -6,6 +6,7 @@ use App\Entity\TennisMatch;
 use App\Form\TennisMatchType;
 use App\Repository\TennisMatchRepository;
 use App\Repository\TennisSetRepository;
+use App\Repository\TennisTourRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,11 +20,12 @@ class TennisMatchController extends AbstractController
     /**
      * @Route("/matchs-tour/{id}", name="tennis_match_index", methods={"GET"})
      */
-    public function index(TennisMatchRepository $tennisMatchRepository, TennisSetRepository $tennisSetRepository, $id): Response
+    public function index(TennisMatchRepository $tennisMatchRepository, TennisSetRepository $tennisSetRepository, TennisTourRepository $tennisTourRepository, $id): Response
     {
         return $this->render('tennis_match/index.html.twig', [
             'tennis_matches' => $tennisMatchRepository->findByTennisTour($id),
-            'tennis_sets' => $tennisSetRepository->findAll()
+            'tennis_sets' => $tennisSetRepository->findAll(),
+			'tennis_tour' => $tennisTourRepository->find($id)
         ]);
     }
 
@@ -41,7 +43,7 @@ class TennisMatchController extends AbstractController
             $entityManager->persist($tennisMatch);
             $entityManager->flush();
 
-            return $this->redirectToRoute('tennis_match_index');
+            return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
         }
 
         return $this->render('tennis_match/new.html.twig', [
@@ -71,7 +73,7 @@ class TennisMatchController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('tennis_match_index');
+            return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
         }
 
         return $this->render('tennis_match/edit.html.twig', [
@@ -91,6 +93,6 @@ class TennisMatchController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('tennis_match_index');
+        return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
     }
 }
