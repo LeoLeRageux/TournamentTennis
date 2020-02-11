@@ -65,12 +65,15 @@
 {% endblock %}
 {% block javascripts %}
 	{{ parent() }}
-	<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
-	<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
-	<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/plug-ins/1.10.20/sorting/date-eu.js"></script>
 	<script>
 		$(document).ready(function() {
-		$('#myTable').DataTable();
+		$('#myTable').DataTable({
+		"language": {"url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"}
+		});
 	});
 	</script>
 {% endblock %}
