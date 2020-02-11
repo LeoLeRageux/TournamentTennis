@@ -41,7 +41,7 @@ class TennisMatchController extends AbstractController
             $entityManager->persist($tennisMatch);
             $entityManager->flush();
 
-            return $this->redirectToRoute('tennis_match_index');
+            return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
         }
 
         return $this->render('tennis_match/new.html.twig', [
@@ -71,7 +71,7 @@ class TennisMatchController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('tennis_match_index');
+            return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
         }
 
         return $this->render('tennis_match/edit.html.twig', [
@@ -91,6 +91,6 @@ class TennisMatchController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('tennis_match_index');
+        return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
     }
 }
