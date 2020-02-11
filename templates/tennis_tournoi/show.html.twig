@@ -1,90 +1,96 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}TennisTournoi{% endblock %}
-
+{% block title %}Détails tournoi {{ tennis_tournoi.nom }} {% endblock %}
+{% block titre %}<center><h1>Détails tournoi {{ tennis_tournoi.nom }}</h1></center> {% endblock %}
 {% block body %}
-    <h1>TennisTournoi</h1>
+    
 
-    <table class="table">
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-1">
+		</div>
+		<div class="col-md-4">
+        <h2>Tournoi</h2>
+			<table class="table">
         <tbody>
+
             <tr>
-                <th>Id</th>
-                <td>{{ tennis_tournoi.id }}</td>
+                <th>Description</th>
+                <td>{{ tennis_tournoi.description }}</td>
             </tr>
             <tr>
-                <th>Nom</th>
-                <td>{{ tennis_tournoi.nom }}</td>
+                <th>État du tournoi</th>
+                <td>{{ tennis_tournoi.statut }}</td>
             </tr>
             <tr>
                 <th>Adresse</th>
                 <td>{{ tennis_tournoi.adresse }}</td>
             </tr>
             <tr>
-                <th>DateDebutTournoi</th>
-                <td>{{ tennis_tournoi.dateDebutTournoi ? tennis_tournoi.dateDebutTournoi|date('Y-m-d') : '' }}</td>
+                <th>Date début de tournoi</th>
+                <td>{{ tennis_tournoi.dateDebutTournoi ? tennis_tournoi.dateDebutTournoi|date('d-m-Y') : '' }}</td>
+            </tr>
+                <tr>
+                <th>Date fin de tournoi</th>
+                <td>{{ tennis_tournoi.dateFinTournoi ? tennis_tournoi.dateFinTournoi|date('d-m-Y') : '' }}</td>
             </tr>
             <tr>
-                <th>DateFinTournoi</th>
-                <td>{{ tennis_tournoi.dateFinTournoi ? tennis_tournoi.dateFinTournoi|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>EstVisible</th>
-                <td>{{ tennis_tournoi.estVisible ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Surface</th>
+                <th>Type de surface des terrains</th>
                 <td>{{ tennis_tournoi.surface }}</td>
             </tr>
+             <tr>
+                <th>Nombre de sets gagnants</th>
+                <td>{{ tennis_tournoi.nbSetsGagnants }}</td>
+            </tr>
+        </table>
+		</div>
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-4">
+        <table class="table">
+        <tbody>
+             <h2>Inscriptions</h2>
+			<tr>
+                <th>Visibilité</th>
+                <td>{{ tennis_tournoi.estVisible ? 'Public' : 'Privé' }}</td>
+            </tr>
             <tr>
-                <th>CategorieAge</th>
+                <th>Catégorie d'âge</th>
                 <td>{{ tennis_tournoi.categorieAge }}</td>
             </tr>
-            <tr>
-                <th>GenreHomme</th>
-                <td>{{ tennis_tournoi.genreHomme ? 'Yes' : 'No' }}</td>
+             <tr>
+                <th>Genre tournoi</th>
+                <td>{{ tennis_tournoi.genreHomme ? 'Tournoi hommes' : 'Tournoi femmes' }}</td>
             </tr>
             <tr>
-                <th>Description</th>
-                <td>{{ tennis_tournoi.description }}</td>
+                <th>Date début des inscriptions</th>
+                <td>{{ tennis_tournoi.dateDebutInscriptions ? tennis_tournoi.dateDebutInscriptions|date('d-m-Y') : '' }}</td>
             </tr>
             <tr>
-                <th>DateDebutInscriptions</th>
-                <td>{{ tennis_tournoi.dateDebutInscriptions ? tennis_tournoi.dateDebutInscriptions|date('Y-m-d') : '' }}</td>
+                <th>Date fin des inscriptions</th>
+                <td>{{ tennis_tournoi.dateFinInscriptions ? tennis_tournoi.dateFinInscriptions|date('d-m-Y') : '' }}</td>
             </tr>
-            <tr>
-                <th>DateFinInscriptions</th>
-                <td>{{ tennis_tournoi.dateFinInscriptions ? tennis_tournoi.dateFinInscriptions|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>InscriptionsManuelles</th>
-                <td>{{ tennis_tournoi.inscriptionsManuelles ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>NbPlaces</th>
+              <tr>
+                <th>Nombre de places disponibles</th>
                 <td>{{ tennis_tournoi.nbPlaces }}</td>
             </tr>
             <tr>
-                <th>MotDePasse</th>
-                <td>{{ tennis_tournoi.motDePasse }}</td>
+                <th>Inscrire des joueurs manuellement</th>
+                <td>{{ tennis_tournoi.inscriptionsManuelles ? 'Oui' : 'Non' }}</td>
             </tr>
             <tr>
-                <th>ValidationInscriptions</th>
-                <td>{{ tennis_tournoi.validationInscriptions ? 'Yes' : 'No' }}</td>
+                <th>Validation des inscriptions</th>
+                <td>{{ tennis_tournoi.validationInscriptions ? 'Oui' : 'Non' }}</td>
             </tr>
-            <tr>
-                <th>NbSetsGagnants</th>
-                <td>{{ tennis_tournoi.nbSetsGagnants }}</td>
-            </tr>
-            <tr>
-                <th>Statut</th>
-                <td>{{ tennis_tournoi.statut }}</td>
-            </tr>
-        </tbody>
-    </table>
+        </table>
+		</div>
+		<div class="col-md-1">
+        </div>
+</div>	    
+</div>
 
-    <a href="{{ path('tennis_tournoi_index') }}">back to list</a>
 
-    <a href="{{ path('tennis_tournoi_edit', {'id': tennis_tournoi.id}) }}">edit</a>
 
-    {{ include('tennis_tournoi/_delete_form.html.twig') }}
+    <a href="{{ path('tennis_tournoi_index') }}">Retour à la liste des tournois</a>
+
 {% endblock %}
