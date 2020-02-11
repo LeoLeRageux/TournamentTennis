@@ -35,7 +35,7 @@ class AppFixtures extends Fixture
         $tournoi->setValidationInscriptions($faker->boolean($chanceOfGettingTrue = 50));
 		$nbSetsGagnants=$faker->numberBetween(2,3);
         $tournoi->setNbSetsGagnants($nbSetsGagnants);
-        $tournoi->setStatut($tableauStatutTournoi[($t-1)%3]);
+        $tournoi->setStatut($tableauStatutTournoi[($t-1)%4]);
 		if($tournoi->getStatut() == "Non Commencé"){
 			$tournoi->setDateDebutInscriptions($faker->dateTimeBetween($startDate = 'now', $endDate = '+1 month', $timezone = null));
 			$tournoi->setDateFinInscriptions($faker->dateTimeBetween($startDate = '+1 month', $endDate = '+2 month', $timezone = null));

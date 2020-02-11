@@ -41,11 +41,37 @@
                 {% else %}
                 <td>{{ tennis_match.etat }}</td>
                 {% endif %}
-                <td>
+				{% if tennis_tour.statut=="Organisation" %}
+				<td>
                     <a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}">Voir</a>
                     -
                     {{ include('tennis_match/_delete_form.html.twig') }}
                 </td>
+				{% elseif tennis_tour.statut=="Commencé" %}
+					{% if tennis_match.etat != "Pas encore joué" %}
+					<td>
+						<a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}">Voir</a>
+						-
+						<a href="">Modifier le resultat</a>
+						-
+						<a href="">Eliminer le perdant</a>
+					</td>
+					{% else %}
+					<td>
+						<a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}">Voir</a>
+						-
+						<a href="">Notifier les joueurs</a>
+						-
+						<a href="">Saisir les resultats</a>
+						-
+						{{ include('tennis_match/_delete_form.html.twig') }}
+					</td>
+					{% endif %}
+				{% else %}
+				<td>
+					<a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}">Voir</a>
+				</td>
+				{% endif %}
             </tr>
         {% else %}
             <tr>
