@@ -18,7 +18,7 @@ class AppFixtures extends Fixture
         // On crée un Tournoi
 		$tableauStatutTournoi = array("Non Commencé", "Phase d'incriptions", "Commencé", "Terminé");
 		$listeSurfaces = array("Dur", "Gazon", "Terre Battue", "Indoor");
-		for($t=1; $t<=4; $t++){
+		for($t=1; $t<=12; $t++){
         $tournoi = new TennisTournoi();
         $tournoi->setNom($faker->realText($maxNbChars = 10, $indexSize = 2));
         $tournoi->setAdresse($faker->realText($maxNbChars = 10, $indexSize = 2));
@@ -35,7 +35,7 @@ class AppFixtures extends Fixture
         $tournoi->setValidationInscriptions($faker->boolean($chanceOfGettingTrue = 50));
 		$nbSetsGagnants=$faker->numberBetween(2,3);
         $tournoi->setNbSetsGagnants($nbSetsGagnants);
-        $tournoi->setStatut($tableauStatutTournoi[$t-1]);
+        $tournoi->setStatut($tableauStatutTournoi[($t-1)%3]);
 		if($tournoi->getStatut() == "Non Commencé"){
 			$tournoi->setDateDebutInscriptions($faker->dateTimeBetween($startDate = 'now', $endDate = '+1 month', $timezone = null));
 			$tournoi->setDateFinInscriptions($faker->dateTimeBetween($startDate = '+1 month', $endDate = '+2 month', $timezone = null));
