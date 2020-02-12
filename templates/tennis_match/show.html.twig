@@ -1,26 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}TennisMatch{% endblock %}
-
+{% block title %}Détails match {{tennis_match.id}} {% endblock %}
+{% block titre %} <center><h1>Détails du match {{ tennis_match.id }}</h1></center>{% endblock %}
 {% block body %}
-    <h1>TennisMatch</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ tennis_match.id }}</td>
-            </tr>
-            <tr>
-                <th>Etat</th>
-                <td>{{ tennis_match.etat }}</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-8">
+         
+<center>
+<div class="card">
+  <div class="card-body">
+    <h3 class="card-text">Entité utilisateur non crée <b>VS</b> Entité utilisateur non crée </h3>
+    <p class="card-text">Vainqueur : </p>
+    <p class="card-text">Résultat : </p>
+  </div>
+</div>
+</center>
+    <a href="{{ path('tennis_match_index', {'id': tennis_match.tennisTour.id}) }}">Retour à la liste des matchs</a>
+		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
+</div>
 
-    <a href="{{ path('tennis_match_index') }}">back to list</a>
 
-    <a href="{{ path('tennis_match_edit', {'id': tennis_match.id}) }}">edit</a>
-
-    {{ include('tennis_match/_delete_form.html.twig') }}
 {% endblock %}

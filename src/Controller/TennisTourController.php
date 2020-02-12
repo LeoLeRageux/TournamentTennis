@@ -41,12 +41,12 @@ class TennisTourController extends AbstractController
             $entityManager->persist($tennisTour);
             $entityManager->flush();
 
-            return $this->redirectToRoute('tennis_tour_index', ['id' => $tennisTour->getTennisTournoi()->getId()]);
+            return $this->redirectToRoute('tennis_tour_index');
         }
 
         return $this->render('tennis_tour/new.html.twig', [
             'tennis_tour' => $tennisTour,
-            'form' => $form->createView(),
+            'form' => $form->createView()
         ]);
     }
 
@@ -56,7 +56,7 @@ class TennisTourController extends AbstractController
     public function show(TennisTour $tennisTour): Response
     {
         return $this->render('tennis_tour/show.html.twig', [
-            'tennis_tour' => $tennisTour,
+            'tennis_tour' => $tennisTour
         ]);
     }
 
@@ -68,15 +68,16 @@ class TennisTourController extends AbstractController
         $form = $this->createForm(TennisTourType::class, $tennisTour);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) { // && $form->isValid() 
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('tennis_tour_index', ['id' => $tennisTour->getTennisTournoi()->getId()]);
+            return $this->redirectToRoute('tennis_tour_index', [
+                'id' => $tennisTour->getTennisTournoi()->getId() 
+            ]);
         }
 
         return $this->render('tennis_tour/edit.html.twig', [
             'tennis_tour' => $tennisTour,
-            'form' => $form->createView(),
+            'form' => $form->createView()
         ]);
     }
 
@@ -91,6 +92,6 @@ class TennisTourController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('tennis_tour_index', ['id' => $tennisTour->getTennisTournoi()->getId()]);
+        return $this->redirectToRoute('tennis_tour_index');
     }
 }
