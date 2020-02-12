@@ -32,9 +32,7 @@
                 <td>
                 {% for tennis_set in tennis_sets %}
                     {% if tennis_set.tennisMatch.id == tennis_match.id %}
-                        {{tennis_set.nbJeuxDuGagnant}}
-                        -
-                        {{tennis_set.nbJeuxDuPerdant}}
+                        {{tennis_set.nbJeuxDuGagnant}}/{{tennis_set.nbJeuxDuPerdant}}
                     {% endif %}
                 {% endfor %}
                 </td>
