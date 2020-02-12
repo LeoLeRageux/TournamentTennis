@@ -28,24 +28,42 @@ class TennisTourController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="tennis_tour_new", methods={"GET","POST"})
+     * @Route("/new/{id}", name="tennis_tour_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, TennisTournoiRepository $tennisTournoiRepository, $id): Response
     {
         $tennisTour = new TennisTour();
+        $tournoiAssocie = $tennisTournoiRepository->find($id);
         $form = $this->createForm(TennisTourType::class, $tennisTour);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
+
+            $numeroTournoi = sizeof($tournoiAssocie->getTennisTours()) +1;
+            
+            // Définir le statut du tour
+            $tennisTour->setStatut("Organisation");
+
+            // Définir le statut du tour
+            $tennisTour->setNumero($numeroTournoi);
+
+            //Définir le tournoi associé au tour
+            $tennisTour->setTennisTournoi($tournoiAssocie);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tennisTour);
             $entityManager->flush();
+            
+            $numeroTournoi ++;
 
-            return $this->redirectToRoute('tennis_tour_index');
+            return $this->redirectToRoute('tennis_tour_index', [
+                'id' => $tennisTour->getTennisTournoi()->getId() 
+            ]);
         }
 
         return $this->render('tennis_tour/new.html.twig', [
             'tennis_tour' => $tennisTour,
+            'tennis_tournoi' => $tournoiAssocie,
             'form' => $form->createView()
         ]);
     }

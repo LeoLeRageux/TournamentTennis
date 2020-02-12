@@ -3,9 +3,9 @@
 {% block title %}New TennisTour{% endblock %}
 
 {% block body %}
-    <h1>Create new TennisTour</h1>
+            <center><h1>Création d'un tour</h1></center>
+
 
     {{ include('tennis_tour/_form.html.twig') }}
 
-    <a href="{{ path('tennis_tour_index', {'id': tennis_tour.tennisTournoi.id }) }}">back to list</a>
 {% endblock %}
