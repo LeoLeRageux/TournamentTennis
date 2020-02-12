@@ -34,7 +34,7 @@ class TennisTournoiController extends AbstractController
         $form = $this->createForm(TennisTournoiType::class, $tennisTournoi);
         $form->handleRequest($request);
 
-    
+
         if ($form->isSubmitted()) {
 
             //Définir le statut
@@ -72,7 +72,7 @@ class TennisTournoiController extends AbstractController
         $form = $this->createForm(TennisTournoiType::class, $tennisTournoi);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) { //&& $form->isValid()
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('tennis_tournoi_index');
@@ -80,7 +80,7 @@ class TennisTournoiController extends AbstractController
 
         return $this->render('tennis_tournoi/edit.html.twig', [
             'tennis_tournoi' => $tennisTournoi,
-            'form' => $form->createView(),
+            'form' => $form->createView()
         ]);
     }
 
