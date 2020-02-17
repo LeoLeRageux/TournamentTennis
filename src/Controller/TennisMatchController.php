@@ -95,4 +95,12 @@ class TennisMatchController extends AbstractController
 
         return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
     }
+    /**
+     * @Route("/supprimer/{id}", name="tennis_match_supprimer")
+     */
+    public function supprimer(TennisMatch $tennisMatch){
+        return $this->render('tennis_match/supprimer.html.twig', [
+            'tennis_match' => $tennisMatch,
+        ]);
+    }
 }

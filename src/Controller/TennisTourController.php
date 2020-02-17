@@ -110,6 +110,15 @@ class TennisTourController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('tennis_tour_index');
+        return $this->redirectToRoute('tennis_tour_index', ['id'=>$tennisTour->getTennisTournoi()->getId()]);
+    }
+
+    /**
+     * @Route("/supprimer/{id}", name="tennis_tour_supprimer")
+     */
+    public function supprimer(TennisTour $tennisTour){
+        return $this->render('tennis_tour/supprimer.html.twig', [
+            'tennis_tour' => $tennisTour,
+        ]);
     }
 }

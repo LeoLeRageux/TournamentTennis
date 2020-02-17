@@ -43,7 +43,8 @@
 				<td>
                     <a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}">Voir</a>
                     -
-                    {{ include('tennis_match/_delete_form.html.twig') }}
+                    <a href="{{ path('tennis_match_supprimer', {'id': tennis_match.id}) }}">Supprimer</a>
+					
                 </td>
 				{% elseif tennis_tour.statut=="Commencé" %}
 					{% if tennis_match.etat != "Pas encore joué" %}
@@ -62,7 +63,7 @@
 						-
 						<a href="">Saisir les resultats</a>
 						-
-						{{ include('tennis_match/_delete_form.html.twig') }}
+						<a href="{{ path('tennis_match_supprimer', {'id': tennis_match.id}) }}">Supprimer</a>
 					</td>
 					{% endif %}
 				{% else %}

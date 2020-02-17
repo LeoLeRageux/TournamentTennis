@@ -1,38 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}TennisTour{% endblock %}
+{% block title %}Détails tour{% endblock %}
 
 {% block body %}
-    <h1>TennisTour</h1>
+    <h1>Détails du tour {{ tennis_tour.numero }}</h1>
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ tennis_tour.id }}</td>
-            </tr>
             <tr>
                 <th>Type</th>
                 <td>{{ tennis_tour.type }}</td>
             </tr>
             <tr>
-                <th>DateFinTour</th>
+                <th>Date de fin du tour</th>
                 <td>{{ tennis_tour.dateFinTour ? tennis_tour.dateFinTour|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
                 <th>Statut</th>
                 <td>{{ tennis_tour.statut }}</td>
             </tr>
-            <tr>
-                <th>Numero</th>
-                <td>{{ tennis_tour.numero }}</td>
-            </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('tennis_tour_index') }}">back to list</a>
-
-    <a href="{{ path('tennis_tour_edit', {'id': tennis_tour.id}) }}">edit</a>
-
-    {{ include('tennis_tour/_delete_form.html.twig') }}
 {% endblock %}

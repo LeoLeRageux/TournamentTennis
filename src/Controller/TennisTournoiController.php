@@ -97,4 +97,13 @@ class TennisTournoiController extends AbstractController
 
         return $this->redirectToRoute('tennis_tournoi_index');
     }
+
+    /**
+     * @Route("/supprimer/{id}", name="tennis_tournoi_supprimer")
+     */
+    public function supprimer(TennisTournoi $tennisTournoi){
+        return $this->render('tennis_tournoi/supprimer.html.twig', [
+            'tennis_tournoi' => $tennisTournoi,
+        ]);
+    }
 }

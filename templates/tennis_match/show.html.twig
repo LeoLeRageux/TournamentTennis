@@ -16,10 +16,16 @@
     <h3 class="card-text">Entité utilisateur non crée <b>VS</b> Entité utilisateur non crée </h3>
     <p class="card-text">Vainqueur : </p>
     <p class="card-text">Résultat : </p>
+	{% if tennis_match.etat == "Terminé" %}
+		{% for tennis_set in tennis_match.tennisSets %}
+			{{tennis_set.nbJeuxDuGagnant}}/{{tennis_set.nbJeuxDuPerdant}}
+		{% endfor %}
+	{% else %}
+		{{ tennis_match.etat }}
+	{% endif %}
   </div>
 </div>
 </center>
-    <a href="{{ path('tennis_match_index', {'id': tennis_match.tennisTour.id}) }}">Retour à la liste des matchs</a>
 		</div>
 		<div class="col-md-2">
 		</div>
