@@ -29,10 +29,10 @@ Debut du tournoi dans {{ tournoi.dateDebutTournoi.diff(date().settime(0,0)).days
     {% endif %}
 {% endfor %}
 
+{% include 'tennis_tournoi/_terminer_form.html.twig' %}
+
 Fin du tournoi dans {{ date().settime(0,0).diff(tournoi.dateFinTournoi).days }} jour(s)
-<a href=""> Repousser </a>
--
-<a href=""> Terminer le tournoi </a><br/>
+<a href=""> Repousser </a><br>
 
 Tour {{ num + 1 }} en cours, 
 fin dans {{ tennis_tours[num].dateFinTour.diff(date().settime(0,0)).days }} jour(s)

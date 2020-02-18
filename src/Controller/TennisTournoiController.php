@@ -106,4 +106,15 @@ class TennisTournoiController extends AbstractController
             'tennis_tournoi' => $tennisTournoi,
         ]);
     }
+    
+    /**
+     * @Route("/terminer/{id}", name="tennis_tournoi_terminer")
+     */
+    public function terminerTournoi(TennisTournoi $tennisTournoi): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $tennisTournoi->setStatut("Terminé");
+        $entityManager->flush();
+        return $this->redirectToRoute('tennis_tournoi_index');
+    }
 }
