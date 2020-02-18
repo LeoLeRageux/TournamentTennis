@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Repousser date de fin d'un tournoi{% endblock %}
+
+{% block body %}
+    <h1>Repousser la date de fin du tournoi</h1>
+
+    {{ include('tennis_tournoi/_repousserDateFinTournoi.html.twig', {'button_label': 'Repousser la date de fin de tournoi'}) }}
+    {% if tennis_tournoi.dateFinTournoi < ancienne_date %}
+        <script>
+        alert("La date saisie est antérieure à la date actuelle veuillez la modifier");
+        </script>
+    {% endif %}
+{% endblock %}

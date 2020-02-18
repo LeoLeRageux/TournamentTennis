@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\TennisTournoi;
 use App\Form\TennisTournoiType;
+use App\Form\TennisTournoiDateFin+;
 use App\Repository\TennisTournoiRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -83,6 +84,31 @@ class TennisTournoiController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+
+/**
+     * @Route("/{id}/repousser-date-fin-tournoi", name="tennis_tournoi_repousser_date_fin", methods={"GET","POST"})
+     */
+    public function repousserDate(Request $request, TennisTournoi $tennisTournoi): Response
+    {
+        $ancienneDate = $tennisTournoi->getDateFinTournoi();
+        $form = $this->createForm(TennisTournoiDateFin::class, $tennisTournoi);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) { //&& $form->isValid()
+            if($ancienneDate<$tennisTournoi->getDateFinTournoi()){
+                $this->getDoctrine()->getManager()->flush();
+                return $this->redirectToRoute('tennis_tournoi_index');
+            }
+        }
+
+        return $this->render('tennis_tournoi/repousserDate.html.twig', [
+            'tennis_tournoi' => $tennisTournoi,
+            'ancienne_date' => $ancienneDate,
+            'form' => $form->createView()
+        ]);
+    }
+
 
     /**
      * @Route("/{id}", name="tennis_tournoi_delete", methods={"DELETE"})

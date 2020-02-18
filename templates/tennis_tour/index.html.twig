@@ -16,7 +16,7 @@ Ouverture des inscriptions dans {{ date().settime(0,0).diff(tournoi.dateFinInscr
 
 {% elseif tournoi.statut == "Phase d'incriptions" %}
 Debut du tournoi dans {{ tournoi.dateDebutTournoi.diff(date().settime(0,0)).days }} jour(s)
-<a href=""> Repousser </a>
+<a href="{{ path('tennis_tournoi_repousser_Date_fin') }}"> Repousser </a>
 -
 <a href=""> Terminer le tournoi </a>
 
@@ -87,7 +87,7 @@ Tournoi terminé le {{ tournoi.dateFinTournoi.format("d/m/Y")}}
                     -
                     <a href="{{ path('tennis_tour_edit', {'id': tennis_tour.id}) }}">Modifier</a>
                     -
-                    <a href="{{ path('tennis_tour_supprimer', {'id': tennis_tour.id}) }}">Supprimer</a>
+            <a href="{{ path('tennis_tour_supprimer', {'id': tennis_tour.id}) }}">Supprimer</a>
                 </td>
                 {% endif %}
             </tr>
