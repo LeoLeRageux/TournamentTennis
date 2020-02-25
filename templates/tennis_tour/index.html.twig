@@ -48,7 +48,7 @@ Tournoi terminé le {{ tournoi.dateFinTournoi.format("d/m/Y")}}
     <table class="display" id="myTable">
         <thead>
             <tr>
-                <th>Numero</th>
+                <th>Nom</th>
                 <th>Date limite</th>
                 <th>Matchs joués</th>
                 <th>Statut</th>
@@ -58,7 +58,12 @@ Tournoi terminé le {{ tournoi.dateFinTournoi.format("d/m/Y")}}
         <tbody>
         {% for tennis_tour in tennis_tours %}
             <tr>
-                <td>Tour {{ tennis_tour.numero }}</td>
+                {% if tennis_tour.type == "Intermédiaire" %}
+                    <td>Tour {{ tennis_tour.numero }}</td>
+                {% else %}
+                    <td>{{ tennis_tour.type }}</td>
+                {% endif %}
+
                 <td>{{ tennis_tour.dateFinTour ? tennis_tour.dateFinTour|date('d-m-Y') : '' }}</td>
 
                 {% set nbMatchsJoues = 0 %}
