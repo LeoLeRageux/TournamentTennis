@@ -18,8 +18,8 @@ class TennisTourType extends AbstractType
             ->add('type', ChoiceType::class, array(
                 'choices'  => array(
                     'Tour intermédiaire' => "Intermediaire",
-                    'Quart de finale' => "Quart",
-                    'Demi finale' => "Demi",
+                    'Quart de finale' => "Quart de finale",
+                    'Demi finale' => "Demi finale",
                     'Finale' => "Finale",
                 )))
             ->add('dateFinTour', DateType::class, array(
