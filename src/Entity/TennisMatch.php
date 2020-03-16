@@ -33,9 +33,15 @@ class TennisMatch
      */
     private $tennisSets;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\TennisUtilisateur", mappedBy="tennisMatchs")
+     */
+    private $tennisUtilisateurs;
+
     public function __construct()
     {
         $this->tennisSets = new ArrayCollection();
+        $this->tennisUtilisateurs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,6 +99,34 @@ class TennisMatch
             if ($tennisSet->getTennisMatch() === $this) {
                 $tennisSet->setTennisMatch(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TennisUtilisateur[]
+     */
+    public function getTennisUtilisateurs(): Collection
+    {
+        return $this->tennisUtilisateurs;
+    }
+
+    public function addTennisUtilisateur(TennisUtilisateur $tennisUtilisateur): self
+    {
+        if (!$this->tennisUtilisateurs->contains($tennisUtilisateur)) {
+            $this->tennisUtilisateurs[] = $tennisUtilisateur;
+            $tennisUtilisateur->addTennisMatch($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTennisUtilisateur(TennisUtilisateur $tennisUtilisateur): self
+    {
+        if ($this->tennisUtilisateurs->contains($tennisUtilisateur)) {
+            $this->tennisUtilisateurs->removeElement($tennisUtilisateur);
+            $tennisUtilisateur->removeTennisMatch($this);
         }
 
         return $this;

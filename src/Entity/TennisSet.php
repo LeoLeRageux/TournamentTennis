@@ -31,6 +31,16 @@ class TennisSet
      */
     private $tennisMatch;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\TennisUtilisateur", inversedBy="tennisSetsGagnÃes")
+     */
+    private $tennisUtilisateurGagnant;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\TennisUtilisateur", inversedBy="tennisSetsPerdus")
+     */
+    private $tennisUtilisateurPerdant;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +78,30 @@ class TennisSet
     public function setTennisMatch(?TennisMatch $tennisMatch): self
     {
         $this->tennisMatch = $tennisMatch;
+
+        return $this;
+    }
+
+    public function getTennisUtilisateurGagnant(): ?TennisUtilisateur
+    {
+        return $this->tennisUtilisateurGagnant;
+    }
+
+    public function setTennisUtilisateurGagnant(?TennisUtilisateur $tennisUtilisateurGagnant): self
+    {
+        $this->tennisUtilisateurGagnant = $tennisUtilisateurGagnant;
+
+        return $this;
+    }
+
+    public function getTennisUtilisateurPerdant(): ?TennisUtilisateur
+    {
+        return $this->tennisUtilisateurPerdant;
+    }
+
+    public function setTennisUtilisateurPerdant(?TennisUtilisateur $tennisUtilisateurPerdant): self
+    {
+        $this->tennisUtilisateurPerdant = $tennisUtilisateurPerdant;
 
         return $this;
     }

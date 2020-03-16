@@ -108,6 +108,11 @@ class TennisTournoi
      */
     private $tennisTours;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\TennisUtilisateur", inversedBy="tennisTournoi")
+     */
+    private $tennisUtilisateur;
+
     public function __construct()
     {
         $this->tennisTours = new ArrayCollection();
@@ -356,6 +361,18 @@ class TennisTournoi
     public function __toString()
     {
         return $this->getNom();
+    }
+
+    public function getTennisUtilisateur(): ?TennisUtilisateur
+    {
+        return $this->tennisUtilisateur;
+    }
+
+    public function setTennisUtilisateur(?TennisUtilisateur $tennisUtilisateur): self
+    {
+        $this->tennisUtilisateur = $tennisUtilisateur;
+
+        return $this;
     }
 
 }

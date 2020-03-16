@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -57,6 +59,34 @@ class TennisUtilisateur implements UserInterface
      * @ORM\Column(type="string", length=25, nullable=true)
      */
     private $niveau;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TennisTournoi", mappedBy="tennisUtilisateur")
+     */
+    private $tennisTournoi;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\TennisMatch", inversedBy="tennisUtilisateurs")
+     */
+    private $tennisMatchs;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TennisSet", mappedBy="tennisUtilisateurGagnant")
+     */
+    private $tennisSetsGagnÃes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TennisSet", mappedBy="tennisUtilisateurPerdant")
+     */
+    private $tennisSetsPerdus;
+
+    public function __construct()
+    {
+        $this->tennisTournoi = new ArrayCollection();
+        $this->tennisMatchs = new ArrayCollection();
+        $this->tennisSetsGagnÃes = new ArrayCollection();
+        $this->tennisSetsPerdus = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -192,6 +222,125 @@ class TennisUtilisateur implements UserInterface
     public function setNiveau(?string $niveau): self
     {
         $this->niveau = $niveau;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TennisTournoi[]
+     */
+    public function getTennisTournoi(): Collection
+    {
+        return $this->tennisTournoi;
+    }
+
+    public function addTennisTournoi(TennisTournoi $tennisTournoi): self
+    {
+        if (!$this->tennisTournoi->contains($tennisTournoi)) {
+            $this->tennisTournoi[] = $tennisTournoi;
+            $tennisTournoi->setTennisUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTennisTournoi(TennisTournoi $tennisTournoi): self
+    {
+        if ($this->tennisTournoi->contains($tennisTournoi)) {
+            $this->tennisTournoi->removeElement($tennisTournoi);
+            // set the owning side to null (unless already changed)
+            if ($tennisTournoi->getTennisUtilisateur() === $this) {
+                $tennisTournoi->setTennisUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TennisMatch[]
+     */
+    public function getTennisMatchs(): Collection
+    {
+        return $this->tennisMatchs;
+    }
+
+    public function addTennisMatch(TennisMatch $tennisMatch): self
+    {
+        if (!$this->tennisMatchs->contains($tennisMatch)) {
+            $this->tennisMatchs[] = $tennisMatch;
+        }
+
+        return $this;
+    }
+
+    public function removeTennisMatch(TennisMatch $tennisMatch): self
+    {
+        if ($this->tennisMatchs->contains($tennisMatch)) {
+            $this->tennisMatchs->removeElement($tennisMatch);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TennisSet[]
+     */
+    public function getTennisSetsGagnÃes(): Collection
+    {
+        return $this->tennisSetsGagnÃes;
+    }
+
+    public function addTennisSetsGagnE(TennisSet $tennisSetsGagnE): self
+    {
+        if (!$this->tennisSetsGagnÃes->contains($tennisSetsGagnE)) {
+            $this->tennisSetsGagnÃes[] = $tennisSetsGagnE;
+            $tennisSetsGagnE->setTennisUtilisateurGagnant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTennisSetsGagnE(TennisSet $tennisSetsGagnE): self
+    {
+        if ($this->tennisSetsGagnÃes->contains($tennisSetsGagnE)) {
+            $this->tennisSetsGagnÃes->removeElement($tennisSetsGagnE);
+            // set the owning side to null (unless already changed)
+            if ($tennisSetsGagnE->getTennisUtilisateurGagnant() === $this) {
+                $tennisSetsGagnE->setTennisUtilisateurGagnant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TennisSet[]
+     */
+    public function getTennisSetsPerdus(): Collection
+    {
+        return $this->tennisSetsPerdus;
+    }
+
+    public function addTennisSetsPerdus(TennisSet $tennisSetsPerdus): self
+    {
+        if (!$this->tennisSetsPerdus->contains($tennisSetsPerdus)) {
+            $this->tennisSetsPerdus[] = $tennisSetsPerdus;
+            $tennisSetsPerdus->setTennisUtilisateurPerdant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTennisSetsPerdus(TennisSet $tennisSetsPerdus): self
+    {
+        if ($this->tennisSetsPerdus->contains($tennisSetsPerdus)) {
+            $this->tennisSetsPerdus->removeElement($tennisSetsPerdus);
+            // set the owning side to null (unless already changed)
+            if ($tennisSetsPerdus->getTennisUtilisateurPerdant() === $this) {
+                $tennisSetsPerdus->setTennisUtilisateurPerdant(null);
+            }
+        }
 
         return $this;
     }
