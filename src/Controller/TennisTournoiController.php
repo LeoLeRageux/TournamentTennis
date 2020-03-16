@@ -98,7 +98,7 @@ class TennisTournoiController extends AbstractController
         if ($form->isSubmitted()) { //&& $form->isValid()
             if($ancienneDate<$tennisTournoi->getDateFinTournoi()){
                 $this->getDoctrine()->getManager()->flush();
-                return $this->redirectToRoute('tennis_tournoi_index');
+                return $this->redirectToRoute('tennis_tour_index', ['id' => $tennisTournoi->getId()]);
             }
         }
 
@@ -132,7 +132,7 @@ class TennisTournoiController extends AbstractController
             'tennis_tournoi' => $tennisTournoi,
         ]);
     }
-    
+
     /**
      * @Route("/terminer/{id}", name="tennis_tournoi_terminer")
      */

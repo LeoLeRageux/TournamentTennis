@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\TennisTour;
+use App\Form\TennisTourDateFinType;
 use App\Form\TennisTourType;
 use App\Repository\TennisTourRepository;
 use App\Repository\TennisTournoiRepository;
@@ -40,7 +41,7 @@ class TennisTourController extends AbstractController
         if ($form->isSubmitted()) {
 
             $numeroTournoi = sizeof($tournoiAssocie->getTennisTours()) +1;
-            
+
             // Définir le statut du tour
             $tennisTour->setStatut("Organisation");
 
@@ -53,11 +54,11 @@ class TennisTourController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tennisTour);
             $entityManager->flush();
-            
+
             $numeroTournoi ++;
 
             return $this->redirectToRoute('tennis_tour_index', [
-                'id' => $tennisTour->getTennisTournoi()->getId() 
+                'id' => $tennisTour->getTennisTournoi()->getId()
             ]);
         }
 
@@ -86,15 +87,38 @@ class TennisTourController extends AbstractController
         $form = $this->createForm(TennisTourType::class, $tennisTour);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) { // && $form->isValid() 
+        if ($form->isSubmitted()) { // && $form->isValid()
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('tennis_tour_index', [
-                'id' => $tennisTour->getTennisTournoi()->getId() 
+                'id' => $tennisTour->getTennisTournoi()->getId()
             ]);
         }
 
         return $this->render('tennis_tour/edit.html.twig', [
             'tennis_tour' => $tennisTour,
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/repousser-date-fin-tour", name="tennis_tour_repousser_date_fin", methods={"GET","POST"})
+     */
+    public function repousserDate(Request $request, TennisTour $tennisTour): Response
+    {
+        $ancienneDate = $tennisTour->getDateFinTour();
+        $form = $this->createForm(TennisTourDateFinType::class, $tennisTour);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) { //&& $form->isValid()
+            if($ancienneDate<$tennisTour->getDateFinTour()){
+                $this->getDoctrine()->getManager()->flush();
+                return $this->redirectToRoute('tennis_tour_index', ['id' => $tennisTour->getTennisTournoi()->getId()]);
+            }
+        }
+
+        return $this->render('tennis_tour/repousserDate.html.twig', [
+            'tennis_tour' => $tennisTour,
+            'ancienne_date' => $ancienneDate,
             'form' => $form->createView()
         ]);
     }
