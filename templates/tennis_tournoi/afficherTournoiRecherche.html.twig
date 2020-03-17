@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails tournoi {{ tennis_tournoi.nom }} {% endblock %}
+{% block titre %}<center><h1>Détails tournoi {{ tennis_tournoi.nom }}</h1></center> {% endblock %}
+{% block body %}
+    
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-4">
+		</div>
+		<div class="col-md-4">
+        <h2>Tournoi</h2>
+			<table class="table">
+        <tbody>
+
+            <tr>
+                <th>Adresse</th>
+                <td>{{ tennis_tournoi.adresse }}</td>
+            </tr>
+            <tr>
+                <th>Genre</th>
+                <td>{{ tennis_tournoi.statut }}</td>
+            </tr>
+            <tr>
+                <th>Catégorie d'âge</th>
+                <td>{{ tennis_tournoi.categorieAge }}</td>
+            </tr>
+            <tr>
+                <th>Date début de tournoi</th>
+                <td>{{ tennis_tournoi.dateDebutTournoi ? tennis_tournoi.dateDebutTournoi|date('d-m-Y') : '' }}</td>
+            </tr>
+                <tr>
+                <th>Date fin de tournoi</th>
+                <td>{{ tennis_tournoi.dateFinTournoi ? tennis_tournoi.dateFinTournoi|date('d-m-Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Type de surface des terrains</th>
+                <td>{{ tennis_tournoi.surface }}</td>
+            </tr>
+             <tr>
+                <th>Visibilité</th>
+                <td>{{ tennis_tournoi.estVisible ? 'Public' : 'Privé' }}</td>
+            </tr>
+			<tr>
+                <th>Mot de passe</th>
+                <td>{{ tennis_tournoi.motDePasse != null ? "Oui" : "Non" }}</td>
+            </tr>
+			{% if tennis_tournoi.motDePasse != null %}
+			<input type="password" name="mdp">
+			{% endblock %}
+        </table>
+		<input type="button" onclick="">
+		</div>
+		<div class="col-md-4">
+        </div>
+</div>	    
+</div>
+{% endblock %}

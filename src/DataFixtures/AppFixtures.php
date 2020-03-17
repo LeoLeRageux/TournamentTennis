@@ -8,7 +8,8 @@ use App\Entity\TennisMatch;
 use App\Entity\TennisSet;
 use App\Entity\TennisTour;
 use App\Entity\TennisTournoi;
-
+use App\Entity\TennisUtilisateur;
+use \Datetime;
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
@@ -119,8 +120,43 @@ class AppFixtures extends Fixture
                     }
                 }
             }
-        $manager->flush();
 		}
 		}
+		$leo = new TennisUtilisateur();
+		$leo->setEmail("leo@lecourt.com");
+		$leo->setRoles(["ROLE_USER"]);
+		$leo->setPassword('$2y$10$Ng0spKpKFXu8shdHYjbLXuQOmSLHOnVCFpDHHKDpKY6Er1UZ7hASm');
+		$leo->setNom("Lecourt");
+		$leo->setPrenom("Leo");
+		$leo->setDateNaissance(new DateTime('12/07/1998'));
+		$leo->setTelephone("0685754899");
+		$leo->setNiveau("30/1");
+		$manager->persist($leo);
+	
+		$thomas = new TennisUtilisateur();
+		$thomas->setEmail("thomas@bouchet.com");
+		$thomas->setRoles(["ROLE_ADMIN"]);
+		$thomas->setPassword('$2y$10$rc.L3oyLR26e4P/9GjPvo.rf5znoCs9JMLcftI0035ijKgVBEN8iS');
+		$thomas->setNom("Thomas");
+		$thomas->setPrenom("Bouchet");
+		$manager->persist($thomas);
+	
+		$hugo = new TennisUtilisateur();
+		$hugo->setEmail("hugo@labastie.com");
+		$hugo->setRoles(["ROLE_USER"]);
+		$hugo->setPassword('$2y$10$hpqU2WqUmKDAj706S3zumu35PfcHo50ifDSUDDPsGIwys63rPelHC');
+		$hugo->setNom("Hugo");
+		$hugo->setPrenom("Labastie");
+		$manager->persist($hugo);
+	
+		$matthieu = new TennisUtilisateur();
+		$matthieu->setEmail("matthieu@manke.com");
+		$matthieu->setRoles(["ROLE_USER"]);
+		$matthieu->setPassword('$2y$10$BANAkiaHJSDAqV7tqyyJMOXtzIXX2YLdyM0751ZcQQgISGkCN20ru');
+		$matthieu->setNom("Matthieu");
+		$matthieu->setPrenom("Manke");
+		$manager->persist($matthieu);
+	
+		$manager->flush();
 	}
 }

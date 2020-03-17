@@ -86,7 +86,7 @@ class TennisTournoiController extends AbstractController
     }
 
 
-/**
+	/**
      * @Route("/{id}/repousser-date-fin-tournoi", name="tennis_tournoi_repousser_date_fin", methods={"GET","POST"})
      */
     public function repousserDate(Request $request, TennisTournoi $tennisTournoi): Response
@@ -142,5 +142,25 @@ class TennisTournoiController extends AbstractController
         $tennisTournoi->setStatut("Terminé");
         $entityManager->flush();
         return $this->redirectToRoute('tennis_tournoi_index');
+    }
+
+    /**
+     * @Route("/rechercher-tournoi", name="tennis_tournoi_rechercher")
+     */
+    /* public function rechercher(TennisTournoiRepository $tennisTournoiRepository): Response
+    {
+        return $this->render('tennis_tournoi/rechercher.html.twig', [
+            'tennis_tournois' => $tennisTournoiRepository->findAll(),
+        ]);
+    } */
+	
+	/**
+     * @Route("/rechercher-tournoi/{id}", name="tennis_tournoi_afficher_tournoi_recherche")
+     */
+    public function afficherTournoiRecherche(TennisTournoi $tennisTournoi): Response
+    {
+        return $this->render('tennis_tournoi/afficherTournoiRecherche.html.twig', [
+            'tennis_tournoi' => $tennisTournoi,
+        ]);
     }
 }
