@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TennisUtilisateurRepository")
@@ -21,6 +23,9 @@ class TennisUtilisateur implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email(
+     *     message = "L'adresse mail n'est pas valide"
+     * )
      */
     private $email;
 
@@ -36,27 +41,30 @@ class TennisUtilisateur implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
+     * @ORM\Column(type="string", length=50, nullable=false)
      */
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=false)
      */
     private $prenom;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="date", nullable=false)
+     * @Assert\LessThan("today UTC")
      */
     private $dateNaissance;
 
     /**
-     * @ORM\Column(type="string", length=15, nullable=true)
+     * @ORM\Column(type="string", length=15, nullable=false)
+     *  @Assert\Length(min = 10, max = 10, minMessage = "Le numÃ©ro de tÃ©lÃ©phone est trop court", maxMessage = "Le numÃ©ro de tÃ©lÃ©phone est trop long")
+     *  @Assert\Regex(pattern="/^\(0\)[0-9]*$", message="Le numÃ©ro de tÃ©lÃ©phone n'est pas valide")
      */
     private $telephone;
 
     /**
-     * @ORM\Column(type="string", length=25, nullable=true)
+     * @ORM\Column(type="string", length=25, nullable=false)
      */
     private $niveau;
 
@@ -73,7 +81,7 @@ class TennisUtilisateur implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\TennisSet", mappedBy="tennisUtilisateurGagnant")
      */
-    private $tennisSetsGagnÃes;
+    private $tennisSetsGagnï¿½es;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\TennisSet", mappedBy="tennisUtilisateurPerdant")
@@ -84,7 +92,7 @@ class TennisUtilisateur implements UserInterface
     {
         $this->tennisTournoi = new ArrayCollection();
         $this->tennisMatchs = new ArrayCollection();
-        $this->tennisSetsGagnÃes = new ArrayCollection();
+        $this->tennisSetsGagnï¿½es = new ArrayCollection();
         $this->tennisSetsPerdus = new ArrayCollection();
     }
 
@@ -286,15 +294,15 @@ class TennisUtilisateur implements UserInterface
     /**
      * @return Collection|TennisSet[]
      */
-    public function getTennisSetsGagnÃes(): Collection
+    public function getTennisSetsGagnï¿½es(): Collection
     {
-        return $this->tennisSetsGagnÃes;
+        return $this->tennisSetsGagnï¿½es;
     }
 
     public function addTennisSetsGagnE(TennisSet $tennisSetsGagnE): self
     {
-        if (!$this->tennisSetsGagnÃes->contains($tennisSetsGagnE)) {
-            $this->tennisSetsGagnÃes[] = $tennisSetsGagnE;
+        if (!$this->tennisSetsGagnï¿½es->contains($tennisSetsGagnE)) {
+            $this->tennisSetsGagnï¿½es[] = $tennisSetsGagnE;
             $tennisSetsGagnE->setTennisUtilisateurGagnant($this);
         }
 
@@ -303,8 +311,8 @@ class TennisUtilisateur implements UserInterface
 
     public function removeTennisSetsGagnE(TennisSet $tennisSetsGagnE): self
     {
-        if ($this->tennisSetsGagnÃes->contains($tennisSetsGagnE)) {
-            $this->tennisSetsGagnÃes->removeElement($tennisSetsGagnE);
+        if ($this->tennisSetsGagnï¿½es->contains($tennisSetsGagnE)) {
+            $this->tennisSetsGagnï¿½es->removeElement($tennisSetsGagnE);
             // set the owning side to null (unless already changed)
             if ($tennisSetsGagnE->getTennisUtilisateurGagnant() === $this) {
                 $tennisSetsGagnE->setTennisUtilisateurGagnant(null);
