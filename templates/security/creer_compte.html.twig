@@ -1,0 +1,28 @@
+{% extends 'baseNonConnecte.html.twig' %}
+
+{% block title %}
+Créer un compte
+{% endblock %}
+
+{% block titre %}
+<h1 align="center">Création de compte</h1>
+{% endblock %}
+
+{% block body %}
+{{ form_start(form) }}
+
+{{ form_row(form.nom, {'attr':{'placeholder':"ex: Dupont ..."}}) }}
+{{ form_row(form.prenom, {'attr':{'placeholder':"ex: Pierre ..."}}) }}
+{{ form_label(form.email,"Adresse mail") }}
+{{ form_widget(form.email, {'attr':{'placeholder':"ex: dupont@gmail.com ..."}}) }}
+{{ form_row(form.dateNaissance) }}
+{{ form_label(form.telephone,"Numéro de téléphone") }}
+{{ form_widget(form.telephone, {'attr':{'placeholder':"ex: 06 12 45 85 96 ..."}}) }}
+{{ form_label(form.niveau,"Niveau de tennis") }}
+{{ form_widget(form.niveau, {'attr':{'placeholder':"ex: 30/1 "}}) }}
+{{ form_label(form.password,"Mot de passe") }}
+{{ form_widget(form.password) }}
+<br />
+<button type="submit" class="btn btn-primary"> S'inscrire </button>
+{{ form_end(form) }}
+{% endblock %}
