@@ -8,13 +8,7 @@ use App\Entity\TennisTournoi;
 
 class TournamenttennisController extends AbstractController
 {
-    /**
-     * @Route("/", name="index")
-     */
-    public function index()
-    {
-        return $this->render('tournamenttennis/index.html.twig');
-    }
+    
 
     /**
      * @Route("/changer-mdp", name="changer_de_mot_passe")
