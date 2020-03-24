@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des inscrits de {{ tennis_tournoi.nom }} {% endblock %}
+{% block titre %}<center><h1>Liste des inscrits du tournoi {{ tennis_tournoi.nom }}</h1></center> {% endblock %}
+{% block body %}
+<ul class="nav">
+  <li class="nav-item">
+    <a class="nav-link" href="/tournois/liste-inscrits/{{ tennisTournoi.id }}">Liste des inscrits</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Demandes d'inscriptions</a>
+  </li>
+</ul>
+  <div class="card shadow mb-4">
+              <div class="card-body">
+  <div class="table-responsive">
+      <table class="display" id="myTable">
+          <thead>
+              <tr>
+                  <th>Nom</th>
+                  <th>Prénom</th>
+                  <th>Date de naissance</th>
+                  <th>Niveau</th>
+                  <th>Actions</th>
+              </tr>
+          </thead>
+          <tbody>
+            {% for utilisateur in tennis_tournoi.tennisUtilisateursParticipant %}
+              <tr>
+                  <td>{{ utilisateur.nom }}</td>
+                  <td>{{ utilisateur.prenom }}</td>
+                  <td>{{ utilisateur.dateNaissance|date('d-m-Y') }}</td>
+                  <td>{{ utilisateur.niveau }}</td>
+                  <td>
+                    <a href=""> Désinscrire </a>
+                  </td>
+              </tr>
+              {% else %}
+                  <tr>
+                      <td colspan="19">Aucun utilisateur inscrit</td>
+                  </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+    </div>
+    </div>
+    </div>
+
+<div class="row">
+  <div class="col-md-12">
+<center><input type="button" class="btn btn-primary" onclick="window.location.href = '/tournois/inscrire-utilisateur/{{ tennis_tournoi.id }}';" value="Modifier la liste des inscrits"></center>
+  </div>
+</div>
+
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/plug-ins/1.10.20/sorting/date-eu.js"></script>
+<script>
+  $(document).ready(function() {
+  $('#myTable').DataTable({
+  "language": {"url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"},
+  columnDefs: [
+        {"sType": "date-eu", targets: 1},
+        {"sType": "date-eu", targets: 2}
+          ],
+    "order" : [[1 ,"asc"]]
+  });
+});
+</script>
+{% endblock %}

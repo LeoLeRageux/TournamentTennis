@@ -1,0 +1,19 @@
+{{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+
+	<div class="row">
+		<div class="col-md-6">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+		<form role="form">
+    	<div class="form-group">
+        {{ form_label(form.tennisUtilisateursParticipant, 'Rechercher un utilisateur à ajouter') }}
+        {{ form_errors(form.tennisUtilisateursParticipant) }}
+        {{ form_widget(form.tennisUtilisateursParticipant) }}
+  		</div>
+			<button class="btn btn-primary">{{ button_label|default("Ajouter l'utilisateur") }}</button>
+		</form>
+	</div>
+</div>
+{{ form_end(form) }}
