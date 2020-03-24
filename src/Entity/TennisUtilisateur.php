@@ -58,13 +58,14 @@ class TennisUtilisateur implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=15, nullable=false)
-     *  @Assert\Length(min = 9, max = 11, minMessage = "Le numéro de téléphone est trop court", maxMessage = "Le numéro de téléphone est trop long")
-     *  @Assert\Regex(pattern="/(0[1-9])[- .]?([0-9]{2}[- .]?){4}/", message="Le numéro de téléphone n'est pas valide")
+     *  @Assert\Length(min = 9, max = 10, minMessage = "Le numéro de téléphone est trop court", maxMessage = "Le numéro de téléphone est trop long")
+     *  @Assert\Regex(pattern="/^(0[1-9])[- .]?([0-9]{2}[- .]?){4}$/", message="Le numéro de téléphone n'est pas valide")
      */
     private $telephone;
 
     /**
      * @ORM\Column(type="string", length=25, nullable=false)
+     * @Assert\Regex(pattern="/^40$|^30(\/[54321]{1})?$|^15(\/[54321]{1})?$|^[54321]\/6$|^0$/", message="Le classement est invalide")
      */
     private $niveau;
 

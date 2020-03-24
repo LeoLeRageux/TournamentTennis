@@ -16,7 +16,7 @@
     TournamentTennis
   </a>
     {% block utilisateur %}
-	<a class="nav-link" href="/profil">
+	<a class="nav-link" href="{{path('tennis_utilisateur_show',{'id':app.user.id})}}">
 	{{ app.user.prenom }} {{ app.user.nom }}
 	</a>
 	<a class="nav-link" href="{{path('app_logout')}}">
