@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit TennisUtilisateur{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
-    <h1>Edit TennisUtilisateur</h1>
+    <center><h1>Modifier mon profil</h1></center>
 
-    {{ include('tennis_utilisateur/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('tennis_utilisateur_index') }}">back to list</a>
+    {{ include('tennis_utilisateur/_form.html.twig', {'button_label': 'Modifier'}) }}
+    <br />
+    <a href="{{ path('tennis_tournoi_index') }}" class="btn btn-primary">Retour à l'accueil</a>
 
     {{ include('tennis_utilisateur/_delete_form.html.twig') }}
 {% endblock %}

@@ -13,14 +13,12 @@ class TennisUtilisateurType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('roles')
-            ->add('password')
+            //->add('password')  -> affiche le mdp crypté
             ->add('nom')
             ->add('prenom')
             ->add('dateNaissance')
             ->add('telephone')
             ->add('niveau')
-            ->add('tennisMatchs')
         ;
     }
 
