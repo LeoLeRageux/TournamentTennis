@@ -55,18 +55,18 @@ class SecurityController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // Attribuer un rôle à l'utilisateur
-            //$utilisateur->setRoles(['ROLE_USER']);
+             //Attribuer un rôle à l'utilisateur
+            $utilisateur->setRoles(['ROLE_USER']);
 
             // Encoder le mot de passe de l'utilisateur
-            //$encodagePassword = $encoder->encodePassword($utilisateur,$utilisateur->getPassword());
-           // $utilisateur->setPassword($encodagePassword);
+            $encodagePassword = $encoder->encodePassword($utilisateur,$utilisateur->getPassword());
+           $utilisateur->setPassword($encodagePassword);
 
 
-            //$entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager();
             //Enregistrer l'utilisateur en base de données
-            //$entityManager->persist($utilisateur);
-            //$entityManager->flush();
+            $entityManager->persist($utilisateur);
+            $entityManager->flush();
 
             return $this->redirectToRoute('app_login');
        }

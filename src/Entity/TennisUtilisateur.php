@@ -58,8 +58,8 @@ class TennisUtilisateur implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=15, nullable=false)
-     *  @Assert\Length(min = 10, max = 10, minMessage = "Le numéro de téléphone est trop court", maxMessage = "Le numéro de téléphone est trop long")
-     *  @Assert\Regex(pattern="/^\(0\)[0-9]*$", message="Le numéro de téléphone n'est pas valide")
+     *  @Assert\Length(min = 9, max = 11, minMessage = "Le numéro de téléphone est trop court", maxMessage = "Le numéro de téléphone est trop long")
+     *  @Assert\Regex(pattern="/(0[1-9])[- .]?([0-9]{2}[- .]?){4}/", message="Le numéro de téléphone n'est pas valide")
      */
     private $telephone;
 
