@@ -70,6 +70,7 @@ class FormulaireLoginAuthenticator extends AbstractFormLoginAuthenticator
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException("L'adresse mail est invalide");
         }
+        
 
         return $user;
     }

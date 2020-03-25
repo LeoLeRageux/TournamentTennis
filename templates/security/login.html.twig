@@ -14,7 +14,14 @@ TournamentTennis : l'application de gestion de tournois de tennis
 		<div class="col-md-3">
 	         <form method="post">
     {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% if error.messageKey != "Invalid credentials." %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% else %}
+                <div class="alert alert-danger">L'adresse mail ou le mot de passe est invalide</div>
+        {% endif %}
+
+        
+        
     {% endif %}
     <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
     
