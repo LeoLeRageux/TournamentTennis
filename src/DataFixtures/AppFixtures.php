@@ -41,19 +41,19 @@ class AppFixtures extends Fixture
 			$tournoi->setDateDebutInscriptions($faker->dateTimeBetween($startDate = 'now', $endDate = '+1 month', $timezone = null));
 			$tournoi->setDateFinInscriptions($faker->dateTimeBetween($startDate = '+1 month', $endDate = '+2 month', $timezone = null));
 			$tournoi->setDateDebuttournoi($faker->dateTimeBetween($startDate = '+2 month', $endDate = '+3 month', $timezone = null));
-			$tournoi->setDateFintournoi($faker->dateTimeBetween($startDate = '+3 month', $endDate = '+4 month', $timezone = null));	
+			$tournoi->setDateFintournoi($faker->dateTimeBetween($startDate = '+3 month', $endDate = '+4 month', $timezone = null));
 		}
 		else if($tournoi->getStatut() == "Phase d'incriptions"){
 			$tournoi->setDateDebutInscriptions($faker->dateTimeBetween($startDate = '-1 month', $endDate = 'now', $timezone = null));
 			$tournoi->setDateFinInscriptions($faker->dateTimeBetween($startDate = 'now', $endDate = '+1 month', $timezone = null));
 			$tournoi->setDateDebuttournoi($faker->dateTimeBetween($startDate = '+1 month', $endDate = '+2 month', $timezone = null));
-			$tournoi->setDateFintournoi($faker->dateTimeBetween($startDate = '+2 month', $endDate = '+3 month', $timezone = null));	
+			$tournoi->setDateFintournoi($faker->dateTimeBetween($startDate = '+2 month', $endDate = '+3 month', $timezone = null));
 		}
 		else if($tournoi->getStatut() == "Commencé"){
 			$tournoi->setDateDebutInscriptions($faker->dateTimeBetween($startDate = '-2 month', $endDate = '-1 month', $timezone = null));
 			$tournoi->setDateFinInscriptions($faker->dateTimeBetween($startDate = '-1 month', $endDate = 'now', $timezone = null));
 			$tournoi->setDateDebuttournoi($faker->dateTimeBetween($startDate = '-1 month', $endDate = '+1 month', $timezone = null));
-			$tournoi->setDateFintournoi($faker->dateTimeBetween($startDate = '+1 month', $endDate = '+2 month', $timezone = null));	
+			$tournoi->setDateFintournoi($faker->dateTimeBetween($startDate = '+1 month', $endDate = '+2 month', $timezone = null));
 		}
 		else /* Terminé */ {
 			$tournoi->setDateDebutInscriptions($faker->dateTimeBetween($startDate = '-4 month', $endDate = '-3 month', $timezone = null));
@@ -61,7 +61,7 @@ class AppFixtures extends Fixture
 			$tournoi->setDateDebuttournoi($faker->dateTimeBetween($startDate = '-2 month', $endDate = '-1 month', $timezone = null));
 			$tournoi->setDateFintournoi($faker->dateTimeBetween($startDate = '-1 month', $endDate = 'now', $timezone = null));
 		}
-		
+
         $manager->persist($tournoi);
         // Ajout de tours dans ce Tournoi (sauf s tournoi non commencé ou en phase d'inscriptions (pas possible de creer de tour & matchs)
 		if($tournoi->getStatut() != "Non Commencé" && $tournoi->getStatut() != "Phase d'incriptions"){
@@ -132,31 +132,40 @@ class AppFixtures extends Fixture
 		$leo->setTelephone("0685754899");
 		$leo->setNiveau("30/1");
 		$manager->persist($leo);
-	
+
 		$thomas = new TennisUtilisateur();
 		$thomas->setEmail("thomas@bouchet.com");
 		$thomas->setRoles(["ROLE_ADMIN"]);
 		$thomas->setPassword('$2y$10$rc.L3oyLR26e4P/9GjPvo.rf5znoCs9JMLcftI0035ijKgVBEN8iS');
 		$thomas->setNom("Thomas");
 		$thomas->setPrenom("Bouchet");
+    $thomas->setDateNaissance(new DateTime('12/07/1998'));
+		$thomas->setTelephone("0685754899");
+		$thomas->setNiveau("30/1");
 		$manager->persist($thomas);
-	
+
 		$hugo = new TennisUtilisateur();
 		$hugo->setEmail("hugo@labastie.com");
 		$hugo->setRoles(["ROLE_USER"]);
 		$hugo->setPassword('$2y$10$hpqU2WqUmKDAj706S3zumu35PfcHo50ifDSUDDPsGIwys63rPelHC');
 		$hugo->setNom("Hugo");
 		$hugo->setPrenom("Labastie");
+    $hugo->setDateNaissance(new DateTime('12/07/1998'));
+		$hugo->setTelephone("0685754899");
+		$hugo->setNiveau("30/1");
 		$manager->persist($hugo);
-	
+
 		$matthieu = new TennisUtilisateur();
 		$matthieu->setEmail("matthieu@manke.com");
 		$matthieu->setRoles(["ROLE_USER"]);
 		$matthieu->setPassword('$2y$10$BANAkiaHJSDAqV7tqyyJMOXtzIXX2YLdyM0751ZcQQgISGkCN20ru');
 		$matthieu->setNom("Matthieu");
 		$matthieu->setPrenom("Manke");
+    $matthieu->setDateNaissance(new DateTime('05/31/1999'));
+		$matthieu->setTelephone("0610024120");
+		$matthieu->setNiveau("30/1");
 		$manager->persist($matthieu);
-	
+
 		$manager->flush();
 	}
 }
