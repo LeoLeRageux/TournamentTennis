@@ -12,8 +12,9 @@ class TennisMatchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('etat')
-            ->add('tennisTour')
+            ->add('tennisUtilisateurs')
+            
+            
         ;
     }
 

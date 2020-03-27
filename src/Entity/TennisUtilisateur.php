@@ -353,4 +353,14 @@ class TennisUtilisateur implements UserInterface
 
         return $this;
     }
+
+    public function __toString()
+    {
+
+        $message = $this->getNom() . " " . $this->getPrenom();
+        return $message;
+
+    }
+    
+    
 }
