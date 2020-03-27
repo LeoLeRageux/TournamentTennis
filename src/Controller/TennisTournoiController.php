@@ -184,7 +184,6 @@ class TennisTournoiController extends AbstractController
      */
     public function afficherTournoiRecherche(Request $request, TennisTournoi $tennisTournoi): Response
     {
-<<<<<<< HEAD
       $defaultData = ['message' => 'Type your message here'];
       $form = $this->createFormBuilder($defaultData)
         ->add('mdp', PasswordType::class)
@@ -215,22 +214,13 @@ class TennisTournoiController extends AbstractController
 
     /**
      * @Route("/liste-inscrits/{id}", name="tennis_tournoi_afficher_liste_inscrits")
-=======
-        return $this->render('tennis_tournoi/rechercher.html.twig', [
-            'tennis_tournois' => $tennisTournoiRepository->findAll(),
-        ]);
-    } */
-
-	/**
-     * @Route("/rechercher-tournoi/{id}", name="tennis_tournoi_afficher_tournoi_recherche")
->>>>>>> 19244b340f2f88808562dd769b7edac89c59bb6e
      */
-    public function afficherListeInscrits(TennisTournoi $tennisTournoi): Response
-    {
-        return $this->render('tennis_tournoi/afficherListeInscrits.html.twig', [
-            'tennis_tournoi' => $tennisTournoi,
-        ]);
-    }
+     public function afficherListeInscrits(TennisTournoi $tennisTournoi): Response
+     {
+         return $this->render('tennis_tournoi/afficherListeInscrits.html.twig', [
+             'tennis_tournoi' => $tennisTournoi,
+         ]);
+     }
 
     /**
      * @Route("/inscrire-utilisateur/{id}", name="tennis_tournoi_inscrire_utilisateur")

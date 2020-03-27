@@ -397,10 +397,6 @@ class TennisUtilisateur implements UserInterface
         return $this;
     }
 
-    public function __toString()
-    {
-      return $this->getPrenom()." ".$this->getNom();
-    }
 
     public function getGenreHomme(): ?bool
     {
@@ -449,6 +445,6 @@ class TennisUtilisateur implements UserInterface
         return $message;
 
     }
-    
-    
+
+
 }
