@@ -24,6 +24,16 @@ class TennisTournoiController extends AbstractController
     public function index(TennisTournoiRepository $tennisTournoiRepository): Response
     {
         return $this->render('tennis_tournoi/index.html.twig', [
+            'tennis_tournois' => $tennisTournoiRepository->findByTennisUtilisateur($this->getUser()),
+        ]);
+    }
+
+    /**
+     * @Route("/inscrits", name="tennis_tournoi_index_inscrits", methods={"GET"})
+     */
+    public function indexInscrits(TennisTournoiRepository $tennisTournoiRepository): Response
+    {
+        return $this->render('tennis_tournoi/indexInscrit.html.twig', [
             'tennis_tournois' => $tennisTournoiRepository->findAll(),
         ]);
     }
@@ -87,7 +97,6 @@ class TennisTournoiController extends AbstractController
 
         if ($form->isSubmitted()) { //&& $form->isValid()
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('tennis_tournoi_index');
         }
 
@@ -184,8 +193,7 @@ class TennisTournoiController extends AbstractController
      */
     public function afficherTournoiRecherche(Request $request, TennisTournoi $tennisTournoi): Response
     {
-      $defaultData = ['message' => 'Type your message here'];
-      $form = $this->createFormBuilder($defaultData)
+      $form = $this->createFormBuilder()
         ->add('mdp', PasswordType::class)
         ->getForm();
       $form->handleRequest($request);
