@@ -31,7 +31,7 @@
                 <td>
                     <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}">Voir</a>
 					-
-					<a href="">Liste des inscrits</a>
+					<a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}">Liste des inscrits</a>
 					-
 					<a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}">Voir l'avancement</a>
 					-
@@ -41,18 +41,18 @@
                 <td>
                     <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}">Voir</a>
 					-
-					<a href="">Liste des inscrits</a>
+					<a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}">Liste des inscrits</a>
 					-
 					<a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}">Voir l'avancement</a>
 					-
                     <a href="/tournois/supprimer/{{ tennis_tournoi.id }}">Supprimer</a>
-                    
+
                 </td>
                 {% else %}
                 <td>
                     <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}">Voir</a>
 					-
-					<a href="">Liste des inscrits</a>
+					<a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}">Liste des inscrits</a>
 					-
 					<a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}">Voir l'avancement</a>
 					-
@@ -75,7 +75,7 @@
 	<div class="row">
 		<div class="col-md-12">
 	<center><input type="button" class="btn btn-primary" onclick="window.location.href = 'new';" value="Creer un nouveau tournoi">
-    <input type="button" onclick="window.location.href = 'rechercher-tournoi';" value="Rechercher un tournoi" class="btn btn-primary"></center>
+    <input type="button" onclick="window.location.href = 'rechercher';" value="Rechercher un tournoi" class="btn btn-primary"></center>
 		</div>
 	</div>
 

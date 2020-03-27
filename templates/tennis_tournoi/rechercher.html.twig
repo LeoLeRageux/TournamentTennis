@@ -25,6 +25,7 @@
         </thead>
         <tbody>
         {% for tennis_tournoi in tennis_tournois %}
+					{% if tennis_tournoi.estVisible %}
             <tr>
                 <td>{{ tennis_tournoi.nom }}</td>
                 <td>{{ tennis_tournoi.adresse }}</td>
@@ -33,8 +34,9 @@
                 <td>{{ tennis_tournoi.dateDebutTournoi ? tennis_tournoi.dateDebutTournoi|date('d-m-Y') : '' }}</td>
                 <th>{{ tennis_tournoi.motDePasse != null ? "Oui" : "Non" }}</th>
                 <td>{{ tennis_tournoi.statut }}</td>
-                <td><a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}">Voir</a></td>
+                <td><a href="{{ path('tennis_tournoi_afficher_tournoi_recherche', {'id': tennis_tournoi.id}) }}">Voir</a></td>
             </tr>
+						{% endif %}
         {% else %}
             <tr>
                 <td colspan="19">Aucun match crée</td>

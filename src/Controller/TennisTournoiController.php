@@ -5,11 +5,14 @@ namespace App\Controller;
 use App\Entity\TennisTournoi;
 use App\Form\TennisTournoiType;
 use App\Form\TennisTournoiDateFin;
+use App\Form\TennisTournoiUtilisateursType;
+use App\Form\SaisieMotDePasseType;
 use App\Repository\TennisTournoiRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 /**
  * @Route("/tournois")
@@ -22,6 +25,16 @@ class TennisTournoiController extends AbstractController
     public function index(TennisTournoiRepository $tennisTournoiRepository): Response
     {
         return $this->render('tennis_tournoi/index.html.twig', [
+            'tennis_tournois' => $tennisTournoiRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/rechercher", name="tennis_tournoi_rechercher", methods={"GET"})
+     */
+    public function rechercher(TennisTournoiRepository $tennisTournoiRepository): Response
+    {
+        return $this->render('tennis_tournoi/rechercher.html.twig', [
             'tennis_tournois' => $tennisTournoiRepository->findAll(),
         ]);
     }
@@ -144,23 +157,65 @@ class TennisTournoiController extends AbstractController
         return $this->redirectToRoute('tennis_tournoi_index');
     }
 
-    /**
-     * @Route("/rechercher-tournoi", name="tennis_tournoi_rechercher")
-     */
-    /* public function rechercher(TennisTournoiRepository $tennisTournoiRepository): Response
-    {
-        return $this->render('tennis_tournoi/rechercher.html.twig', [
-            'tennis_tournois' => $tennisTournoiRepository->findAll(),
-        ]);
-    } */
-	
-	/**
+	  /**
      * @Route("/rechercher-tournoi/{id}", name="tennis_tournoi_afficher_tournoi_recherche")
      */
-    public function afficherTournoiRecherche(TennisTournoi $tennisTournoi): Response
+    public function afficherTournoiRecherche(Request $request, TennisTournoi $tennisTournoi): Response
     {
-        return $this->render('tennis_tournoi/afficherTournoiRecherche.html.twig', [
+      $defaultData = ['message' => 'Type your message here'];
+      $form = $this->createFormBuilder($defaultData)
+        ->add('mdp', PasswordType::class)
+        ->getForm();
+      $form->handleRequest($request);
+
+      if ($form->isSubmitted()) { //&& $form->isValid()
+         if($form->getData()["mdp"] == $tennisTournoi->getMotDePasse()){
+           if($tennisTournoi->getValidationInscriptions()){
+             echo "<script>alert('Votre demande dinscription à été prise en compte')</script>";
+             $tennisTournoi->addTennisUtilisateursDemandeInscription($this->getUser());
+           } else {
+             $tennisTournoi->addTennisUtilisateursParticipant($this->getUser());
+           }
+           $this->getDoctrine()->getManager()->flush();
+           return $this->redirectToRoute('tennis_tournoi_rechercher');
+         }
+         else {
+           echo "<script>alert('Mot de passe incorrect')</script>";
+         }
+      }
+
+      return $this->render('tennis_tournoi/afficherTournoiRecherche.html.twig', [
+          'tennis_tournoi' => $tennisTournoi,
+          'form' => $form->createView()
+      ]);
+    }
+
+    /**
+     * @Route("/liste-inscrits/{id}", name="tennis_tournoi_afficher_liste_inscrits")
+     */
+    public function afficherListeInscrits(TennisTournoi $tennisTournoi): Response
+    {
+        return $this->render('tennis_tournoi/afficherListeInscrits.html.twig', [
             'tennis_tournoi' => $tennisTournoi,
         ]);
     }
+
+    /**
+     * @Route("/inscrire-utilisateur/{id}", name="tennis_tournoi_inscrire_utilisateur")
+     */
+     public function inscrireUtilisateur(Request $request, TennisTournoi $tennisTournoi): Response
+     {
+       $form = $this->createForm(TennisTournoiUtilisateursType::class, $tennisTournoi);
+       $form->handleRequest($request);
+
+       if ($form->isSubmitted()) { //&& $form->isValid()
+          $this->getDoctrine()->getManager()->flush();
+          return $this->redirectToRoute('tennis_tournoi_inscrire_utilisateur', ['id' => $tennisTournoi->getId()]);
+       }
+
+       return $this->render('tennis_tournoi/inscrireUtilisateur.html.twig', [
+           'tennis_tournoi' => $tennisTournoi,
+           'form' => $form->createView()
+       ]);
+     }
 }

@@ -88,12 +88,29 @@ class TennisUtilisateur implements UserInterface
      */
     private $tennisSetsPerdus;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\tennisTournoi", inversedBy="tennisUtilisateursParticipant")
+     */
+    private $tennisTournoisParticiper;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $genreHomme;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\TennisTournoi", mappedBy="tennisUtilisateursDemandeInscription")
+     */
+    private $tennisTournoisDemandes;
+
     public function __construct()
     {
         $this->tennisTournoi = new ArrayCollection();
         $this->tennisMatchs = new ArrayCollection();
         $this->tennisSetsGagn�es = new ArrayCollection();
         $this->tennisSetsPerdus = new ArrayCollection();
+        $this->tennisTournoisParticiper = new ArrayCollection();
+        $this->tennisTournoisDemandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -348,6 +365,77 @@ class TennisUtilisateur implements UserInterface
             if ($tennisSetsPerdus->getTennisUtilisateurPerdant() === $this) {
                 $tennisSetsPerdus->setTennisUtilisateurPerdant(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|tennisTournoi[]
+     */
+    public function getTennisTournoisParticiper(): Collection
+    {
+        return $this->tennisTournoisParticiper;
+    }
+
+    public function addTennisTournoisParticiper(tennisTournoi $tennisTournoisParticiper): self
+    {
+        if (!$this->tennisTournoisParticiper->contains($tennisTournoisParticiper)) {
+            $this->tennisTournoisParticiper[] = $tennisTournoisParticiper;
+        }
+
+        return $this;
+    }
+
+    public function removeTennisTournoisParticiper(tennisTournoi $tennisTournoisParticiper): self
+    {
+        if ($this->tennisTournoisParticiper->contains($tennisTournoisParticiper)) {
+            $this->tennisTournoisParticiper->removeElement($tennisTournoisParticiper);
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+      return $this->getPrenom()." ".$this->getNom();
+    }
+
+    public function getGenreHomme(): ?bool
+    {
+        return $this->genreHomme;
+    }
+
+    public function setGenreHomme(?bool $genreHomme): self
+    {
+        $this->genreHomme = $genreHomme;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TennisTournoi[]
+     */
+    public function getTennisTournoisDemandes(): Collection
+    {
+        return $this->tennisTournoisDemandes;
+    }
+
+    public function addTennisTournoisDemande(TennisTournoi $tennisTournoisDemande): self
+    {
+        if (!$this->tennisTournoisDemandes->contains($tennisTournoisDemande)) {
+            $this->tennisTournoisDemandes[] = $tennisTournoisDemande;
+            $tennisTournoisDemande->addTennisUtilisateursDemandeInscription($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTennisTournoisDemande(TennisTournoi $tennisTournoisDemande): self
+    {
+        if ($this->tennisTournoisDemandes->contains($tennisTournoisDemande)) {
+            $this->tennisTournoisDemandes->removeElement($tennisTournoisDemande);
+            $tennisTournoisDemande->removeTennisUtilisateursDemandeInscription($this);
         }
 
         return $this;

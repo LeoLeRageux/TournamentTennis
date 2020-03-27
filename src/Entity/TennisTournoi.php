@@ -113,9 +113,21 @@ class TennisTournoi
      */
     private $tennisUtilisateur;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\TennisUtilisateur", mappedBy="tennisTournoisParticiper")
+     */
+    private $tennisUtilisateursParticipant;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\TennisUtilisateur", inversedBy="tennisTournoisDemandes")
+     */
+    private $tennisUtilisateursDemandeInscription;
+
     public function __construct()
     {
         $this->tennisTours = new ArrayCollection();
+        $this->tennisUtilisateursParticipant = new ArrayCollection();
+        $this->tennisUtilisateursDemandeInscription = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -371,6 +383,60 @@ class TennisTournoi
     public function setTennisUtilisateur(?TennisUtilisateur $tennisUtilisateur): self
     {
         $this->tennisUtilisateur = $tennisUtilisateur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TennisUtilisateur[]
+     */
+    public function getTennisUtilisateursParticipant(): Collection
+    {
+        return $this->tennisUtilisateursParticipant;
+    }
+
+    public function addTennisUtilisateursParticipant(TennisUtilisateur $tennisUtilisateursParticipant): self
+    {
+        if (!$this->tennisUtilisateursParticipant->contains($tennisUtilisateursParticipant)) {
+            $this->tennisUtilisateursParticipant[] = $tennisUtilisateursParticipant;
+            $tennisUtilisateursParticipant->addTennisTournoisParticiper($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTennisUtilisateursParticipant(TennisUtilisateur $tennisUtilisateursParticipant): self
+    {
+        if ($this->tennisUtilisateursParticipant->contains($tennisUtilisateursParticipant)) {
+            $this->tennisUtilisateursParticipant->removeElement($tennisUtilisateursParticipant);
+            $tennisUtilisateursParticipant->removeTennisTournoisParticiper($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TennisUtilisateur[]
+     */
+    public function getTennisUtilisateursDemandeInscription(): Collection
+    {
+        return $this->tennisUtilisateursDemandeInscription;
+    }
+
+    public function addTennisUtilisateursDemandeInscription(TennisUtilisateur $tennisUtilisateursDemandeInscription): self
+    {
+        if (!$this->tennisUtilisateursDemandeInscription->contains($tennisUtilisateursDemandeInscription)) {
+            $this->tennisUtilisateursDemandeInscription[] = $tennisUtilisateursDemandeInscription;
+        }
+
+        return $this;
+    }
+
+    public function removeTennisUtilisateursDemandeInscription(TennisUtilisateur $tennisUtilisateursDemandeInscription): self
+    {
+        if ($this->tennisUtilisateursDemandeInscription->contains($tennisUtilisateursDemandeInscription)) {
+            $this->tennisUtilisateursDemandeInscription->removeElement($tennisUtilisateursDemandeInscription);
+        }
 
         return $this;
     }

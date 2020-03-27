@@ -8,7 +8,6 @@
 		<div class="col-md-4">
 		</div>
 		<div class="col-md-4">
-        <h2>Tournoi</h2>
 			<table class="table">
         <tbody>
 
@@ -45,11 +44,39 @@
                 <td>{{ tennis_tournoi.motDePasse != null ? "Oui" : "Non" }}</td>
             </tr>
           </table>
-			{% if tennis_tournoi.motDePasse != null %}
-			<input type="password" name="mdp">
+			<center>
+			{% set profilValide = "true" %}
+			{% if app.user.dateNaissance == null %}
+				{% set profilValide = "date de naissance non renseignée (vous pouvez le définir sur votre profil)" %}
+			{% endif %}
+			{% if date().settime(0,0).diff(app.user.dateNaissance).days / 365 < tennis_tournoi.categorieAge|split('/')[0] or date().settime(0,0).diff(app.user.dateNaissance).days / 365 > tennis_tournoi.categorieAge|split('/')[1] %}
+				{% set profilValide = "le tournoi est déstiné aux " ~ tennis_tournoi.categorieAge ~ " ans" %}
+			{% endif %}
+			{% if app.user.genreHomme != tennis_tournoi.genreHomme %}
+				{% set profilValide = "le tournoi est déstiné aux " ~ (tennis_tournoi.genreHomme ? "Hommes" : "Femmes")  %}
+			{% endif %}
+			{% if app.user.genreHomme == null %}
+				{% set profilValide = "genre non défini (vous pouvez le définir sur votre profil)"  %}
+			{% endif %}
+			{% if tennis_tournoi.statut != "Phase d'incriptions" or tennis_tournoi.statut == null %}
+				{% set profilValide = "le tournoi n'est pas en phase d'inscriptions" %}
+			{% endif %}
+			{% if tennis_tournoi.inscriptionsManuelles %}
+				{% set profilValide = "l'organisateur souhaite inscrire les joueurs lui même" %}
 			{% endif %}
 
-		<input type="button" onclick="" value="S'inscrire">
+			{% if profilValide == "true" %}
+				{{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+				{{ form_label(form.mdp,"Mot de passe (laisser vide si il n'y en a pas)") }}
+				{{ form_errors(form.mdp) }}
+				{{ form_widget(form.mdp) }}
+				<div class="pt-1">
+				<button class="btn btn-primary">Valider</button>
+				{{ form_end(form) }}
+			{% else %}
+				<h5> Vous ne pouvez pas vous inscrire à ce tournoi : {{ profilValide }}</h5>
+			{% endif %}
+			</center>
 		</div>
 		<div class="col-md-4">
 </div>

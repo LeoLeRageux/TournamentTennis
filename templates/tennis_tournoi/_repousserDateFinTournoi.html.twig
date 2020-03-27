@@ -9,28 +9,14 @@
 	</div>
 	<div class="row">
 		<div class="col-md-6">
-			
-                        <form role="form">
-
-
-                <div class="form-group">
-                        {{ form_label(form.dateFinTournoi,'Date de fin du tournoi ') }}
-                        {{ form_errors(form.dateFinTournoi) }}
-                        {{ form_widget(form.dateFinTournoi) }}
-                </div>
-
-
-<button class="btn btn-primary">{{ button_label|default('Enregistrer les modifications') }}</button>
-			</form>
-                               
-
-            
-		</div>
-
+		<form role="form">
+			<div class="form-group">
+        {{ form_label(form.dateFinTournoi,'Date de fin du tournoi') }}
+        {{ form_errors(form.dateFinTournoi) }}
+        {{ form_widget(form.dateFinTournoi) }}
+      </div>
+			<button class="btn btn-primary">{{ button_label|default('Ajouter les utilisateurs') }}</button>
+		</form>
 	</div>
-
+</div>
 {{ form_end(form) }}
-
-                
-
-

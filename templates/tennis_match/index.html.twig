@@ -44,7 +44,7 @@
                     <a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}">Voir</a>
                     -
                     <a href="{{ path('tennis_match_supprimer', {'id': tennis_match.id}) }}">Supprimer</a>
-					
+
                 </td>
 				{% elseif tennis_tour.statut=="Commencé" %}
 					{% if tennis_match.etat != "Pas encore joué" %}
@@ -82,11 +82,19 @@
 </div>
 </div>
 </div>
-	<div class="row">
-		<div class="col-md-12">
-	<center><input type="button" class="btn btn-primary" onclick="window.location.href = '../new';" value="Creer un nouveau match"></center>
-		</div>
-	</div>
+{% if tennis_tour.statut != "Terminé" %}
+<div class="row">
+<div class="col-md-12">
+<center><input type="button" class="btn btn-primary" onclick="window.location.href = '../new' " value="Creer un nouveau match"></center>
+</div>
+</div>
+{% else %}
+<div class="row">
+<div class="col-md-12">
+<center><input type="button" class="btn btn-primary" disabled value="Creer un nouveau match"></center>
+</div>
+</div>
+{% endif %}
 {% endblock %}
 {% block javascripts %}
 	{{ parent() }}
