@@ -44,14 +44,14 @@
                     <a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}">Voir</a>
                     -
                     <a href="{{ path('tennis_match_supprimer', {'id': tennis_match.id}) }}">Supprimer</a>
-					
+
                 </td>
 				{% elseif tennis_tour.statut=="Commencé" %}
 					{% if tennis_match.etat != "Pas encore joué" %}
 					<td>
 						<a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}">Voir</a>
 						-
-						<a href="">Modifier le resultat</a>
+						<a href="{{path('tennis_match_edit_scores', {'id' : tennis_match.id})}}">Modifier le resultat</a>
 						-
 						<a href="">Eliminer le perdant</a>
 					</td>

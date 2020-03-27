@@ -83,6 +83,25 @@ class TennisMatchController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/modifier-scores", name="tennis_match_edit_scores", methods={"GET","POST"})
+     */
+    public function editScores(Request $request, TennisMatch $tennisMatch): Response
+    {
+        $form = $this->createForm(TennisMatchType::class, $tennisMatch);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
+        }
+
+        return $this->render('tennis_match/edit.html.twig', [
+            'tennis_match' => $tennisMatch,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/{id}", name="tennis_match_delete", methods={"DELETE"})
      */
     public function delete(Request $request, TennisMatch $tennisMatch): Response
