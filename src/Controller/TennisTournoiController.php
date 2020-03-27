@@ -5,8 +5,7 @@ namespace App\Controller;
 use App\Entity\TennisTournoi;
 use App\Form\TennisTournoiType;
 use App\Form\TennisTournoiDateFin;
-use App\Form\TennisTournoiUtilisateursType;
-use App\Form\SaisieMotDePasseType;
+use App\Form\TennisTournoiDateDebut;
 use App\Repository\TennisTournoiRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -102,7 +101,7 @@ class TennisTournoiController extends AbstractController
 	/**
      * @Route("/{id}/repousser-date-fin-tournoi", name="tennis_tournoi_repousser_date_fin", methods={"GET","POST"})
      */
-    public function repousserDate(Request $request, TennisTournoi $tennisTournoi): Response
+    public function repousserDateFin(Request $request, TennisTournoi $tennisTournoi): Response
     {
         $ancienneDate = $tennisTournoi->getDateFinTournoi();
         $form = $this->createForm(TennisTournoiDateFin::class, $tennisTournoi);
@@ -121,6 +120,29 @@ class TennisTournoiController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+       * @Route("/{id}/repousser-date-debut-tournoi", name="tennis_tournoi_repousser_date_deb", methods={"GET","POST"})
+       */
+      public function repousserDateDebut(Request $request, TennisTournoi $tennisTournoi): Response
+      {
+          $ancienneDate = $tennisTournoi->getDateDebutTournoi();
+          $form = $this->createForm(TennisTournoiDateDebut::class, $tennisTournoi);
+          $form->handleRequest($request);
+
+          if ($form->isSubmitted()) { //&& $form->isValid()
+              if($ancienneDate<$tennisTournoi->getDateDebutTournoi()){
+                  $this->getDoctrine()->getManager()->flush();
+                  return $this->redirectToRoute('tennis_tour_index', ['id' => $tennisTournoi->getId()]);
+              }
+          }
+
+          return $this->render('tennis_tournoi/repousserDateDeb.html.twig', [
+              'tennis_tournoi' => $tennisTournoi,
+              'ancienne_date' => $ancienneDate,
+              'form' => $form->createView()
+          ]);
+      }
 
 
     /**
@@ -162,6 +184,7 @@ class TennisTournoiController extends AbstractController
      */
     public function afficherTournoiRecherche(Request $request, TennisTournoi $tennisTournoi): Response
     {
+<<<<<<< HEAD
       $defaultData = ['message' => 'Type your message here'];
       $form = $this->createFormBuilder($defaultData)
         ->add('mdp', PasswordType::class)
@@ -192,6 +215,15 @@ class TennisTournoiController extends AbstractController
 
     /**
      * @Route("/liste-inscrits/{id}", name="tennis_tournoi_afficher_liste_inscrits")
+=======
+        return $this->render('tennis_tournoi/rechercher.html.twig', [
+            'tennis_tournois' => $tennisTournoiRepository->findAll(),
+        ]);
+    } */
+
+	/**
+     * @Route("/rechercher-tournoi/{id}", name="tennis_tournoi_afficher_tournoi_recherche")
+>>>>>>> 19244b340f2f88808562dd769b7edac89c59bb6e
      */
     public function afficherListeInscrits(TennisTournoi $tennisTournoi): Response
     {

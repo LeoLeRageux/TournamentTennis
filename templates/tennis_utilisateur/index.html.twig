@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TennisUtilisateur index{% endblock %}
+
+{% block body %}
+    <h1>TennisUtilisateur index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Password</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>DateNaissance</th>
+                <th>Telephone</th>
+                <th>Niveau</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tennis_utilisateur in tennis_utilisateurs %}
+            <tr>
+                <td>{{ tennis_utilisateur.id }}</td>
+                <td>{{ tennis_utilisateur.email }}</td>
+                <td>{{ tennis_utilisateur.roles ? tennis_utilisateur.roles|json_encode : '' }}</td>
+                <td>{{ tennis_utilisateur.password }}</td>
+                <td>{{ tennis_utilisateur.nom }}</td>
+                <td>{{ tennis_utilisateur.prenom }}</td>
+                <td>{{ tennis_utilisateur.dateNaissance ? tennis_utilisateur.dateNaissance|date('Y-m-d') : '' }}</td>
+                <td>{{ tennis_utilisateur.telephone }}</td>
+                <td>{{ tennis_utilisateur.niveau }}</td>
+                <td>
+                    <a href="{{ path('tennis_utilisateur_show', {'id': tennis_utilisateur.id}) }}">show</a>
+                    <a href="{{ path('tennis_utilisateur_edit', {'id': tennis_utilisateur.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('tennis_utilisateur_new') }}">Create new</a>
+{% endblock %}

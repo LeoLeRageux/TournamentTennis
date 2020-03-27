@@ -3,9 +3,8 @@
 {% block title %}New TennisMatch{% endblock %}
 
 {% block body %}
-    <h1>Créer un match</h1>
+    <center><h1>Créer un match</h1></center>
 
     {{ include('tennis_match/_form.html.twig') }}
 
-    <a href="{{ path('tennis_match_index') }}">back to list</a>
 {% endblock %}

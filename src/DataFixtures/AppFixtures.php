@@ -141,9 +141,8 @@ class AppFixtures extends Fixture
 		$thomas->setNom("Thomas");
 		$thomas->setPrenom("Bouchet");
     $thomas->setDateNaissance(new DateTime('12/07/1998'));
-    $thomas->setTelephone("0685754899");
-    $thomas->setNiveau("30/1");
-    $thomas->setGenreHomme(true);
+		$thomas->setTelephone("0658421541");
+		$thomas->setNiveau("30/1");
 		$manager->persist($thomas);
 
 		$hugo = new TennisUtilisateur();
@@ -153,9 +152,8 @@ class AppFixtures extends Fixture
 		$hugo->setNom("Hugo");
 		$hugo->setPrenom("Labastie");
     $hugo->setDateNaissance(new DateTime('12/07/1998'));
-    $hugo->setTelephone("0685754899");
-    $hugo->setNiveau("30/1");
-    $hugo->setGenreHomme(true);
+		$hugo->setTelephone("0657002148");
+		$hugo->setNiveau("30/1");
 		$manager->persist($hugo);
 
 		$matthieu = new TennisUtilisateur();
@@ -164,10 +162,9 @@ class AppFixtures extends Fixture
 		$matthieu->setPassword('$2y$10$BANAkiaHJSDAqV7tqyyJMOXtzIXX2YLdyM0751ZcQQgISGkCN20ru');
 		$matthieu->setNom("Matthieu");
 		$matthieu->setPrenom("Manke");
-    $matthieu->setDateNaissance(new DateTime('12/07/1998'));
-    $matthieu->setTelephone("0685754899");
-    $matthieu->setNiveau("30/1");
-    $matthieu->setGenreHomme(true);
+    $matthieu->setDateNaissance(new DateTime('05/31/1999'));
+		$matthieu->setTelephone("0610024120");
+		$matthieu->setNiveau("30/1");
 		$manager->persist($matthieu);
 
 		$manager->flush();

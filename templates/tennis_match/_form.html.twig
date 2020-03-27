@@ -1,39 +1,39 @@
 {{ form_start(form) }}
 
-<div class="container-fluid">
+
 	<div class="row">
 		<div class="col-md-4">
 		</div>
 		<div class="col-md-4">
 			
-                        <form role="form">
+        <form role="form">
 
 		<div class="form-group">
-                        {{ form_label(form.type,'Type du tour') }}
-                        {{ form_errors(form.type) }}
-                        {{ form_widget(form.type) }}
+                        {{ form_label(form.tennisUtilisateurs,'Joueur 1') }}
+                        {{ form_errors(form.tennisUtilisateurs) }}
+                        {{ form_widget(form.tennisUtilisateurs) }}
+                        
 		</div>
 
         <div class="form-group">
-                        {{ form_label(form.dateFinTour,'Date de fin du tour ') }}
-                        {{ form_errors(form.dateFinTour) }}
-                        {{ form_widget(form.dateFinTour) }}
-                        {{ form_help(form.dateFinTour) }}
-
-        </div>
+                        {{ form_label(form.tennisUtilisateurs,'Joueur 2') }}
+                        {{ form_errors(form.tennisUtilisateurs) }}
+                        {{ form_widget(form.tennisUtilisateurs) }}
+		</div>
 
                         <button class="btn btn-primary">{{ button_label|default('Valider') }}</button>
 			</form>    
       <br/>
-      <p><center><font color="red">ATTENTION ! Les joueurs pour lesquels le score des matchs n'est pas saisi seront automatiquement éliminés du tournoi.</font></center></p> 
+     
 		</div>
     <div class="col-md-4">
-		</div>
+	</div>
 
 	</div>
-</div>
+
 {{ form_end(form) }}
 
                 
+
 
 

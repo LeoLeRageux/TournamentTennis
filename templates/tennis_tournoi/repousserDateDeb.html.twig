@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Repousser date de début d'un tournoi{% endblock %}
+
+{% block body %}
+    <h1>Repousser la date du début du tournoi</h1>
+
+    {{ include('tennis_tournoi/_repousserDateDebutTournoi.html.twig', {'button_label': 'Repousser la date de début du tournoi'}) }}
+    {% if tennis_tournoi.dateDebutTournoi < ancienne_date %}
+        <script>
+        alert("La date saisie est antérieure à la date actuelle veuillez la modifier");
+        </script>
+    {% endif %}
+{% endblock %}

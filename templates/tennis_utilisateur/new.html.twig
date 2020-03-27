@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New TennisUtilisateur{% endblock %}
+
+{% block body %}
+    <h1>Create new TennisUtilisateur</h1>
+
+    {{ include('tennis_utilisateur/_form.html.twig') }}
+
+    <a href="{{ path('tennis_utilisateur_index') }}">back to list</a>
+{% endblock %}
