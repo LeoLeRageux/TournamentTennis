@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\TennisMatch;
-use App\Entity\TennisTour;
+use App\Entity\TennisSet;
 use App\Form\TennisMatchType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Repository\TennisMatchRepository;
@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 /**
  * @Route("matchs")
@@ -116,7 +117,7 @@ class TennisMatchController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/modifier-scores", name="tennis_match_edit_scores", methods={"GET","POST"})
+     * @Route("/{id}/modifier-match", name="tennis_match_edit_scores", methods={"GET","POST"})
      */
     public function editScores(Request $request, TennisMatch $tennisMatch): Response
     {
@@ -155,4 +156,83 @@ class TennisMatchController extends AbstractController
             'tennis_match' => $tennisMatch,
         ]);
     }
+
+    /**
+     * @Route("/saisir-resultat/{id}", name="tennis_match_saisir_resultat")
+     */
+     public function saisirResultatMatch(Request $request, TennisMatch $tennisMatch){
+       $form = $this->createFormBuilder()
+          ->add('jeuG1', IntegerType::class)
+          ->add('jeuD1', IntegerType::class)
+          ->add('jeuG2', IntegerType::class)
+          ->add('jeuD2', IntegerType::class)
+          ->add('jeuG3', IntegerType::class, ['required' => false])
+          ->add('jeuD3', IntegerType::class, ['required' => false])
+          ->add('jeuG4', IntegerType::class, ['required' => false])
+          ->add('jeuD4', IntegerType::class, ['required' => false])
+          ->add('jeuG5', IntegerType::class, ['required' => false])
+          ->add('jeuD5', IntegerType::class, ['required' => false])
+          ->getForm();
+       $form->handleRequest($request);
+
+       if ($form->isSubmitted() && $form->isValid()) {
+         foreach ($tennisMatch->getTennisSets() as $set) {
+           $tennisMatch->removeTennisSet($set);
+         }
+
+         for($i=1; $i<=$tennisMatch->getTennisTour()->getTennisTournoi()->getNbSetsGagnants(); $i++){
+           $set = new TennisSet();
+           $set->setNbJeuxDuGagnant($form->getData()["jeuG".$i]);
+           $set->setNbJeuxDuPerdant($form->getData()["jeuD".$i]);
+           $tennisMatch->addTennisSet($set);
+           $tennisMatch->setEtat("Terminé");
+         }
+
+         $this->getDoctrine()->getManager()->flush();
+         return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
+       }
+
+       return $this->render('tennis_match/saisirResultats.html.twig', [
+           'tennis_match' => $tennisMatch,
+           'form' => $form->createView(),
+       ]);
+     }
+
+     /**
+      * @Route("/modifier-resultat/{id}", name="tennis_match_modifier_resultat")
+      */
+      public function modifierResultatMatch(Request $request, TennisMatch $tennisMatch){
+        $form = $this->createFormBuilder()
+            ->add('jeuG1', IntegerType::class)
+            ->add('jeuD1', IntegerType::class)
+            ->add('jeuG2', IntegerType::class)
+            ->add('jeuD2', IntegerType::class)
+            ->add('jeuG3', IntegerType::class, ['required' => false])
+            ->add('jeuD3', IntegerType::class, ['required' => false])
+            ->add('jeuG4', IntegerType::class, ['required' => false])
+            ->add('jeuD4', IntegerType::class, ['required' => false])
+            ->add('jeuG5', IntegerType::class, ['required' => false])
+            ->add('jeuD5', IntegerType::class, ['required' => false])
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+          $i = 1;
+          foreach ($tennisMatch->getTennisSets() as $set) {
+            $set->setNbJeuxDuGagnant($form->getData()["jeuG".$i]);
+            $set->setNbJeuxDuPerdant($form->getData()["jeuD".$i]);
+            $tennisMatch->addTennisSet($set);
+            $i++;
+          }
+
+          $this->getDoctrine()->getManager()->flush();
+          return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
+        }
+
+        return $this->render('tennis_match/modifierResultats.html.twig', [
+            'tennis_match' => $tennisMatch,
+            'form' => $form->createView(),
+            'utilisateurs' => $tennisMatch
+        ]);
+      }
 }

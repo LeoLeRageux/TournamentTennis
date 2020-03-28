@@ -450,5 +450,4 @@ class TennisUtilisateur implements UserInterface
 
     }
 
-
 }

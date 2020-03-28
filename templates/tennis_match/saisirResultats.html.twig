@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+Saisir résultat
+{% endblock %}
+{% block titre %}
+<center><h1> Saisir résultat du match </h1></center>
+{% endblock %}
+{% block body %}
+<div class="p-5">
+{{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+<div class="row">
+  <div class="col-md-6">
+  <h5> Jeux du joueur 1 </h5>
+  {{ form_label(form.jeuG1," ") }}
+  {{ form_errors(form.jeuG1) }}
+  {{ form_widget(form.jeuG1, { 'attr': {min : "0", max : "7"} }) }}
+  {{ form_label(form.jeuG2," ") }}
+  {{ form_errors(form.jeuG2) }}
+  {{ form_widget(form.jeuG2, { 'attr': {min : "0", max : "7"} }) }}
+  {{ form_label(form.jeuG3," ") }}
+  {{ form_errors(form.jeuG3) }}
+  {{ form_widget(form.jeuG3, { 'attr': {min : "0", max : "7"} }) }}
+  {{ form_label(form.jeuG4," ") }}
+  {{ form_errors(form.jeuG4) }}
+  {{ form_widget(form.jeuG4, { 'attr': {min : "0", max : "7"} }) }}
+  {{ form_label(form.jeuG5," ") }}
+  {{ form_errors(form.jeuG5) }}
+  {{ form_widget(form.jeuG5, { 'attr': {min : "0", max : "7"} }) }}
+  </div>
+  <div class="col-md-6">
+  <h5> Jeux du joueur 2 </h5>
+  {{ form_label(form.jeuD1," ") }}
+  {{ form_errors(form.jeuD1) }}
+  {{ form_widget(form.jeuD1, { 'attr': {min : "0", max : "7"} }) }}
+  {{ form_label(form.jeuD2," ") }}
+  {{ form_errors(form.jeuD2) }}
+  {{ form_widget(form.jeuD2, { 'attr': {min : "0", max : "7"} }) }}
+  {{ form_label(form.jeuD3," ") }}
+  {{ form_errors(form.jeuD3) }}
+  {{ form_widget(form.jeuD3, { 'attr': {min : "0", max : "7"} }) }}
+  {{ form_label(form.jeuD4," ") }}
+  {{ form_errors(form.jeuD4) }}
+  {{ form_widget(form.jeuD4, { 'attr': {min : "0", max : "7"} }) }}
+  {{ form_label(form.jeuD5," ") }}
+  {{ form_errors(form.jeuD5) }}
+  {{ form_widget(form.jeuD5, { 'attr': {min : "0", max : "7"} }) }}
+  </div>
+</div>
+<div class="pt-2">
+<center><button class="btn btn-primary">Valider</button></center>
+{{ form_end(form) }}
+{% endblock %}

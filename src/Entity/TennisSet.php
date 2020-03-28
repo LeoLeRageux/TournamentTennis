@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TennisSetRepository")
@@ -18,11 +19,23 @@ class TennisSet
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 7,
+     *      minMessage = "Le nombre de jeux doit être plus grand que {{ limit }}",
+     *      maxMessage = "Le nombre de jeux doit être plus petit que {{ limit }}"
+     * )
      */
     private $nbJeuxDuGagnant;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 7,
+     *      minMessage = "Le nombre de jeux doit être plus grand que {{ limit }}",
+     *      maxMessage = "Le nombre de jeux doit être plus petit que {{ limit }}"
+     * )
      */
     private $nbJeuxDuPerdant;
 
@@ -32,7 +45,7 @@ class TennisSet
     private $tennisMatch;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\TennisUtilisateur", inversedBy="tennisSetsGagn�es")
+     * @ORM\ManyToOne(targetEntity="App\Entity\TennisUtilisateur", inversedBy="tennisSetsGagn�es")
      */
     private $tennisUtilisateurGagnant;
 
