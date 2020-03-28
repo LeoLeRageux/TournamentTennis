@@ -19,12 +19,63 @@ class AppFixtures extends Fixture
         // On crée un Tournoi
 		$tableauStatutTournoi = array("Non Commencé", "Phase d'incriptions", "Commencé", "Terminé");
 		$listeSurfaces = array("Dur", "Gazon", "Terre Battue", "Indoor");
-		for($t=1; $t<=12; $t++){
+
+		$leo = new TennisUtilisateur();
+		$leo->setEmail("leo@lecourt.com");
+		$leo->setRoles(["ROLE_USER"]);
+		$leo->setPassword('$2y$10$Ng0spKpKFXu8shdHYjbLXuQOmSLHOnVCFpDHHKDpKY6Er1UZ7hASm');
+		$leo->setNom("Lecourt");
+		$leo->setPrenom("Leo");
+		$leo->setDateNaissance(new DateTime('12/07/1998'));
+		$leo->setTelephone("0685754899");
+		$leo->setNiveau("30/1");
+    $leo->setGenreHomme(true);
+		$manager->persist($leo);
+
+		$thomas = new TennisUtilisateur();
+		$thomas->setEmail("thomas@bouchet.com");
+		$thomas->setRoles(["ROLE_ADMIN"]);
+		$thomas->setPassword('$2y$10$rc.L3oyLR26e4P/9GjPvo.rf5znoCs9JMLcftI0035ijKgVBEN8iS');
+		$thomas->setNom("Thomas");
+		$thomas->setPrenom("Bouchet");
+    $thomas->setDateNaissance(new DateTime('12/07/1998'));
+		$thomas->setTelephone("0658421541");
+		$thomas->setNiveau("30/1");
+		$manager->persist($thomas);
+
+		$hugo = new TennisUtilisateur();
+		$hugo->setEmail("hugo@labastie.com");
+		$hugo->setRoles(["ROLE_USER"]);
+		$hugo->setPassword('$2y$10$hpqU2WqUmKDAj706S3zumu35PfcHo50ifDSUDDPsGIwys63rPelHC');
+		$hugo->setNom("Hugo");
+		$hugo->setPrenom("Labastie");
+    $hugo->setDateNaissance(new DateTime('12/07/1998'));
+		$hugo->setTelephone("0657002148");
+		$hugo->setNiveau("30/1");
+		$manager->persist($hugo);
+
+		$matthieu = new TennisUtilisateur();
+		$matthieu->setEmail("matthieu@manke.com");
+		$matthieu->setRoles(["ROLE_USER"]);
+		$matthieu->setPassword('$2y$10$BANAkiaHJSDAqV7tqyyJMOXtzIXX2YLdyM0751ZcQQgISGkCN20ru');
+		$matthieu->setNom("Matthieu");
+		$matthieu->setPrenom("Manke");
+    $matthieu->setDateNaissance(new DateTime('05/31/1999'));
+		$matthieu->setTelephone("0610024120");
+		$matthieu->setNiveau("30/1");
+		$manager->persist($matthieu);
+
+    $utilisateurs = [$leo, $thomas, $hugo, $matthieu];
+
+    for($t=1; $t<=12; $t++){
         $tournoi = new TennisTournoi();
         $tournoi->setNom($faker->realText($maxNbChars = 10, $indexSize = 2));
         $tournoi->setAdresse($faker->realText($maxNbChars = 10, $indexSize = 2));
         $tournoi->setEstVisible($faker->boolean($chanceOfGettingTrue = 50));
         $tournoi->setSurface($faker->randomElement($listeSurfaces));
+        foreach($utilisateurs as $participant) {
+          $tournoi->addTennisUtilisateursParticipant($participant);
+        }
 		$age=$faker->regexify('[1-5][0-9]');
 		$ageplusdeux=$age+2;
         $tournoi->setCategorieAge("".$age."/".$ageplusdeux."");
@@ -54,7 +105,7 @@ class AppFixtures extends Fixture
 			$tournoi->setDateFinInscriptions($faker->dateTimeBetween($startDate = '-1 month', $endDate = 'now', $timezone = null));
 			$tournoi->setDateDebuttournoi($faker->dateTimeBetween($startDate = '-1 month', $endDate = '+1 month', $timezone = null));
 			$tournoi->setDateFintournoi($faker->dateTimeBetween($startDate = '+1 month', $endDate = '+2 month', $timezone = null));
-		}
+    }
 		else /* Terminé */ {
 			$tournoi->setDateDebutInscriptions($faker->dateTimeBetween($startDate = '-4 month', $endDate = '-3 month', $timezone = null));
 			$tournoi->setDateFinInscriptions($faker->dateTimeBetween($startDate = '-3 month', $endDate = '-2 month', $timezone = null));
@@ -116,56 +167,12 @@ class AppFixtures extends Fixture
                         $set->setTennisMatch($match);
                         $match->addTennisSet($set);
                         $manager->persist($set);
-
                     }
                 }
             }
 		}
 		}
-		$leo = new TennisUtilisateur();
-		$leo->setEmail("leo@lecourt.com");
-		$leo->setRoles(["ROLE_USER"]);
-		$leo->setPassword('$2y$10$Ng0spKpKFXu8shdHYjbLXuQOmSLHOnVCFpDHHKDpKY6Er1UZ7hASm');
-		$leo->setNom("Lecourt");
-		$leo->setPrenom("Leo");
-		$leo->setDateNaissance(new DateTime('12/07/1998'));
-		$leo->setTelephone("0685754899");
-		$leo->setNiveau("30/1");
-    $leo->setGenreHomme(true);
-		$manager->persist($leo);
 
-		$thomas = new TennisUtilisateur();
-		$thomas->setEmail("thomas@bouchet.com");
-		$thomas->setRoles(["ROLE_ADMIN"]);
-		$thomas->setPassword('$2y$10$rc.L3oyLR26e4P/9GjPvo.rf5znoCs9JMLcftI0035ijKgVBEN8iS');
-		$thomas->setNom("Thomas");
-		$thomas->setPrenom("Bouchet");
-    $thomas->setDateNaissance(new DateTime('12/07/1998'));
-		$thomas->setTelephone("0658421541");
-		$thomas->setNiveau("30/1");
-		$manager->persist($thomas);
-
-		$hugo = new TennisUtilisateur();
-		$hugo->setEmail("hugo@labastie.com");
-		$hugo->setRoles(["ROLE_USER"]);
-		$hugo->setPassword('$2y$10$hpqU2WqUmKDAj706S3zumu35PfcHo50ifDSUDDPsGIwys63rPelHC');
-		$hugo->setNom("Hugo");
-		$hugo->setPrenom("Labastie");
-    $hugo->setDateNaissance(new DateTime('12/07/1998'));
-		$hugo->setTelephone("0657002148");
-		$hugo->setNiveau("30/1");
-		$manager->persist($hugo);
-
-		$matthieu = new TennisUtilisateur();
-		$matthieu->setEmail("matthieu@manke.com");
-		$matthieu->setRoles(["ROLE_USER"]);
-		$matthieu->setPassword('$2y$10$BANAkiaHJSDAqV7tqyyJMOXtzIXX2YLdyM0751ZcQQgISGkCN20ru');
-		$matthieu->setNom("Matthieu");
-		$matthieu->setPrenom("Manke");
-    $matthieu->setDateNaissance(new DateTime('05/31/1999'));
-		$matthieu->setTelephone("0610024120");
-		$matthieu->setNiveau("30/1");
-		$manager->persist($matthieu);
 
 		$manager->flush();
 	}

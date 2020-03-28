@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\TennisMatch;
+use App\Entity\TennisTour;
 use App\Form\TennisMatchType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Repository\TennisMatchRepository;
 use App\Repository\TennisSetRepository;
 use App\Repository\TennisTourRepository;
@@ -25,31 +27,62 @@ class TennisMatchController extends AbstractController
         return $this->render('tennis_match/index.html.twig', [
             'tennis_matches' => $tennisMatchRepository->findByTennisTour($id),
             'tennis_sets' => $tennisSetRepository->findAll(),
-			'tennis_tour' => $tennisTourRepository->find($id)
+			      'tennis_tour' => $tennisTourRepository->find($id)
         ]);
     }
 
     /**
-     * @Route("/new", name="tennis_match_new", methods={"GET","POST"})
+     * @Route("/new/{id}", name="tennis_match_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
-    {
-        $tennisMatch = new TennisMatch();
-        $form = $this->createForm(TennisMatchType::class, $tennisMatch);
-        $form->handleRequest($request);
+    public function new(Request $request, $id): Response {
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($tennisMatch);
-            $entityManager->flush();
+      $tennisTour = $this->getDoctrine()->getManager()->getRepository(TennisTour::class)->find($id);
+      $tennisTournoi = $tennisTour->getTennisTournoi();
+      $utilisateurs = $tennisTournoi->getTennisUtilisateursParticipant()->toArray();
 
-            return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
-        }
+      $names = array();
+      foreach ($utilisateurs as $user){
+        array_push($names, $user->getNomComplet());
+      }
 
-        return $this->render('tennis_match/new.html.twig', [
-            'tennis_match' => $tennisMatch,
-            'form' => $form->createView(),
-        ]);
+      $choix = array_combine($names, $utilisateurs);
+
+      $tennisMatch = new TennisMatch();
+
+      $form = $this->createFormBuilder()
+            ->add('joueur_1', ChoiceType::class, [
+              'choices' => $choix])
+            ->add('joueur_2', ChoiceType::class, [
+                'choices' => $choix])
+            ->getForm();
+
+      $form->handleRequest($request);
+
+      if ($form->isSubmitted()) {
+          $entityManager = $this->getDoctrine()->getManager();
+
+          // RELATION BI-DIRECTIONELLE AVEC TENNIS_TOUR
+          $tennisMatch->setTennisTour($tennisTour);
+          $tennisTour->addTennisMatch($tennisMatch);
+
+          $tennisMatch->setEtat('Pas encore joué');
+
+          $joueur1 = $form->getData()["joueur_1"];
+          $joueur2 = $form->getData()["joueur_2"];
+
+          $tennisMatch->addTennisUtilisateur($joueur1);
+          $tennisMatch->addTennisUtilisateur($joueur2);
+
+          $entityManager->persist($tennisMatch);
+          $entityManager->flush();
+
+          return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
+      }
+
+      return $this->render('tennis_match/new.html.twig', [
+          'tennis_match' => $tennisMatch,
+          'form' => $form->createView(),
+      ]);
     }
 
     /**

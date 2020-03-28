@@ -131,6 +131,10 @@ class TennisUtilisateur implements UserInterface
         return $this;
     }
 
+    public function getNomComplet(): ?string {
+        return $this->getPrenom() . " " . $this->getNom();
+    }
+
     /**
      * A visual identifier that represents this user.
      *

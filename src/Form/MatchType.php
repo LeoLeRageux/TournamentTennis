@@ -6,20 +6,15 @@ use App\Entity\TennisMatch;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use App\Entity\TennisUtilisateur;
 
-class TennisMatchType extends AbstractType
+class MatchType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('tennisUtilisateurs', EntityType::class, array(
-                'class' => TennisUtilisateur::class,
-                'choice_label' => 'NomComplet',
-                'multiple' => false,
-                'expanded' => false
-            ))
+            ->add('etat')
+            ->add('tennisTour')
+            ->add('tennisUtilisateurs')
         ;
     }
 
