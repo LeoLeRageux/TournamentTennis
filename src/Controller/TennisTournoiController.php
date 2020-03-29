@@ -62,7 +62,7 @@ class TennisTournoiController extends AbstractController
 
             //Définir le statut
             $tennisTournoi->setStatut("Non commencé");
-
+            $tennisTournoi->setTennisUtilisateur($this->getUser());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tennisTournoi);
