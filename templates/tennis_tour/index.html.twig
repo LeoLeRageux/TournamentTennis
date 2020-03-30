@@ -11,10 +11,10 @@
 	{% if tournoi.tennisUtilisateur == app.user %}
 		{% if tournoi.statut == "Non Commencé" %}
 			Ouverture des inscriptions dans {{ date().settime(0,0).diff(tournoi.dateFinInscriptions).days }} jour(s)
-			<a href=""> Repousser </a>
+			<a href=""> Repousser </a><br>
 		{% elseif tournoi.statut == "Phase d'incriptions" %}
 			Debut du tournoi dans {{ tournoi.dateDebutTournoi.diff(date().settime(0,0)).days }} jour(s)
-			<a href="{{ path('tennis_tournoi_repousser_date_deb', {'id' : tournoi.id}) }}"> Repousser </a>
+			<a href="{{ path('tennis_tournoi_repousser_date_deb', {'id' : tournoi.id}) }}"> Repousser </a><br>
 		{% elseif tournoi.statut == "Commencé" %}
 
 		{% set num = null %}
@@ -31,10 +31,13 @@
 
 		Tour {{ num + 1 }} en cours,
 		fin dans {{ tennis_tours[num].dateFinTour.diff(date().settime(0,0)).days }} jour(s)
-		<a href="{{path("tennis_tour_repousser_date_fin", {'id' : tennis_tours[num].id})}}"> Repousser </a>
+		<a href="{{path("tennis_tour_repousser_date_fin", {'id' : tennis_tours[num].id})}}"> Repousser </a><br>
 
-		{% else %}
-			Tournoi terminé le {{ tournoi.dateFinTournoi.format("d/m/Y")}}
+		{% elseif tournoi.statut == "Terminé" %}
+			Tournoi terminé le {{ tournoi.dateFinTournoi.format("d/m/Y")}}<br>
+		{% endif %}
+		{% if tournoi.statut != "Terminé" %}
+		<a href="{{path("tennis_tournoi_changer_statut", {'id' : tournoi.id})}}"> Passer à la phase suivante </a><br>
 		{% endif %}
 	{% endif %}
 	</center></h2>
@@ -109,13 +112,13 @@
 	</div>
 	</div>
 	{% if tournoi.tennisUtilisateur == app.user %}
-	    {% if tournoi.statut == "Commencé" %}
+	    {% if tournoi.statut == "Commencé" or tournoi.statut == "Phase d'incriptions" %}
 		<div class="row">
 			<div class="col-md-12">
 		<center><input type="button" class="btn btn-primary" onclick="window.location.href = '../new/{{tournoi.id}}' " value="Creer un nouveau tour"></center>
 			</div>
 		</div>
-	    {% elseif tournoi.statut == "Non Commencé" or tournoi.statut == "Phase d'incriptions" %}
+	    {% elseif tournoi.statut == "Non Commencé" or tournoi.statut == "Terminé" %}
 	    <div class="row">
 			<div class="col-md-12">
 		<center><input type="button" class="btn btn-primary" disabled value="Creer un nouveau tour"></center>

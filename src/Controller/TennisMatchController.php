@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\TennisMatch;
 use App\Entity\TennisSet;
+use App\Entity\TennisTour;
 use App\Form\TennisMatchType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Repository\TennisMatchRepository;
