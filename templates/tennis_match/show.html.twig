@@ -9,19 +9,44 @@
 		<div class="col-md-2">
 		</div>
 		<div class="col-md-8">
-         
+
 <center>
 <div class="card">
   <div class="card-body">
-    <h3 class="card-text">Entité utilisateur non crée <b>VS</b> Entité utilisateur non crée </h3>
-    <p class="card-text">Vainqueur : </p>
-    <p class="card-text">Résultat : </p>
+	{% set joueurs = tennis_match.tennisUtilisateurs %}
+	{% if joueurs|length > 0 %}
+	{% for joueur in joueurs %}
+		<h3 class="card-text">{{joueur.nomComplet}}</td>
+	{% endfor %}
+	{% else %}
+		<h3 class="card-text">Entité utilisateur non crée <b>VS</b> Entité utilisateur non crée </h3>
+	{% endif %}
+    <p class="card-text">Vainqueur :
+		{% if tennis_match.etat == "Terminé" %}
+			{% set nbSetsJoueur1 = 0 %}
+			{% set nbSetsJoueur2 = 0 %}
+			{% for tennis_set in tennis_match.tennisSets %}
+				{% if tennis_set.nbJeuxDuGagnant > tennis_set.nbJeuxDuPerdant %}
+					{% set nbSetsJoueur1 = nbSetsJoueur1 + 1 %}
+				{% else %}
+					{% set nbSetsJoueur2 = nbSetsJoueur2 + 1 %}
+				{% endif %}
+			{% endfor %}
+			{% if nbJeuxJoueur1 > nbJeuxJoueur2 %}
+				{{ joueurs[0] }} </p>
+			{% else %}
+				{{ joueurs[1] }} </p>
+			{% endif %}
+		{% else %}
+			{{ tennis_match.etat }} </p>
+		{% endif %}
+    <p class="card-text">Résultat :
 	{% if tennis_match.etat == "Terminé" %}
 		{% for tennis_set in tennis_match.tennisSets %}
-			{{tennis_set.nbJeuxDuGagnant}}/{{tennis_set.nbJeuxDuPerdant}}
+			{{tennis_set.nbJeuxDuGagnant}}/{{tennis_set.nbJeuxDuPerdant}} </p>
 		{% endfor %}
 	{% else %}
-		{{ tennis_match.etat }}
+		{{ tennis_match.etat }} </p>
 	{% endif %}
   </div>
 </div>
