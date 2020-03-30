@@ -50,15 +50,15 @@
 				{% if app.user in tennis_tour.tennisTournoi.tennisUtilisateursParticipant or tennis_tour.tennisTournoi.tennisUtilisateur == app.user %}
 				{% if tennis_tour.statut=="Organisation" %}
 				<td>
-                    <a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}">Voir</a>
+                    <a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}"><i class="far fa-eye"></i></a>
                     -
-                    <a href="{{ path('tennis_match_supprimer', {'id': tennis_match.id}) }}">Supprimer</a>
+                    <a href="{{ path('tennis_match_supprimer', {'id': tennis_match.id}) }}"><i class="fas fa-trash-alt"></i></a>
 
                 </td>
 				{% elseif tennis_tour.statut=="Commencé" %}
 					{% if tennis_match.etat != "Pas encore joué" %}
 					<td>
-						<a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}">Voir</a>
+						<a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}"><i class="far fa-eye"></i></a>
 						{% if tennis_tour.tennisTournoi.tennisUtilisateur == app.user or app.user in tennis_match.tennisUtilisateurs %}
 						-
 						<a href="{{path('tennis_match_modifier_resultat', {'id' : tennis_match.id})}}">Modifier le resultat</a>
@@ -70,10 +70,10 @@
 					</td>
 					{% else %}
 					<td>
-						<a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}">Voir</a>
+						<a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}"><i class="far fa-eye"></i></a>
 						{% if tennis_tour.tennisTournoi.tennisUtilisateur == app.user %}
 						-
-						<a href="">Notifier les joueurs</a>
+						<a href="{{path('tennis_match_notifier_joueurs', {'id' : tennis_match.id})}}">Notifier les joueurs</a>
 						-
 						<a href="{{path('tennis_match_edit', {'id' : tennis_match.id})}}">Modifier les joueurs</a>
 						{% endif %}
@@ -83,13 +83,13 @@
 						{% endif %}
 						{% if tennis_tour.tennisTournoi.tennisUtilisateur == app.user %}
 						-
-						<a href="{{ path('tennis_match_supprimer', {'id': tennis_match.id}) }}">Supprimer</a>
+						<a href="{{ path('tennis_match_supprimer', {'id': tennis_match.id}) }}"><i class="fas fa-trash-alt"></i></a>
 						{% endif %}
 					</td>
 					{% endif %}
 				{% else %}
 				<td>
-					<a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}">Voir</a>
+					<a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}"><i class="far fa-eye"></i></a>
 				</td>
 				{% endif %}
         </tr>

@@ -73,6 +73,24 @@ class TennisMatch
         return $this;
     }
 
+    public function notifierJoueurs(){
+        $utilisateurs = $this->getTennisUtilisateurs();
+        for($i = 0; $i < 2; $i++){
+          $joueurAdverse = $utilisateurs[1-$i];
+          $joueur = $utilisateurs[$i];
+          $corpsMessage = "Boujour ".$joueur->getNomComplet()."\n
+          Vous avez un match contre ".$joueurAdverse->getNomComplet()." !\n
+          Vous avez jusqu'au ".$this->getTennisTour()->getDateFinTour()->format("d/m/Y")." pour jouer votre match et entrer les résultats.\n
+          Pour le contacter :
+          son email : ".$joueurAdverse->getEmail()."\n";
+          $telephone = ($joueurAdverse->getTelephone() != null ? "          son téléphone : ".$joueurAdverse->getTelephone() : "");
+
+          $corpsMessage = $corpsMessage.$telephone;
+
+          $joueur->sendEmail("C'est l'heure de jouer !", $corpsMessage);
+        }
+    }
+
     /**
      * @return Collection|TennisSet[]
      */
