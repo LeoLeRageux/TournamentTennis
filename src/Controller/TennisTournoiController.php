@@ -225,7 +225,7 @@ class TennisTournoiController extends AbstractController
              $tennisTournoi->addTennisUtilisateursParticipant($this->getUser());
            }
            $this->getDoctrine()->getManager()->flush();
-           return $this->redirectToRoute('tennis_tournoi_rechercher');
+           return $this->redirectToRoute('tennis_tournoi_index');
          }
          else {
            echo "<script>alert('Mot de passe incorrect')</script>";
@@ -268,13 +268,19 @@ class TennisTournoiController extends AbstractController
      }
 
      /**
-      * @Route("/desinscription/{id}", name="tennis_tournoi_desinscrire")
+      * @Route("/desinscription/{id}/{utilisateur}", name="tennis_tournoi_desinscrire")
       */
-     public function desinscrireJoueur(TennisTournoi $tennisTournoi): Response
+     public function desinscrireJoueur(TennisTournoiRepository $tennisTournoiRepository, $id, $utilisateur): Response
      {
-         $entityManager = $this->getDoctrine()->getManager();
-         $tennisTournoi->setStatut("Terminé");
-         $entityManager->flush();
-         return $this->redirectToRoute('tennis_tournoi_index');
+        $tennisTournoi = $tennisTournoiRepository->find($id);
+        $entityManager = $this->getDoctrine()->getManager();
+        foreach($tennisTournoi->getTennisUtilisateursParticipant() as $user){
+          if($user->getId() == $utilisateur){
+            $tennisTournoi->removeTennisUtilisateursParticipant($user);
+            $tennisTournoi->removeTennisUtilisateursDemandeInscription($user);
+          }
+        }
+        $entityManager->flush();
+        return $this->redirectToRoute('tennis_tournoi_index');
      }
 }

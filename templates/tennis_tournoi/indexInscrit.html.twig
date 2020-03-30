@@ -39,7 +39,7 @@
                 <td>{{ tennis_tournoi.statut }}</td>
                 {% if app.user in tennis_tournoi.tennisUtilisateursParticipant %}
                   <td> Participant </td>
-                {% else %}
+                {% elseif app.user in tennis_tournoi.tennisUtilisateursDemandeInscription %}
                   <td> Demande en attente </td>
                 {% endif %}
                 <td>
@@ -49,7 +49,7 @@
 					          -
 					          <a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}">Voir l'avancement</a>
                     -
-                    <a href="">Abandonner</a>
+                    <a href="/tournois/desinscription/{{ tennis_tournoi.id }}/{{ app.user.id }}"> Abandonner </a>
                 </td>
             </tr>
             {% endif %}
