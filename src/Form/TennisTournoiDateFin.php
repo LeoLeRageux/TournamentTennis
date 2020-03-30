@@ -19,6 +19,7 @@ class TennisTournoiDateFin extends AbstractType
         $builder
             ->add('dateFinTournoi', DateType::class,[
                 'widget' => 'choice',
+                'years' => range(date('Y'), date('Y')+10),
                 'format' => 'dd-MM-yyyy',
             ])
         ;
