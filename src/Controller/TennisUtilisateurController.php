@@ -69,7 +69,7 @@ class TennisUtilisateurController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('tennis_utilisateur_index');
+            return $this->redirectToRoute('tennis_utilisateur_show',['id'=>$this->getUser()->getId()]);
         }
 
         return $this->render('tennis_utilisateur/edit.html.twig', [
