@@ -20,6 +20,14 @@
                 <td>{{ tennis_utilisateur.email }}</td>
             </tr>
             <tr>
+                <th>Genre</th>
+                {% if tennis_utilisateur.genreHomme == true %}
+                <td>Homme</td>
+                {% else %}
+                <td>Femme</td>
+                {% endif %}
+            </tr>
+            <tr>
                 <th>Password</th>
                 <td>**********</td>
             </tr>
