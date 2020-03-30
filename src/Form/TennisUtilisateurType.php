@@ -16,6 +16,7 @@ class TennisUtilisateurType extends AbstractType
             //->add('password')  -> affiche le mdp crypté
             ->add('nom')
             ->add('prenom')
+            ->add('genreHomme')
             ->add('dateNaissance')
             ->add('telephone')
             ->add('niveau')
