@@ -5,7 +5,7 @@
 {% block body %}
     <center><h1>Modifier mon profil</h1></center>
 
-    {{ include('tennis_tournoi/index.html.twig', {'button_label': 'Modifier'}) }}
+    {{ include('tennis_utilisateur/_form.html.twig', {'button_label': 'Modifier'}) }}
     <br />
     <a href="{{ path('tennis_tournoi_index') }}" class="btn btn-primary">Retour à l'accueil</a>
 
