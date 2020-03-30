@@ -64,7 +64,9 @@
 			{% if tennis_tournoi.inscriptionsManuelles %}
 				{% set profilValide = "l'organisateur souhaite inscrire les joueurs lui même" %}
 			{% endif %}
-
+			{% if tennis_tournoi.tennisUtilisateursParticipant|length >= tennis_tournoi.nbPlaces %}
+				{% set profilValide = "il n'y a plus de places disponibles pour ce tournoi" %}
+			{% endif %}
 			{% if profilValide == "true" %}
 				{{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
 				{{ form_label(form.mdp,"Mot de passe (laisser vide si il n'y en a pas)") }}
