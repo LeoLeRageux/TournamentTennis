@@ -72,13 +72,17 @@ class TennisMatchController extends AbstractController
           $joueur1 = $form->getData()["joueur_1"];
           $joueur2 = $form->getData()["joueur_2"];
 
-          $tennisMatch->addTennisUtilisateur($joueur1);
-          $tennisMatch->addTennisUtilisateur($joueur2);
+          if($joueur1 != $joueur2){
+            $tennisMatch->addTennisUtilisateur($joueur1);
+            $tennisMatch->addTennisUtilisateur($joueur2);
 
-          $entityManager->persist($tennisMatch);
-          $entityManager->flush();
+            $entityManager->persist($tennisMatch);
+            $entityManager->flush();
 
-          return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
+            return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
+          }
+
+
       }
 
       return $this->render('tennis_match/new.html.twig', [
@@ -117,9 +121,6 @@ class TennisMatchController extends AbstractController
         $utilisateursJoueurs2 = $utilisateurs;
         array_unshift($utilisateursJoueurs2, $joueurActuel2);
 
-        dump($utilisateursJoueurs1);
-        dump($utilisateursJoueurs2);
-
         $namesJ1 = array();
         foreach ($utilisateursJoueurs1 as $user){
           array_push($namesJ1, $user->getNomComplet());
@@ -147,17 +148,20 @@ class TennisMatchController extends AbstractController
             $j1 = $form->getData()["joueur_1"];
             $j2 = $form->getData()["joueur_2"];
 
-            if($j1 != $tennisMatch->getTennisUtilisateurs()[0] || $j2 != $tennisMatch->getTennisUtilisateurs()[1]){
-              $tennisMatch->removeTennisUtilisateur($joueurActuel1);
-              $tennisMatch->removeTennisUtilisateur($joueurActuel2);
+            if($j1 != $j2){
+              if($j1 != $tennisMatch->getTennisUtilisateurs()[0] || $j2 != $tennisMatch->getTennisUtilisateurs()[1]){
+                $tennisMatch->removeTennisUtilisateur($joueurActuel1);
+                $tennisMatch->removeTennisUtilisateur($joueurActuel2);
+              }
+
+              $tennisMatch->addTennisUtilisateur($j1);
+              $tennisMatch->addTennisUtilisateur($j2);
+
+              $this->getDoctrine()->getManager()->flush();
+
+              return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
             }
 
-            $tennisMatch->addTennisUtilisateur($j1);
-            $tennisMatch->addTennisUtilisateur($j2);
-
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
         }
 
         return $this->render('tennis_match/edit.html.twig', [
@@ -183,6 +187,14 @@ class TennisMatchController extends AbstractController
             'tennis_match' => $tennisMatch,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/{id}/notifier-joueurs", name="tennis_match_notifier_joueurs")
+     */
+    public function notifierJoueurs(Request $request, TennisMatch $tennisMatch) {
+        $tennisMatch->notifierJoueurs();
+        return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
     }
 
     /**

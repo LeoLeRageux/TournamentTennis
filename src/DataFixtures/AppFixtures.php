@@ -36,8 +36,8 @@ class AppFixtures extends Fixture
 		$thomas->setEmail("thomas@bouchet.com");
 		$thomas->setRoles(["ROLE_ADMIN"]);
 		$thomas->setPassword('$2y$10$rc.L3oyLR26e4P/9GjPvo.rf5znoCs9JMLcftI0035ijKgVBEN8iS');
-		$thomas->setNom("Thomas");
-		$thomas->setPrenom("Bouchet");
+		$thomas->setPrenom("Thomas");
+		$thomas->setNom("Bouchet");
     $thomas->setDateNaissance(new DateTime('12/07/1998'));
 		$thomas->setTelephone("0658421541");
 		$thomas->setNiveau("30/1");
@@ -47,8 +47,8 @@ class AppFixtures extends Fixture
 		$hugo->setEmail("hugo@labastie.com");
 		$hugo->setRoles(["ROLE_USER"]);
 		$hugo->setPassword('$2y$10$hpqU2WqUmKDAj706S3zumu35PfcHo50ifDSUDDPsGIwys63rPelHC');
-		$hugo->setNom("Hugo");
-		$hugo->setPrenom("Labastie");
+		$hugo->setPrenom("Hugo");
+		$hugo->setNom("Labastie");
     $hugo->setDateNaissance(new DateTime('12/07/1998'));
 		$hugo->setTelephone("0657002148");
 		$hugo->setNiveau("30/1");
@@ -58,8 +58,8 @@ class AppFixtures extends Fixture
 		$matthieu->setEmail("matthieu@manke.com");
 		$matthieu->setRoles(["ROLE_USER"]);
 		$matthieu->setPassword('$2y$10$BANAkiaHJSDAqV7tqyyJMOXtzIXX2YLdyM0751ZcQQgISGkCN20ru');
-		$matthieu->setNom("Matthieu");
-		$matthieu->setPrenom("Manke");
+		$matthieu->setNom("Manke");
+		$matthieu->setPrenom("Matthieu");
     $matthieu->setDateNaissance(new DateTime('05/31/1999'));
 		$matthieu->setTelephone("0610024120");
 		$matthieu->setNiveau("30/1");

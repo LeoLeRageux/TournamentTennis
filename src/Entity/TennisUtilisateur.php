@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use \Swift_Mailer;
 
 
 /**
@@ -135,6 +136,22 @@ class TennisUtilisateur implements UserInterface
 
     public function getNomComplet(): ?string {
         return $this->getPrenom() . " " . $this->getNom();
+    }
+
+    public function sendEmail($sujet, $corps){
+        $transport = (new \Swift_SmtpTransport('smtp.gmail.com', 465))
+            ->setHost('smtp.gmail.com')
+            ->setPort('465')
+            ->setEncryption('ssl')
+            ->setAuthMode('login')
+            ->setUsername($_ENV['MAILER_USER'])
+            ->setPassword($_ENV['MAILER_PASSWORD']);
+        $mailer = new \Swift_Mailer($transport);
+        $message = (new \Swift_Message($sujet))
+           ->setFrom('tournamenttenniswebapp@gmail.com')
+           ->setTo($this->getEmail())
+           ->setBody($corps);
+        $mailer->send($message);
     }
 
     /**

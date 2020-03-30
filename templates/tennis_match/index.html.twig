@@ -73,7 +73,7 @@
 						<a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}">Voir</a>
 						{% if tennis_tour.tennisTournoi.tennisUtilisateur == app.user %}
 						-
-						<a href="">Notifier les joueurs</a>
+						<a href="{{path('tennis_match_notifier_joueurs', {'id' : tennis_match.id})}}">Notifier les joueurs</a>
 						-
 						<a href="{{path('tennis_match_edit', {'id' : tennis_match.id})}}">Modifier les joueurs</a>
 						{% endif %}
