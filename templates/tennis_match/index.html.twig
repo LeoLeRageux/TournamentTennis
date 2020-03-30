@@ -26,8 +26,16 @@
             <tr>
                 <td>{{ num }}</td>
                 {% set num = num + 1 %}
-                <td>Pas d'entité utilisateur</td>
-                <td>Pas d'entité utilisateur</td>
+								{% set joueurs = tennis_match.tennisUtilisateurs %}
+								{% if joueurs|length > 0 %}
+								{% for joueur in joueurs %}
+                	<td>{{joueur.nomComplet}}</td>
+								{% endfor %}
+								{% else %}
+									<td>Pas d'entité utilisateur</td>
+                	<td>Pas d'entité utilisateur</td>
+								{% endif %}
+
                 {% if tennis_match.etat == "Terminé" %}
                 <td>
                 {% for tennis_set in tennis_sets %}
@@ -85,7 +93,7 @@
 {% if tennis_tour.statut != "Terminé" %}
 <div class="row">
 <div class="col-md-12">
-<center><input type="button" class="btn btn-primary" onclick="window.location.href = '../new/{{tennis_tour.id}}' " value="Creer un nouveau match"></center>
+<center><input type="button" class="btn btn-primary" onclick="window.location.href = '{{path('tennis_match_new', {'id' : tennis_tour.id})}}' " value="Creer un nouveau match"></center>
 </div>
 </div>
 {% else %}
