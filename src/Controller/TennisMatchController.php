@@ -98,14 +98,63 @@ class TennisMatchController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="tennis_match_edit", methods={"GET","POST"})
+     * @Route("/edit/{id}", name="tennis_match_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, TennisMatch $tennisMatch): Response
     {
-        $form = $this->createForm(TennisMatchType::class, $tennisMatch);
+        $tennisTour = $tennisMatch->getTennisTour();
+        $tennisTournoi = $tennisTour->getTennisTournoi();
+        $utilisateurs = $tennisTournoi->getTennisUtilisateursParticipant()->toArray();
+
+        array_diff($utilisateurs, $tennisMatch->getTennisUtilisateurs()->toArray());
+
+        $joueurActuel1 = $tennisMatch->getTennisUtilisateurs()[0];
+        $joueurActuel2 = $tennisMatch->getTennisUtilisateurs()[1];
+
+        $utilisateursJoueurs1 = $utilisateurs;
+        array_unshift($utilisateursJoueurs1, $joueurActuel1);
+
+        $utilisateursJoueurs2 = $utilisateurs;
+        array_unshift($utilisateursJoueurs2, $joueurActuel2);
+
+        dump($utilisateursJoueurs1);
+        dump($utilisateursJoueurs2);
+
+        $namesJ1 = array();
+        foreach ($utilisateursJoueurs1 as $user){
+          array_push($namesJ1, $user->getNomComplet());
+        }
+
+        $namesJ2 = array();
+        foreach ($utilisateursJoueurs2 as $user){
+          array_push($namesJ2, $user->getNomComplet());
+        }
+
+        $choixJ1 = array_combine($namesJ1, $utilisateursJoueurs1);
+        $choixJ2 = array_combine($namesJ2, $utilisateursJoueurs2);
+
+        $form = $this->createFormBuilder()
+              ->add('joueur_1', ChoiceType::class, [
+                'choices' => $choixJ1])
+              ->add('joueur_2', ChoiceType::class, [
+                  'choices' => $choixJ2])
+              ->getForm();
+
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
+
+            $j1 = $form->getData()["joueur_1"];
+            $j2 = $form->getData()["joueur_2"];
+
+            if($j1 != $tennisMatch->getTennisUtilisateurs()[0] || $j2 != $tennisMatch->getTennisUtilisateurs()[1]){
+              $tennisMatch->removeTennisUtilisateur($joueurActuel1);
+              $tennisMatch->removeTennisUtilisateur($joueurActuel2);
+            }
+
+            $tennisMatch->addTennisUtilisateur($j1);
+            $tennisMatch->addTennisUtilisateur($j2);
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);

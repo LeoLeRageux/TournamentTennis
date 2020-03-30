@@ -69,6 +69,7 @@ class AppFixtures extends Fixture
 
     for($t=1; $t<=12; $t++){
         $tournoi = new TennisTournoi();
+        $tournoi->setTennisUtilisateur($utilisateurs[$faker->numberBetween(0,3)]);
         $tournoi->setNom($faker->realText($maxNbChars = 10, $indexSize = 2));
         $tournoi->setAdresse($faker->realText($maxNbChars = 10, $indexSize = 2));
         $tournoi->setEstVisible($faker->boolean($chanceOfGettingTrue = 50));
@@ -150,6 +151,15 @@ class AppFixtures extends Fixture
 					else if($tour->getStatut() == "Commencé")
 					{
 						$match->setEtat($tableauEtatMatch[$j-1]);
+            $rnd = $faker->numberBetween(0, 3);
+            $joueur1 = $utilisateurs[$rnd];
+            $rnd2 = $faker->numberBetween(0, 3);
+            while($rnd2 == $rnd){
+                $rnd2 = $faker->numberBetween(0, 3);
+            }
+            $joueur2 = $utilisateurs[$rnd2];
+            $match->addTennisUtilisateur($joueur1);
+            $match->addTennisUtilisateur($joueur2);
 					}
 					else //Organisation (crétion des matchs, aucun joués)
 					{

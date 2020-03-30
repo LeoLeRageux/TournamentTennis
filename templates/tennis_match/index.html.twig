@@ -74,6 +74,8 @@
 						{% if tennis_tour.tennisTournoi.tennisUtilisateur == app.user %}
 						-
 						<a href="">Notifier les joueurs</a>
+						-
+						<a href="{{path('tennis_match_edit', {'id' : tennis_match.id})}}">Modifier les joueurs</a>
 						{% endif %}
 						{% if tennis_tour.tennisTournoi.tennisUtilisateur == app.user or app.user in tennis_match.tennisUtilisateurs %}
 						-
