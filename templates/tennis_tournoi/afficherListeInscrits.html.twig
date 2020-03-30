@@ -7,9 +7,11 @@
   <li class="nav-item">
     <a class="nav-link" href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}">Liste des inscrits</a>
   </li>
+  {% if tennis_tournoi.statut == "Phase d'incriptions" and tennis_tournoi.tennisUtilisateur == app.user%}
   <li class="nav-item">
     <a class="nav-link" href="#">Demandes d'inscriptions</a>
   </li>
+  {% endif %}
 </ul>
   <div class="card shadow mb-4">
               <div class="card-body">
@@ -31,9 +33,15 @@
                   <td>{{ utilisateur.prenom }}</td>
                   <td>{{ utilisateur.dateNaissance|date('d-m-Y') }}</td>
                   <td>{{ utilisateur.niveau }}</td>
+                  {% if tennis_tournoi.tennisUtilisateur == app.user %}
                   <td>
                     <a href=""> Désinscrire </a>
                   </td>
+                  {% elseif app.user in tennis_tournoi.tennisUtilisateursParticipant %}
+                  <td>
+                    <a href=""> Se désinscrire </a>
+                  </td>
+                  {% endif %}
               </tr>
               {% else %}
                   <tr>
@@ -45,12 +53,13 @@
     </div>
     </div>
     </div>
-
+{% if tennis_tournoi.tennisUtilisateur == app.user %}
 <div class="row">
   <div class="col-md-12">
 <center><input type="button" class="btn btn-primary" onclick="window.location.href = '/tournois/inscrire-utilisateur/{{ tennis_tournoi.id }}';" value="Modifier la liste des inscrits"></center>
   </div>
 </div>
+{% endif %}
 
 {% endblock %}
 {% block javascripts %}
