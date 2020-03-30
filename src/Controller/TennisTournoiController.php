@@ -6,6 +6,7 @@ use App\Entity\TennisTournoi;
 use App\Form\TennisTournoiType;
 use App\Form\TennisTournoiDateFin;
 use App\Form\TennisTournoiDateDebut;
+use App\Form\TennisTournoiUtilisateursType;
 use App\Repository\TennisTournoiRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,7 +62,7 @@ class TennisTournoiController extends AbstractController
         if ($form->isSubmitted()) {
 
             //Définir le statut
-            $tennisTournoi->setStatut("Non commencé");
+            $tennisTournoi->setStatut("Non Commencé");
             $tennisTournoi->setTennisUtilisateur($this->getUser());
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -188,6 +189,23 @@ class TennisTournoiController extends AbstractController
         return $this->redirectToRoute('tennis_tournoi_index');
     }
 
+    /**
+     * @Route("/changer-statut/{id}", name="tennis_tournoi_changer_statut")
+     */
+    public function changerStatut(TennisTournoi $tennisTournoi): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        if($tennisTournoi->getStatut() == "Non Commencé"){
+          $tennisTournoi->setStatut("Phase d'incriptions");
+        } else if($tennisTournoi->getStatut() == "Phase d'incriptions"){
+          $tennisTournoi->setStatut("Commencé");
+        } else if($tennisTournoi->getStatut() == "Commencé"){
+            $tennisTournoi->setStatut("Terminé");
+        }
+        $entityManager->flush();
+        return $this->redirectToRoute('tennis_tour_index', ['id' => $tennisTournoi->getId()]);
+    }
+
 	  /**
      * @Route("/rechercher-tournoi/{id}", name="tennis_tournoi_afficher_tournoi_recherche")
      */
@@ -247,5 +265,16 @@ class TennisTournoiController extends AbstractController
            'tennis_tournoi' => $tennisTournoi,
            'form' => $form->createView()
        ]);
+     }
+
+     /**
+      * @Route("/desinscription/{id}", name="tennis_tournoi_desinscrire")
+      */
+     public function desinscrireJoueur(TennisTournoi $tennisTournoi): Response
+     {
+         $entityManager = $this->getDoctrine()->getManager();
+         $tennisTournoi->setStatut("Terminé");
+         $entityManager->flush();
+         return $this->redirectToRoute('tennis_tournoi_index');
      }
 }

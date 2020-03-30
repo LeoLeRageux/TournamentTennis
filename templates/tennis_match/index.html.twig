@@ -47,6 +47,7 @@
                 {% else %}
                 <td>{{ tennis_match.etat }}</td>
                 {% endif %}
+				{% if app.user in tennis_tour.tennisTournoi.tennisUtilisateursParticipant or tennis_tour.tennisTournoi.tennisUtilisateur == app.user %}
 				{% if tennis_tour.statut=="Organisation" %}
 				<td>
                     <a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}">Voir</a>
@@ -58,20 +59,30 @@
 					{% if tennis_match.etat != "Pas encore joué" %}
 					<td>
 						<a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}">Voir</a>
+						{% if tennis_tour.tennisTournoi.tennisUtilisateur == app.user or app.user in tennis_match.tennisUtilisateurs %}
 						-
 						<a href="{{path('tennis_match_modifier_resultat', {'id' : tennis_match.id})}}">Modifier le resultat</a>
+						{% endif %}
+						{% if tennis_tour.tennisTournoi.tennisUtilisateur == app.user %}
 						-
 						<a href="">Eliminer le perdant</a>
+						{% endif %}
 					</td>
 					{% else %}
 					<td>
 						<a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}">Voir</a>
+						{% if tennis_tour.tennisTournoi.tennisUtilisateur == app.user %}
 						-
 						<a href="">Notifier les joueurs</a>
+						{% endif %}
+						{% if tennis_tour.tennisTournoi.tennisUtilisateur == app.user or app.user in tennis_match.tennisUtilisateurs %}
 						-
 						<a href="{{ path('tennis_match_saisir_resultat', {'id': tennis_match.id}) }}">Saisir les resultats</a>
+						{% endif %}
+						{% if tennis_tour.tennisTournoi.tennisUtilisateur == app.user %}
 						-
 						<a href="{{ path('tennis_match_supprimer', {'id': tennis_match.id}) }}">Supprimer</a>
+						{% endif %}
 					</td>
 					{% endif %}
 				{% else %}
@@ -79,7 +90,8 @@
 					<a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}">Voir</a>
 				</td>
 				{% endif %}
-            </tr>
+        </tr>
+				{% endif %}
         {% else %}
             <tr>
                 <td colspan="3">Aucun match crée</td>

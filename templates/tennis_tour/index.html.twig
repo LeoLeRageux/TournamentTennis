@@ -8,32 +8,37 @@
 {% endblock %}
 {% block body %}
 	<h2><center>
-	{% if tournoi.statut == "Non Commencé" %}
-		Ouverture des inscriptions dans {{ date().settime(0,0).diff(tournoi.dateFinInscriptions).days }} jour(s)
-		<a href=""> Repousser </a>
-	{% elseif tournoi.statut == "Phase d'incriptions" %}
-		Debut du tournoi dans {{ tournoi.dateDebutTournoi.diff(date().settime(0,0)).days }} jour(s)
-		<a href="{{ path('tennis_tournoi_repousser_date_deb', {'id' : tournoi.id}) }}"> Repousser </a>
-	{% elseif tournoi.statut == "Commencé" %}
+	{% if tournoi.tennisUtilisateur == app.user %}
+		{% if tournoi.statut == "Non Commencé" %}
+			Ouverture des inscriptions dans {{ date().settime(0,0).diff(tournoi.dateFinInscriptions).days }} jour(s)
+			<a href=""> Repousser </a><br>
+		{% elseif tournoi.statut == "Phase d'incriptions" %}
+			Debut du tournoi dans {{ tournoi.dateDebutTournoi.diff(date().settime(0,0)).days }} jour(s)
+			<a href="{{ path('tennis_tournoi_repousser_date_deb', {'id' : tournoi.id}) }}"> Repousser </a><br>
+		{% elseif tournoi.statut == "Commencé" %}
 
-	{% set num = null %}
-	{% for tennis_tour in tennis_tours %}
-	    {% if tennis_tour.statut == "Commencé" %}
-	        {% set num = tennis_tour.numero - 1 %}
-	    {% endif %}
-	{% endfor %}
+		{% set num = null %}
+		{% for tennis_tour in tennis_tours %}
+		    {% if tennis_tour.statut == "Commencé" %}
+		        {% set num = tennis_tour.numero - 1 %}
+		    {% endif %}
+		{% endfor %}
 
-	{% include 'tennis_tournoi/_terminer_form.html.twig' %}
+		{% include 'tennis_tournoi/_terminer_form.html.twig' %}
 
-	Fin du tournoi dans {{ date().settime(0,0).diff(tournoi.dateFinTournoi).days }} jour(s)
-	<a href="{{path("tennis_tournoi_repousser_date_fin", {'id' : tournoi.id})}}"> Repousser </a><br>
+		Fin du tournoi dans {{ date().settime(0,0).diff(tournoi.dateFinTournoi).days }} jour(s)
+		<a href="{{path("tennis_tournoi_repousser_date_fin", {'id' : tournoi.id})}}"> Repousser </a><br>
 
-	Tour {{ num + 1 }} en cours,
-	fin dans {{ tennis_tours[num].dateFinTour.diff(date().settime(0,0)).days }} jour(s)
-	<a href="{{path("tennis_tour_repousser_date_fin", {'id' : tennis_tours[num].id})}}"> Repousser </a>
+		Tour {{ num + 1 }} en cours,
+		fin dans {{ tennis_tours[num].dateFinTour.diff(date().settime(0,0)).days }} jour(s)
+		<a href="{{path("tennis_tour_repousser_date_fin", {'id' : tennis_tours[num].id})}}"> Repousser </a><br>
 
-	{% else %}
-		Tournoi terminé le {{ tournoi.dateFinTournoi.format("d/m/Y")}}
+		{% elseif tournoi.statut == "Terminé" %}
+			Tournoi terminé le {{ tournoi.dateFinTournoi.format("d/m/Y")}}<br>
+		{% endif %}
+		{% if tournoi.statut != "Terminé" %}
+		<a href="{{path("tennis_tournoi_changer_statut", {'id' : tournoi.id})}}"> Passer à la phase suivante </a><br>
+		{% endif %}
 	{% endif %}
 	</center></h2>
 	<div class="card shadow mb-4">
@@ -70,6 +75,7 @@
 
 	                <td> {{ nbMatchsJoues }} /  {{ nbMatchsTotaux }}</td>
 	                <td>{{ tennis_tour.statut }}</td>
+									{% if tournoi.tennisUtilisateur == app.user %}
 	                {% if tennis_tour.statut == "Terminé" %}
 	                <td>
 	                    <a href="/matchs/matchs-tour/{{tennis_tour.id}}">Liste matchs</a>
@@ -89,10 +95,15 @@
 	            <a href="{{ path('tennis_tour_supprimer', {'id': tennis_tour.id}) }}">Supprimer</a>
 	                </td>
 	                {% endif %}
+									{% else %}
+									<td>
+	                    <a href="/matchs/matchs-tour/{{tennis_tour.id}}">Liste matchs</a>
+	                </td>
+									{% endif %}
 	            </tr>
 	        {% else %}
 	            <tr>
-	                <td colspan="6">Aucun match crée</td>
+	                <td colspan="6">Aucun tour crée</td>
 	            </tr>
 	        {% endfor %}
 	        </tbody>
@@ -100,19 +111,21 @@
 	</div>
 	</div>
 	</div>
-	    {% if tournoi.statut == "Commencé" %}
+	{% if tournoi.tennisUtilisateur == app.user %}
+	    {% if tournoi.statut == "Commencé" or tournoi.statut == "Phase d'incriptions" %}
 		<div class="row">
 			<div class="col-md-12">
 		<center><input type="button" class="btn btn-primary" onclick="window.location.href = '../new/{{tournoi.id}}' " value="Creer un nouveau tour"></center>
 			</div>
 		</div>
-	    {% elseif tournoi.statut == "Non Commencé" or tournoi.statut == "Phase d'incriptions" %}
+	    {% elseif tournoi.statut == "Non Commencé" or tournoi.statut == "Terminé" %}
 	    <div class="row">
 			<div class="col-md-12">
 		<center><input type="button" class="btn btn-primary" disabled value="Creer un nouveau tour"></center>
 			</div>
 		</div>
 	    {% endif %}
+	{% endif %}
 	{% endblock %}
 	{% block javascripts %}
 		{{ parent() }}

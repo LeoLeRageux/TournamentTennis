@@ -128,6 +128,12 @@ class TennisTournoi
         $this->tennisTours = new ArrayCollection();
         $this->tennisUtilisateursParticipant = new ArrayCollection();
         $this->tennisUtilisateursDemandeInscription = new ArrayCollection();
+
+        $this->dateDebutTournoi = new \DateTime('now');
+        $this->dateFinTournoi = new \DateTime('now');
+        $this->dateDebutInscriptions = new \DateTime('now');
+        $this->dateFinInscriptions = new \DateTime('now');
+
     }
 
     public function getId(): ?int

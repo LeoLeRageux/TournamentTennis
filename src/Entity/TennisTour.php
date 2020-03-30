@@ -51,6 +51,7 @@ class TennisTour
     public function __construct()
     {
         $this->tennisMatchs = new ArrayCollection();
+        $this->dateFinTour = new \DateTime('now');
     }
 
     public function getId(): ?int

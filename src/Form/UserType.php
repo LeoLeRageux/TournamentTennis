@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class UserType extends AbstractType
@@ -17,7 +19,11 @@ class UserType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('email')
-            ->add('dateNaissance')
+            ->add('dateNaissance', DateType::class,[
+                'widget' => 'choice',
+                'years' => range(date('Y'), date('Y')-100),
+                'format' => 'dd-MM-yyyy',
+            ])
             ->add('telephone')
             ->add('niveau')
             ->add('password', RepeatedType::class, [

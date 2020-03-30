@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
@@ -21,8 +22,16 @@ class TennisTournoiType extends AbstractType
         $builder
             ->add('nom')
             ->add('adresse')
-            ->add('dateDebutTournoi')
-            ->add('dateFinTournoi')
+            ->add('dateDebutTournoi', DateType::class,[
+                'widget' => 'choice',
+                'years' => range(date('Y'), date('Y')+10),
+                'format' => 'dd-MM-yyyy',
+                ])
+            ->add('dateFinTournoi', DateType::class,[
+                'widget' => 'choice',
+                'years' => range(date('Y'), date('Y')+10),
+                'format' => 'dd-MM-yyyy',
+                ])
             ->add('estVisible', ChoiceType::class, array(
                 'choices'  => array(
                     'Oui' => true,
@@ -60,8 +69,16 @@ class TennisTournoiType extends AbstractType
                     'Tournoi Femme' => false,)))
 
             ->add('description',TextareaType::class)
-            ->add('dateDebutInscriptions')
-            ->add('dateFinInscriptions')
+            ->add('dateDebutInscriptions', DateType::class,[
+                'widget' => 'choice',
+                'years' => range(date('Y'), date('Y')+10),
+                'format' => 'dd-MM-yyyy',
+                ])
+            ->add('dateFinInscriptions', DateType::class,[
+                'widget' => 'choice',
+                'years' => range(date('Y'), date('Y')+10),
+                'format' => 'dd-MM-yyyy',
+                ])
             ->add('inscriptionsManuelles', ChoiceType::class, array(
                 'choices'  => array(
                     'Oui' => true,
