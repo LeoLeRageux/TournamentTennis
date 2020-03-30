@@ -22,10 +22,13 @@ class TennisTourType extends AbstractType
                     'Demi finale' => "Demi finale",
                     'Finale' => "Finale",
                 )))
-            ->add('dateFinTour', DateType::class, array(
+            ->add('dateFinTour', DateType::class, [
                 'help' => "La date saisie est la date limite à laquelle tous les matchs du tour doivent être jouer",
-                )
-            )
+                'widget' => 'choice',
+                'years' => range(date('Y'), date('Y')+10),
+                'format' => 'dd-MM-yyyy',
+            ])
+            
         ;
     }
 

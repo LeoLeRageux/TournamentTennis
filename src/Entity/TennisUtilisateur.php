@@ -112,6 +112,8 @@ class TennisUtilisateur implements UserInterface
         $this->tennisSetsPerdus = new ArrayCollection();
         $this->tennisTournoisParticiper = new ArrayCollection();
         $this->tennisTournoisDemandes = new ArrayCollection();
+
+        $this->dateNaissance = new \DateTime('now');
     }
 
     public function getId(): ?int
