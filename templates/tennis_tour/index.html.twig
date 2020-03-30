@@ -84,15 +84,15 @@
 	                <td>
 	                    <a href="/matchs/matchs-tour/{{tennis_tour.id}}">Liste matchs</a>
 	                    -
-	                    <a href="{{ path('tennis_tour_edit', {'id': tennis_tour.id}) }}">Modifier</a>
+	                    <a href="{{ path('tennis_tour_edit', {'id': tennis_tour.id}) }}"><i class="fas fa-pencil-alt"></i></a>
 	                </td>
 	                {% else %}
 	                <td>
 	                    <a href="/matchs/matchs-tour/{{tennis_tour.id}}">Liste matchs</a>
 	                    -
-	                    <a href="{{ path('tennis_tour_edit', {'id': tennis_tour.id}) }}">Modifier</a>
+	                    <a href="{{ path('tennis_tour_edit', {'id': tennis_tour.id}) }}"><i class="fas fa-pencil-alt"></i></a>
 	                    -
-	            <a href="{{ path('tennis_tour_supprimer', {'id': tennis_tour.id}) }}">Supprimer</a>
+	            <a href="{{ path('tennis_tour_supprimer', {'id': tennis_tour.id}) }}"><i class="fas fa-trash-alt"></i></a>
 	                </td>
 	                {% endif %}
 									{% else %}

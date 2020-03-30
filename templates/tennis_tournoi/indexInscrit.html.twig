@@ -43,13 +43,13 @@
                   <td> Demande en attente </td>
                 {% endif %}
                 <td>
-                    <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}">Voir</a>
+                    <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}"><i class="far fa-eye"></i></a>
 					          -
-					          <a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}">Liste des inscrits</a>
+					          <a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users"></i></a>
 					          -
-					          <a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}">Voir l'avancement</a>
+					          <a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol"></i></a>
                     -
-                    <a href="/tournois/desinscription/{{ tennis_tournoi.id }}/{{ app.user.id }}"> Abandonner </a>
+                    <a href="/tournois/desinscription/{{ tennis_tournoi.id }}/{{ app.user.id }}"><i class="far fa-times-circle"></i></a>
                 </td>
             </tr>
             {% endif %}
