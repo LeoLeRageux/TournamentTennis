@@ -27,22 +27,28 @@
               </tr>
           </thead>
           <tbody>
+            {% set indexUser = 0 %}
             {% for utilisateur in tennis_tournoi.tennisUtilisateursParticipant %}
               <tr>
                   <td>{{ utilisateur.nom }}</td>
                   <td>{{ utilisateur.prenom }}</td>
                   <td>{{ utilisateur.dateNaissance|date('d-m-Y') }}</td>
                   <td>{{ utilisateur.niveau }}</td>
-                  {% if tennis_tournoi.tennisUtilisateur == app.user %}
+                  {% if app.user == tennis_tournoi.tennisUtilisateur %}
                   <td>
-                    <a href="/tournois/desinscription/{{ tennis_tournoi.id }}/{{ utilisateur.id }}"> Désinscrire </a>
+                    <a href="/tournois/desinscription/{{ tennis_tournoi.id }}/{{ utilisateur.id }}"><i class="far fa-times-circle"></i></a>
                   </td>
-                  {% elseif app.user in tennis_tournoi.tennisUtilisateursParticipant %}
+                  {% elseif app.user == tennis_tournoi.tennisUtilisateursParticipant[indexUser] %}
                   <td>
-                    <a href="/tournois/desinscription/{{ tennis_tournoi.id }}/{{ app.user.id }}"> Se désinscrire </a>
+                    <a href="/tournois/desinscription/{{ tennis_tournoi.id }}/{{ app.user.id }}"><i class="far fa-times-circle"></i></a>
+                  </td>
+                  {% else %}
+                  <td>
+                    -
                   </td>
                   {% endif %}
               </tr>
+              {% set indexUser = indexUser + 1 %}
               {% else %}
                   <tr>
                       <td colspan="19">Aucun utilisateur inscrit</td>
@@ -72,11 +78,7 @@
   $(document).ready(function() {
   $('#myTable').DataTable({
   "language": {"url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"},
-  columnDefs: [
-        {"sType": "date-eu", targets: 1},
-        {"sType": "date-eu", targets: 2}
-          ],
-    "order" : [[1 ,"asc"]]
+  "order" : [[1 ,"asc"]]
   });
 });
 </script>

@@ -6,6 +6,8 @@ use App\Entity\TennisUtilisateur;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+
 
 class TennisUtilisateurType extends AbstractType
 {
@@ -17,7 +19,11 @@ class TennisUtilisateurType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('genreHomme')
-            ->add('dateNaissance')
+            ->add('dateNaissance',DateType::class,[
+                'widget' => 'choice',
+                'years' => range(date('Y'), date('Y')-100),
+                'format' => 'dd-MM-yyyy',
+            ])
             ->add('telephone')
             ->add('niveau')
         ;

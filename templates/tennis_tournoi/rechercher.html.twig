@@ -34,7 +34,7 @@
                 <td>{{ tennis_tournoi.dateDebutTournoi ? tennis_tournoi.dateDebutTournoi|date('d-m-Y') : '' }}</td>
                 <th>{{ tennis_tournoi.motDePasse != null ? "Oui" : "Non" }}</th>
                 <td>{{ tennis_tournoi.statut }}</td>
-                <td><a href="{{ path('tennis_tournoi_afficher_tournoi_recherche', {'id': tennis_tournoi.id}) }}">Voir</a></td>
+                <td><a href="{{ path('tennis_tournoi_afficher_tournoi_recherche', {'id': tennis_tournoi.id}) }}"><i class="far fa-eye"></i></a></td>
             </tr>
 						{% endif %}
         {% else %}
