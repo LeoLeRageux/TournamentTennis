@@ -225,7 +225,7 @@ class TennisTournoiController extends AbstractController
              $tennisTournoi->addTennisUtilisateursParticipant($this->getUser());
            }
            $this->getDoctrine()->getManager()->flush();
-           return $this->redirectToRoute('tennis_tournoi_rechercher');
+           return $this->redirectToRoute('tennis_tournoi_index');
          }
          else {
            echo "<script>alert('Mot de passe incorrect')</script>";

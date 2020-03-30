@@ -25,7 +25,7 @@
         </thead>
         <tbody>
         {% for tennis_tournoi in tennis_tournois %}
-					{% if tennis_tournoi.estVisible %}
+					{% if tennis_tournoi.estVisible and tennis_tournoi.tennisUtilisateur != app.user and app.user not in tennis_tournoi.tennisUtilisateursParticipant and app.user not in tennis_tournoi.tennisUtilisateursDemandeInscription %}
             <tr>
                 <td>{{ tennis_tournoi.nom }}</td>
                 <td>{{ tennis_tournoi.adresse }}</td>
