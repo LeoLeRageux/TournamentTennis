@@ -195,14 +195,14 @@ class TennisTournoiController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         if($tennisTournoi->getStatut() == "Non Commencé"){
-          $tennisTournoi->setStatut("Non Commencé");
+          $tennisTournoi->setStatut("Phase d'incriptions");
         } else if($tennisTournoi->getStatut() == "Phase d'incriptions"){
           $tennisTournoi->setStatut("Commencé");
         } else if($tennisTournoi->getStatut() == "Commencé"){
             $tennisTournoi->setStatut("Terminé");
         }
         $entityManager->flush();
-        return $this->redirectToRoute('tennis_tournoi_index');
+        return $this->redirectToRoute('tennis_tour_index', ['id' => $tennisTournoi->getId()]);
     }
 
 	  /**
