@@ -6,6 +6,7 @@ use App\Entity\TennisTournoi;
 use App\Form\TennisTournoiType;
 use App\Form\TennisTournoiDateFin;
 use App\Form\TennisTournoiDateDebut;
+use App\Form\TennisTournoiUtilisateursType;
 use App\Repository\TennisTournoiRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
