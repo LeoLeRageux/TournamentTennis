@@ -22,7 +22,7 @@
         <thead>
             <tr>
                 <th>Nom</th>
-                <th>Date de debut du tournoi</th>
+                <th>Date de début du tournoi</th>
                 <th>Date de fin du tournoi</th>
                 <th>Statut du tournoi</th>
                 <th>Statut de la demande</th>
@@ -43,13 +43,13 @@
                   <td> Demande en attente </td>
                 {% endif %}
                 <td>
-                    <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}"><i class="far fa-eye"></i></a>
+                    <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}"><i class="far fa-eye" title="Voir"></i></a>
 					          -
-					          <a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users"></i></a>
+					          <a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users" title="Liste des inscrits"></i></a>
 					          -
-					          <a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol"></i></a>
+					          <a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol" title="Voir l'avancement"></i></a>
                     -
-                    <a href="/tournois/desinscription/{{ tennis_tournoi.id }}/{{ app.user.id }}"><i class="far fa-times-circle"></i></a>
+                    <a href="/tournois/desinscription/{{ tennis_tournoi.id }}/{{ app.user.id }}"><i class="far fa-times-circle" title="Se désinscire"></i></a>
                 </td>
             </tr>
             {% endif %}
@@ -65,7 +65,7 @@
 </div>
 	<div class="row">
 		<div class="col-md-12">
-	<center><input type="button" class="btn btn-primary" onclick="window.location.href = 'new';" value="Creer un nouveau tournoi">
+	<center><input type="button" class="btn btn-primary" onclick="window.location.href = 'new';" value="Créer un nouveau tournoi">
     <input type="button" onclick="window.location.href = 'rechercher';" value="Rechercher un tournoi" class="btn btn-primary"></center>
 		</div>
 	</div>

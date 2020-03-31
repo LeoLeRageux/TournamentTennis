@@ -1,10 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block titre %}<h1><center>Créer un nouveau tournoi</center></h1>{% endblock %}
+{% block titre %}
+  <title> Créer un tournoi </title>
+  <h1><center>Créer un nouveau tournoi</center></h1>
+{% endblock %}
 
 {% block body %}
 
     {{ include('tennis_tournoi/_form.html.twig') }}
 
-    <a href="{{ path('tennis_tournoi_index') }}">back to list</a>
+    <a href="{{ path('tennis_tournoi_index') }}"><i class="fas fa-arrow-left"></i> Liste des tournois</a>
 {% endblock %}
