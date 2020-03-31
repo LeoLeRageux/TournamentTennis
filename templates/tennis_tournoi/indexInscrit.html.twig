@@ -7,20 +7,24 @@
 	{{ parent() }}
 {% endblock %}
 {% block body %}
-<ul class="nav">
-  <li class="nav-item">
-    <a class="nav-link" href="/tournois">Mes tournois (organisateur)</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="/tournois/inscrits">Mes tournois (joueur)</a>
-  </li>
-	<li class="nav-item">
-    <a class="nav-link" href="/tournois/rechercher">S'inscrire à un tournoi</a>
-  </li>
-	<li class="nav-item">
-    <a class="nav-link" href="/tournois/all">Tous les tournois</a>
-  </li>
-</ul>
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+  <div class="nav" id="navbarNav">
+	<ul class="nav navbar-nav">
+	  <li class="nav-item">
+	    <a class="nav-link" href="/tournois">Mes tournois (organisateur)</a>
+	  </li>
+	  <li class="nav-item active">
+	    <a class="nav-link" href="/tournois/inscrits">Mes tournois (joueur)</a>
+	  </li>
+		<li class="nav-item">
+	    <a class="nav-link" href="/tournois/rechercher">S'inscrire à un tournoi</a>
+	  </li>
+		<li class="nav-item">
+	    <a class="nav-link" href="/tournois/all">Tous les tournois</a>
+	  </li>
+	</ul>
+  </div>
+</nav>
 <div class="card shadow mb-4">
             <div class="card-body">
 <div class="table-responsive">
