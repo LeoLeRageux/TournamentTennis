@@ -15,8 +15,7 @@
     <a class="nav-link" href="/tournois/inscrits">Tournois inscrits</a>
   </li>
 </ul>
-<div class="card shadow mb-4">
-            <div class="card-body">
+
 <div class="table-responsive">
     <table class="display" id="myTable">
         <thead>
@@ -77,15 +76,13 @@
         {% endfor %}
         </tbody>
     </table>
-</div>
-</div>
-</div>
-	<div class="row">
-		<div class="col-md-12">
+</br>
+
+
 	<center><input type="button" class="btn btn-primary" onclick="window.location.href = 'new';" value="Creer un nouveau tournoi">
     <input type="button" onclick="window.location.href = 'rechercher';" value="Rechercher un tournoi" class="btn btn-primary"></center>
-		</div>
-	</div>
+
+
 
 {% endblock %}
 {% block javascripts %}

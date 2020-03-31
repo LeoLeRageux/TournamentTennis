@@ -5,65 +5,87 @@ TournamentTennis : l'application de gestion de tournois de tennis
 {% endblock %}
 
 {% block body %}
-<div class="p-5">
-<div class="p-5 border bg-light">
-<div class="container-fluid">
-	<div class="row">
+
 		<div class="col-md-2">
 		</div>
-		<div class="col-md-3">
-	         <form method="post">
-    {% if error %}
-        {% if error.messageKey != "Invalid credentials." %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% else %}
-                <div class="alert alert-danger">L'adresse mail ou le mot de passe est invalide</div>
-        {% endif %}
+		<div class="col-md-8">
+			<div class="row">
+				<div class="col-md-12">
+					<form method="post">
+					{% if error %}
+					{% if error.messageKey != "Invalid credentials." %}
+							 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+					{% else %}
+							 <div class="alert alert-danger">L'adresse mail ou le mot de passe est invalide</div>
+					{% endif %}
 
-        
-        
-    {% endif %}
-    <h1 class="h3 mb-3 font-weight-normal"><i class="fas fa-user"></i>Connexion</h1>
-    
-    <label for="inputEmail">Adresse mail</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-    <br />
-    <label for="inputPassword">Mot de passe</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" required>
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
 
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
-    #}
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Se souvenir de moi
-            </label>
-        </div>
-    
-    <br />
-    <button class="btn btn-lg btn-primary" type="submit">
-        Se connecter
-    </button>
-    <a href="/inscription" class="btn btn-lg btn-primary"> S'inscrire </a>
-</form>
-		</div>
-		<div class="col-md-1">
-		</div>
-		<div class="col-md-4">
-            <h1>Qu'est-ce que TournamentTennis ?</h1>
-			<p>
-				TournamentTennis est une application de gestion de tournois de tennis qui permettra à l'organisateur de faire participer les joueurs dans ce processus de gestion de tournoi quand ils s'inscriront et devront saisir leur résultats après la fin d'un match par exemple. N'attendez plus, connectez-vous ou créez un compte pour commencer à utiliser notre application !
-			</p>
+					{% endif %}
+					<div class="card-deck">
+					<div class="card border-primary">
+						<div class="h3 card-header">
+							<i class="fas fa-user"></i>  Connexion
+						</div>
+						<div class="card-body">
+							<div class="card-text">
+								<label for="inputEmail">Adresse mail</label>
+								<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
+								<br />
+								<label for="inputPassword">Mot de passe</label>
+								<input type="password" name="password" id="inputPassword" class="form-control" required>
+
+								<input type="hidden" name="_csrf_token"
+											 value="{{ csrf_token('authenticate') }}"
+								>
+
+								{#
+										Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+										See https://symfony.com/doc/current/security/remember_me.html
+								#}
+										<div class="checkbox">
+												<label>
+														<input type="checkbox" name="_remember_me"> Se souvenir de moi
+												</label>
+										</div>
+								<center>
+								<button class="btn btn-primary" type="submit">
+										Se connecter
+								</button>
+								<a href="/inscription" class="btn btn-primary"> S'inscrire </a>
+							</center>
+						</form>
+					</div>
+						</div>
+					</div>
+
+					<div class="card border-info">
+						<div class="h3 card-header text-center">
+						Qu'est-ce que TournamentTennis ?
+
+					</div>
+						<div class="card-body">
+								<div class="card-text text-justify">
+
+								TournamentTennis est une application de gestion de tournois de tennis qui permet à l'organisateur de faire participer les joueurs dans ce processus de gestion de tournoi, ils devront par exemple organiser un match en accord avec leurs adversaires, le jouer et saisir un résultat avant une date limite. N'attendez plus, connectez-vous ou créez un compte pour commencer à utiliser notre application !
+
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="col-md-2">
 		</div>
-	</div>
-</div>
-</div>
-</div>
+
+
+
+<style>
+body {
+  background-image: url('https://images.alphacoders.com/597/thumb-1920-597936.jpg');
+  background-repeat: no-repeat;
+	background-attachment: fixed;
+  background-size: cover;
+}
+</style>
 {% endblock %}
