@@ -67,6 +67,75 @@ class AppFixtures extends Fixture
 
     $utilisateurs = [$leo, $thomas, $hugo, $matthieu];
 
+
+    $luc = new TennisUtilisateur();
+		$luc->setEmail("luc.dupont@gmail.com");
+		$luc->setRoles(["ROLE_USER"]);
+		$luc->setPassword('$2y$10$cS5zsnLxiy76YtHU.nUIzO8Jt24StkwHxU6.r1jKenUczDtSoA0YS');
+    $luc->setPrenom("Luc");
+    $luc->setNom("Dupont");
+    $luc->setDateNaissance(new DateTime('02/08/2009'));
+		$luc->setTelephone("0610024120");
+		$luc->setNiveau("30/1");
+    $luc->setGenreHomme(true);
+		$manager->persist($luc);
+
+    $bastien = new TennisUtilisateur();
+		$bastien->setEmail("bastien.delaville@gmail.com");
+		$bastien->setRoles(["ROLE_USER"]);
+		$bastien->setPassword('$2y$10$febeRapB25laBcik6XAs/eXe5qeDiRiie.H3FBce1VDjzQGFd2rSy');
+    $bastien->setPrenom("Bastien");
+    $bastien->setNom("Delaville");
+    $bastien->setDateNaissance(new DateTime('02/05/2010'));
+		$bastien->setTelephone("0710245841");
+		$bastien->setNiveau("30/1");
+    $bastien->setGenreHomme(true);
+		$manager->persist($bastien);
+
+    $killian = new TennisUtilisateur();
+		$killian->setEmail("killian.mouche@gmail.com");
+		$killian->setRoles(["ROLE_USER"]);
+		$killian->setPassword('$2y$10$Jmt0Pzu0o.MaDIbGbSAAH.HMKUASbM5tPsVAMnOh6i4a.fzCfpzR2');
+    $killian->setPrenom("Killian");
+    $killian->setNom("Mouche");
+    $killian->setDateNaissance(new DateTime('09/01/2010'));
+		$killian->setTelephone("0692147582");
+		$killian->setNiveau("30/1");
+    $killian->setGenreHomme(true);
+		$manager->persist($killian);
+
+    $gabriel = new TennisUtilisateur();
+		$gabriel->setEmail("gabriel.durand@gmail.com");
+		$gabriel->setRoles(["ROLE_USER"]);
+		$gabriel->setPassword('$2y$10$zK6RI4Ha8yvbT2ZCFXe2eOcujZlVwWLMXU.Y61oXQ.QmcDAoKRn9y');
+    $gabriel->setPrenom("Gabriel");
+    $gabriel->setNom("Durand");
+    $gabriel->setDateNaissance(new DateTime('02/08/2009'));
+		$gabriel->setTelephone("0610024120");
+		$gabriel->setNiveau("30/1");
+    $gabriel->setGenreHomme(true);
+		$manager->persist($gabriel);
+
+    $tournoi = new TennisTournoi();
+    $tournoi->setTennisUtilisateur($matthieu);
+    $tournoi->setNom("Tournoi test 11/12");
+    $tournoi->setAdresse($faker->realText($maxNbChars = 10, $indexSize = 2));
+    $tournoi->setEstVisible(true);
+    $tournoi->setSurface($faker->randomElement($listeSurfaces));
+    $tournoi->setCategorieAge("11/12");
+    $tournoi->setGenreHomme(true);
+    $tournoi->setInscriptionsManuelles(false);
+    $tournoi->setNbPlaces(10);
+    $tournoi->setValidationInscriptions(false);
+    $tournoi->setNbSetsGagnants(2);
+    $tournoi->setStatut("Non Commencé");
+    $tournoi->setDateDebutInscriptions(new DateTime("04/04/2020"));
+    $tournoi->setDateFinInscriptions(new DateTime("05/04/2020"));
+    $tournoi->setDateDebuttournoi(new DateTime("05/04/2020"));
+    $tournoi->setDateFintournoi(new DateTime("06/04/2020"));
+    $manager->persist($tournoi);
+
+
     for($t=1; $t<=12; $t++){
         $tournoi = new TennisTournoi();
         $tournoi->setTennisUtilisateur($utilisateurs[$faker->numberBetween(0,3)]);

@@ -30,23 +30,33 @@ class TennisTournoiController extends AbstractController
     }
 
     /**
-     * @Route("/inscrits", name="tennis_tournoi_index_inscrits", methods={"GET"})
-     */
-    public function indexInscrits(TennisTournoiRepository $tennisTournoiRepository): Response
-    {
-        return $this->render('tennis_tournoi/indexInscrit.html.twig', [
-            'tennis_tournois' => $tennisTournoiRepository->findAll(),
-        ]);
-    }
-
-    /**
      * @Route("/rechercher", name="tennis_tournoi_rechercher", methods={"GET"})
      */
     public function rechercher(TennisTournoiRepository $tennisTournoiRepository): Response
     {
-        return $this->render('tennis_tournoi/rechercher.html.twig', [
-            'tennis_tournois' => $tennisTournoiRepository->findAll(),
-        ]);
+      return $this->render('tennis_tournoi/indexRecherche.html.twig', [
+          'tennis_tournois' => $tennisTournoiRepository->findAll(),
+      ]);
+    }
+
+    /**
+     * @Route("/inscrits", name="tennis_tournoi_index_inscrits", methods={"GET"})
+     */
+    public function indexInscrits(TennisTournoiRepository $tennisTournoiRepository): Response
+    {
+      return $this->render('tennis_tournoi/indexInscrit.html.twig', [
+          'tennis_tournois' => $tennisTournoiRepository->findAll(),
+      ]);
+    }
+
+    /**
+     * @Route("/all", name="tennis_tournoi_tous", methods={"GET"})
+     */
+    public function afficherTousLesTournois(TennisTournoiRepository $tennisTournoiRepository): Response
+    {
+      return $this->render('tennis_tournoi/indexTousLesTournois.html.twig', [
+          'tennis_tournois' => $tennisTournoiRepository->findAll(),
+      ]);
     }
 
     /**
@@ -209,8 +219,12 @@ class TennisTournoiController extends AbstractController
 	  /**
      * @Route("/rechercher-tournoi/{id}", name="tennis_tournoi_afficher_tournoi_recherche")
      */
-    public function afficherTournoiRecherche(Request $request, TennisTournoi $tennisTournoi): Response
-    {
+    public function afficherTournoiRecherche(Request $request, TennisTournoi $tennisTournoi): Response {
+
+      if($tennisTournoi->getMotDePasse() == null){
+        
+      }
+
       $form = $this->createFormBuilder()
         ->add('mdp', PasswordType::class)
         ->getForm();

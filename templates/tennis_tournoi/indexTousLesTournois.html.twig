@@ -10,7 +10,7 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
   <div class="nav" id="navbarNav">
 	<ul class="nav navbar-nav">
-	  <li class="nav-item active">
+	  <li class="nav-item">
 	    <a class="nav-link" href="/tournois">Mes tournois (organisateur)</a>
 	  </li>
 	  <li class="nav-item">
@@ -19,7 +19,7 @@
 		<li class="nav-item">
 	    <a class="nav-link" href="/tournois/rechercher">S'inscrire à un tournoi</a>
 	  </li>
-		<li class="nav-item">
+		<li class="nav-item active">
 	    <a class="nav-link" href="/tournois/all">Tous les tournois</a>
 	  </li>
 	</ul>
@@ -32,42 +32,29 @@
         <thead>
             <tr>
                 <th>Nom</th>
-                <th>Date de début du tournoi</th>
+                <th>Date de debut du tournoi</th>
                 <th>Date de fin du tournoi</th>
                 <th>Statut</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-				{% set id = 1 %}
         {% for tennis_tournoi in tennis_tournois %}
+          {% if tennis_tournoi.estVisible %}
             <tr>
                 <td>{{ tennis_tournoi.nom }}</td>
                 <td>{{ tennis_tournoi.dateDebutTournoi ? tennis_tournoi.dateDebutTournoi|date('d-m-Y') : '' }}</td>
                 <td>{{ tennis_tournoi.dateFinTournoi ? tennis_tournoi.dateFinTournoi|date('d-m-Y') : '' }}</td>
                 <td>{{ tennis_tournoi.statut }}</td>
                 <td>
-                    <a id="{{ id }}" href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}" disabled><i class="far fa-eye" title="Voir"></i></a>
-										<a id="{{ id + 1 }}" href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users" title="Liste des inscrits"></i></a>
-										<a id="{{ id + 2 }}" href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol" title="Voir l'avancement"></i></a>
-                    <a id="{{ id + 3 }}" href="{{ path('tennis_tournoi_edit', {'id': tennis_tournoi.id}) }}"><i class="fas fa-pencil-alt" title="Modifier"></i></a>
-										<a id="{{ id + 4 }}" href="/tournois/supprimer/{{ tennis_tournoi.id }}"><i class="fas fa-trash-alt" title="Supprimer"></i></a>
+                    <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}"><i class="far fa-eye"></i></a>
+					          <a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users"></i></a>
+					          <a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol"></i></a>
                 </td>
-								<script>
-								{% if tennis_tournoi.statut == "Commencé" %}
-									document.getElementById("{{ id + 4 }}").style.pointerEvents = "none";
-									document.getElementById("{{ id + 4 }}").style.color = "grey";
-								{% endif %}
-                {% if tennis_tournoi.statut == "Terminé" %}
-									document.getElementById("{{ id + 3 }}").style.pointerEvents = "none";
-									document.getElementById("{{ id + 3 }}").style.color = "grey";
-								{% endif %}
-								</script>
-            </tr>
-						{% set id = id + 5 %}
+          {% endif %}
         {% else %}
             <tr>
-                <td colspan="19">Aucun tournoi crée</td>
+                <td colspan="19">Aucun tournoi dans l'application</td>
             </tr>
         {% endfor %}
         </tbody>
@@ -75,12 +62,6 @@
 </div>
 </div>
 </div>
-	<div class="row">
-		<div class="col-md-12">
-			<center><input type="button" class="btn btn-primary" onclick="window.location.href = 'new';" value="Creer un nouveau tournoi"></center>
-		</div>
-	</div>
-
 {% endblock %}
 {% block javascripts %}
 	{{ parent() }}

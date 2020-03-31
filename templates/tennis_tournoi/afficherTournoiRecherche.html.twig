@@ -17,7 +17,7 @@
             </tr>
             <tr>
                 <th>Genre</th>
-                <td>{{ tennis_tournoi.statut }}</td>
+                <td>{{ tennis_tournoi.genreHomme ? 'Homme' : 'Femme' }}</td>
             </tr>
             <tr>
                 <th>Catégorie d'âge</th>
@@ -35,49 +35,20 @@
                 <th>Type de surface des terrains</th>
                 <td>{{ tennis_tournoi.surface }}</td>
             </tr>
-             <tr>
-                <th>Visibilité</th>
-                <td>{{ tennis_tournoi.estVisible ? 'Public' : 'Privé' }}</td>
-            </tr>
-			      <tr>
-                <th>Mot de passe</th>
-                <td>{{ tennis_tournoi.motDePasse != null ? "Oui" : "Non" }}</td>
-            </tr>
           </table>
 			<center>
-			{% set profilValide = "true" %}
-			{% if app.user.dateNaissance == null %}
-				{% set profilValide = "date de naissance non renseignée (vous pouvez le définir sur votre profil)" %}
-			{% endif %}
-			{% if date().settime(0,0).diff(app.user.dateNaissance).days / 365 < tennis_tournoi.categorieAge|split('/')[0] or date().settime(0,0).diff(app.user.dateNaissance).days / 365 > tennis_tournoi.categorieAge|split('/')[1] %}
-				{% set profilValide = "le tournoi est déstiné aux " ~ tennis_tournoi.categorieAge ~ " ans" %}
-			{% endif %}
-			{% if app.user.genreHomme != tennis_tournoi.genreHomme %}
-				{% set profilValide = "le tournoi est déstiné aux " ~ (tennis_tournoi.genreHomme ? "Hommes" : "Femmes")  %}
-			{% endif %}
-			{% if app.user.genreHomme == null %}
-				{% set profilValide = "genre non défini (vous pouvez le définir sur votre profil)"  %}
-			{% endif %}
-			{% if tennis_tournoi.statut != "Phase d'incriptions" or tennis_tournoi.statut == null %}
-				{% set profilValide = "le tournoi n'est pas en phase d'inscriptions" %}
-			{% endif %}
-			{% if tennis_tournoi.inscriptionsManuelles %}
-				{% set profilValide = "l'organisateur souhaite inscrire les joueurs lui même" %}
-			{% endif %}
-			{% if tennis_tournoi.tennisUtilisateursParticipant|length >= tennis_tournoi.nbPlaces %}
-				{% set profilValide = "il n'y a plus de places disponibles pour ce tournoi" %}
-			{% endif %}
-			{% if profilValide == "true" %}
+		
 				{{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
-				{{ form_label(form.mdp,"Mot de passe (laisser vide si il n'y en a pas)") }}
-				{{ form_errors(form.mdp) }}
-				{{ form_widget(form.mdp) }}
-				<div class="pt-1">
-				<button class="btn btn-primary">Valider</button>
+				{% if tennis_tournoi.motDePasse != null %}
+					{{ form_label(form.mdp,"Mot de passe (laisser vide si il n'y en a pas)") }}
+					{{ form_errors(form.mdp) }}
+					{{ form_widget(form.mdp) }}
+				{% else %}
+					{{form_widget(form.mdp, {attr: {hidden: 'hidden'}})}}
+				{% endif %}
+					<div class="pt-1">
+					<button class="btn btn-primary">S'inscrire</button>
 				{{ form_end(form) }}
-			{% else %}
-				<h5> Vous ne pouvez pas vous inscrire à ce tournoi : {{ profilValide }}</h5>
-			{% endif %}
 			</center>
 		</div>
 		<div class="col-md-4">
