@@ -2,7 +2,7 @@
 
 {% block title %}Liste des tournois{% endblock %}
 
-{% block titre %}<h1><center>Liste des tournois inscrits</center></h1>{% endblock %}
+{% block titre %}<h1><center>Liste des tournois crées</center></h1>{% endblock %}
 {% block stylesheets %}
 	{{ parent() }}
 {% endblock %}
@@ -28,44 +28,34 @@
         <thead>
             <tr>
                 <th>Nom</th>
-                <th>Date de début du tournoi</th>
+                <th>Date de debut du tournoi</th>
                 <th>Date de fin du tournoi</th>
-                <th>Statut du tournoi</th>
-                <th>Statut de la demande</th>
+                <th>Statut</th>
                 <th>Actions</th>
             </tr>
         </thead>
-        <tbody>{% set listeTournois = [] %}
+        <tbody>
         {% for tennis_tournoi in tennis_tournois %}
-          {% if app.user in tennis_tournoi.tennisUtilisateursParticipant or app.user in tennis_tournoi.tennisUtilisateursDemandeInscription %}
-						{% set listeTournois = listeTournois|merge([tennis_tournoi]) %}
-					{% endif %}
-				{% endfor %}
-				{% for tennis_tournoi in listeTournois %}
+          {% if tennis_tournoi.estVisible %}
             <tr>
                 <td>{{ tennis_tournoi.nom }}</td>
                 <td>{{ tennis_tournoi.dateDebutTournoi ? tennis_tournoi.dateDebutTournoi|date('d-m-Y') : '' }}</td>
                 <td>{{ tennis_tournoi.dateFinTournoi ? tennis_tournoi.dateFinTournoi|date('d-m-Y') : '' }}</td>
                 <td>{{ tennis_tournoi.statut }}</td>
-                {% if app.user in tennis_tournoi.tennisUtilisateursParticipant %}
-                  <td> Participant </td>
-                {% elseif app.user in tennis_tournoi.tennisUtilisateursDemandeInscription %}
-                  <td> Demande en attente </td>
-                {% endif %}
                 <td>
-                    <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}"><i class="far fa-eye" title="Voir"></i></a>
-					          <a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users" title="Liste des inscrits"></i></a>
-					          <a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol" title="Voir l'avancement"></i></a>
-                    <a href="/tournois/desinscription/{{ tennis_tournoi.id }}/{{ app.user.id }}"><i class="far fa-times-circle" title="Se désinscire"></i></a>
+                    <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}"><i class="far fa-eye"></i></a>
+					          <a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users"></i></a>
+					          <a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol"></i></a>
                 </td>
-            </tr>
+          {% endif %}
         {% else %}
             <tr>
-                <td colspan="19">Vous êtes inscrit à aucun tournoi, inscrivez vous à des tournois <a href="/tournois/rechercher"> ici </a></td>
+                <td colspan="19">Aucun tournoi dans l'application</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+</div>
 </div>
 </div>
 {% endblock %}

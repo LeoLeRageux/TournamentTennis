@@ -9,10 +9,16 @@
 {% block body %}
 <ul class="nav">
   <li class="nav-item">
-    <a class="nav-link" href="/tournois">Tournois crées</a>
+    <a class="nav-link" href="/tournois">Mes tournois (organisateur)</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/tournois/inscrits">Tournois inscrits</a>
+    <a class="nav-link" href="/tournois/inscrits">Mes tournois (joueur)</a>
+  </li>
+	<li class="nav-item">
+    <a class="nav-link" href="/tournois/rechercher">S'inscrire à un tournoi</a>
+  </li>
+	<li class="nav-item">
+    <a class="nav-link" href="/tournois/all">Tous les tournois</a>
   </li>
 </ul>
 <div class="card shadow mb-4">
@@ -35,40 +41,24 @@
                 <td>{{ tennis_tournoi.dateDebutTournoi ? tennis_tournoi.dateDebutTournoi|date('d-m-Y') : '' }}</td>
                 <td>{{ tennis_tournoi.dateFinTournoi ? tennis_tournoi.dateFinTournoi|date('d-m-Y') : '' }}</td>
                 <td>{{ tennis_tournoi.statut }}</td>
-                {% if tennis_tournoi.statut == "Commencé" %}
                 <td>
-                    <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}"><i class="far fa-eye" title="Voir"></i></a>
-					-
-					<a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users" title="Liste des inscrits"></i></a>
-					-
-					<a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol" title="Voir l'avancement"></i></a>
-					-
-                    <a href="{{ path('tennis_tournoi_edit', {'id': tennis_tournoi.id}) }}"><i class="fas fa-pencil-alt" title="Modifier"></i></a>
+                    <a id="1" href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}" disabled><i class="far fa-eye" title="Voir"></i></a>
+										<a id="2" href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users" title="Liste des inscrits"></i></a>
+										<a id="3" href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol" title="Voir l'avancement"></i></a>
+                    <a id="4" href="{{ path('tennis_tournoi_edit', {'id': tennis_tournoi.id}) }}"><i class="fas fa-pencil-alt" title="Modifier"></i></a>
+										<a id="5" href="/tournois/supprimer/{{ tennis_tournoi.id }}"><i class="fas fa-trash-alt" title="Supprimer"></i></a>
                 </td>
+								{% if tennis_tournoi.statut == "Commencé" %}
+								<script>
+									document.getElementById("5").style.pointerEvents = "none";
+									document.getElementById("5").style.color = "grey";
+								</script>
                 {% elseif tennis_tournoi.statut == "Terminé" %}
-                <td>
-                    <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}"><i class="far fa-eye" title="Voir"></i></a>
-					-
-					<a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users" title="Liste des inscrits"></i></a>
-					-
-					<a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol" title="Voir l'avancement"></i></a>
-					-
-                    <a href="/tournois/supprimer/{{ tennis_tournoi.id }}"><i class="fas fa-trash-alt" title="Supprimer"></i></a>
-
-                </td>
-                {% else %}
-                <td>
-                    <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}"><i class="far fa-eye" title="Voir"></i></a>
-					-
-					<a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users" title="Liste des inscrits"></i></a>
-					-
-					<a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol" title="Voir l'avancement"></i></a>
-					-
-                    <a href="{{ path('tennis_tournoi_edit', {'id': tennis_tournoi.id}) }}"><i class="fas fa-pencil-alt" title="Modifier"></i></a>
-					-
-					<a href="/tournois/supprimer/{{ tennis_tournoi.id }}"><i class="fas fa-trash-alt" title="Supprimer"></i></a>
-                </td>
-							{% endif %}
+								<script>
+									document.getElementById("4").style.pointerEvents = "none";
+									document.getElementById("4").style.color = "grey";
+								</script>
+								{% endif %}
             </tr>
         {% else %}
             <tr>
@@ -82,8 +72,7 @@
 </div>
 	<div class="row">
 		<div class="col-md-12">
-	<center><input type="button" class="btn btn-primary" onclick="window.location.href = 'new';" value="Créer un nouveau tournoi">
-    <input type="button" onclick="window.location.href = 'rechercher';" value="Rechercher un tournoi" class="btn btn-primary"></center>
+			<center><input type="button" class="btn btn-primary" onclick="window.location.href = 'new';" value="Creer un nouveau tournoi"></center>
 		</div>
 	</div>
 

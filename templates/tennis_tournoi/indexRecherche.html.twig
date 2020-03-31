@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des tournois{% endblock %}
+{% block title %}Rechercher un tournoi{% endblock %}
 
-{% block titre %}<h1><center>Liste des tournois inscrits</center></h1>{% endblock %}
+{% block titre %}<h1><center>Liste des tournois</center></h1>{% endblock %}
 {% block stylesheets %}
 	{{ parent() }}
 {% endblock %}
@@ -28,44 +28,51 @@
         <thead>
             <tr>
                 <th>Nom</th>
-                <th>Date de début du tournoi</th>
-                <th>Date de fin du tournoi</th>
-                <th>Statut du tournoi</th>
-                <th>Statut de la demande</th>
+                <th>Adresse</th>
+                <th>Catégorie d'âge</th>
+                <th>Genre</th>
+                <th>Date de début</th>
+                <th>Mot de passe</th>
+                <th>Statut</th>
                 <th>Actions</th>
             </tr>
         </thead>
-        <tbody>{% set listeTournois = [] %}
+        <tbody>
+				{% set listeTournois = [] %}
         {% for tennis_tournoi in tennis_tournois %}
-          {% if app.user in tennis_tournoi.tennisUtilisateursParticipant or app.user in tennis_tournoi.tennisUtilisateursDemandeInscription %}
+					{% if
+					tennis_tournoi.estVisible and
+					tennis_tournoi.tennisUtilisateur != app.user and
+					app.user not in tennis_tournoi.tennisUtilisateursParticipant and
+					app.user not in tennis_tournoi.tennisUtilisateursDemandeInscription and
+					tennis_tournoi.statut == "Phase d'inscriptions" and
+					date().settime(0,0).diff(app.user.dateNaissance).days / 365 < tennis_tournoi.categorieAge|split('/')[0] or
+					date().settime(0,0).diff(app.user.dateNaissance).days / 365 > tennis_tournoi.categorieAge|split('/')[1] and
+					tennis_tournoi.inscriptionsManuelles == false and
+					tennis_tournoi.tennisUtilisateursParticipant|length >= tennis_tournoi.nbPlaces
+					%}
 						{% set listeTournois = listeTournois|merge([tennis_tournoi]) %}
 					{% endif %}
 				{% endfor %}
 				{% for tennis_tournoi in listeTournois %}
             <tr>
-                <td>{{ tennis_tournoi.nom }}</td>
+                <td>{{ tennis_tournoi.nom }} {{ app.request.pathinfo }}</td>
+                <td>{{ tennis_tournoi.adresse }}</td>
+                <td>{{ tennis_tournoi.categorieAge }}</td>
+                <td>{{ tennis_tournoi.genreHomme == 1 ? "Homme" : "Femme" }}</td>
                 <td>{{ tennis_tournoi.dateDebutTournoi ? tennis_tournoi.dateDebutTournoi|date('d-m-Y') : '' }}</td>
-                <td>{{ tennis_tournoi.dateFinTournoi ? tennis_tournoi.dateFinTournoi|date('d-m-Y') : '' }}</td>
+                <th>{{ tennis_tournoi.motDePasse != null ? "Oui" : "Non" }}</th>
                 <td>{{ tennis_tournoi.statut }}</td>
-                {% if app.user in tennis_tournoi.tennisUtilisateursParticipant %}
-                  <td> Participant </td>
-                {% elseif app.user in tennis_tournoi.tennisUtilisateursDemandeInscription %}
-                  <td> Demande en attente </td>
-                {% endif %}
-                <td>
-                    <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}"><i class="far fa-eye" title="Voir"></i></a>
-					          <a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users" title="Liste des inscrits"></i></a>
-					          <a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol" title="Voir l'avancement"></i></a>
-                    <a href="/tournois/desinscription/{{ tennis_tournoi.id }}/{{ app.user.id }}"><i class="far fa-times-circle" title="Se désinscire"></i></a>
-                </td>
+                <td><a href="{{ path('tennis_tournoi_afficher_tournoi_recherche', {'id': tennis_tournoi.id}) }}"><i class="far fa-eye"></i></a></td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="19">Vous êtes inscrit à aucun tournoi, inscrivez vous à des tournois <a href="/tournois/rechercher"> ici </a></td>
+                <td colspan="19">Aucun tournoi ne correspond à votre profil : modifiez le <a href="/tennis/utilisateur/profil/{{ app.user.id }}"> ici </a></td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+</div>
 </div>
 </div>
 {% endblock %}
