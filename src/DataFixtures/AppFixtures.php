@@ -41,6 +41,7 @@ class AppFixtures extends Fixture
     $thomas->setDateNaissance(new DateTime('12/07/1998'));
 		$thomas->setTelephone("0658421541");
 		$thomas->setNiveau("30/1");
+    $thomas->setGenreHomme(true);
 		$manager->persist($thomas);
 
 		$hugo = new TennisUtilisateur();
@@ -52,6 +53,7 @@ class AppFixtures extends Fixture
     $hugo->setDateNaissance(new DateTime('12/07/1998'));
 		$hugo->setTelephone("0657002148");
 		$hugo->setNiveau("30/1");
+    $hugo->setGenreHomme(true);
 		$manager->persist($hugo);
 
 		$matthieu = new TennisUtilisateur();
@@ -63,6 +65,7 @@ class AppFixtures extends Fixture
     $matthieu->setDateNaissance(new DateTime('05/31/1999'));
 		$matthieu->setTelephone("0610024120");
 		$matthieu->setNiveau("30/1");
+    $matthieu->setGenreHomme(true);
 		$manager->persist($matthieu);
 
     $utilisateurs = [$leo, $thomas, $hugo, $matthieu];
