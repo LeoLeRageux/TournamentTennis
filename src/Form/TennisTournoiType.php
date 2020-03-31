@@ -11,14 +11,14 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 
 
 class TennisTournoiType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        
+
         $builder
             ->add('nom')
             ->add('adresse')
@@ -36,9 +36,9 @@ class TennisTournoiType extends AbstractType
                 'choices'  => array(
                     'Oui' => true,
                     'Non' => false,),
-                'help' => 'Les non-inscrits au tournoi ne pourront pas voir les détails du tournoi (inscrits, gagnant, résultats des matchs ...).',
+                    'help' => 'un tournoi non visible n\'apparaît pas dans le moteur de recherche de tournois de l\'application',
                 ))
-                
+
             ->add('surface', ChoiceType::class, array(
                 'choices'  => array(
                     'Dur' => "dur",
@@ -56,7 +56,7 @@ class TennisTournoiType extends AbstractType
                     '35+' => "35",
                     '40+' => "40",
                     '45+' => "45",
-                    '50+' => "50",    
+                    '50+' => "50",
                     '55+' => "55",
                     '60+' => "60",
                     '65+' => "65",
@@ -66,9 +66,11 @@ class TennisTournoiType extends AbstractType
             ->add('genreHomme',ChoiceType::class, array(
                 'choices'  => array(
                     'Tournoi Homme' => true,
-                    'Tournoi Femme' => false,)))
-
-            ->add('description',TextareaType::class)
+                    'Tournoi Femme' => false,))
+                    )
+            ->add('description',TextareaType::class, array(
+                'required' => false
+                ))
             ->add('dateDebutInscriptions', DateType::class,[
                 'widget' => 'choice',
                 'years' => range(date('Y'), date('Y')+10),
@@ -83,20 +85,20 @@ class TennisTournoiType extends AbstractType
                 'choices'  => array(
                     'Oui' => true,
                     'Non' => false,),
-                'help' => "L'inscription des joueurs peut être faîte manuellement par le créateur du tournoi.",
+                'help' => "Si oui, les joueurs peuvent s'inscrire d'eux même",
             ))
             ->add('nbPlaces')
             ->add('motDePasse', PasswordType::class , [
                 'required' => false, // Règle de gestion : mot de passe pas nécessaire, (vide si pas de mdp)
                 'help' => 'Laisser vide si vous ne souhaitez pas de mot de passe.',
             ])
-            
+
 
             ->add('validationInscriptions', ChoiceType::class, array(
                 'choices'  => array(
                     'Oui' => true,
                     'Non' => false,),
-                'help' => "L'organisateur pourra accepter/refuser les demandes d'inscriptions" ,
+                'help' => "Si non, l'organisateur peut tout de même désincrire des joueurs",
             ))
             ->add('nbSetsGagnants', ChoiceType::class, array(
                 'choices'  => array(

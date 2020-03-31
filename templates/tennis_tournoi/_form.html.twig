@@ -15,7 +15,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-6">
-			
+
                         <form role="form">
 
 		<div class="form-group">
@@ -71,12 +71,12 @@
                         {{ form_label(form.genreHomme,'Genre') }}
                         {{ form_widget(form.genreHomme) }}
                 </div>
-                
+
                 <div class="form-group">
                         {{ form_label(form.description,'Description ')}}
                         {{ form_errors(form.description)}}
-                        {{ form_widget(form.description) }}
-                </div> 
+                        {{ form_widget(form.description)}}
+                </div>
 		</div>
 
 		<div class="col-md-6">
@@ -97,33 +97,29 @@
                         {{ form_help(form.inscriptionsManuelles) }}
 				</div>
                 <div class="form-group">
-                        {{ form_label(form.nbPlaces,'Nombre de joueurs ')}}
+                        {{ form_label(form.nbPlaces,'Nombre d’inscrits maximum ')}}
                         {{ form_errors(form.nbPlaces)}}
                         {{ form_widget(form.nbPlaces) }}
 				</div>
                 <div class="form-group">
-                        {{ form_label(form.motDePasse,'Je veux que les joueurs saisissent un mot de passe pour participer à mon tournoi')}}
+                        {{ form_label(form.motDePasse,'Les joueurs doivent saisir ce mot de passe ')}}
                         {{ form_errors(form.motDePasse)}}
                         {{ form_widget(form.motDePasse) }}
                         {{ form_help(form.motDePasse) }}
 				</div>
                 <div class="form-group">
-                        {{ form_label(form.validationInscriptions,'Je veux valider les inscriptions à mon tournoi')}}
+                        {{ form_label(form.validationInscriptions,'Les inscriptions doivent être validées par l’organisateur ')}}
                         {{ form_errors(form.validationInscriptions)}}
                         {{ form_widget(form.validationInscriptions) }}
                         {{ form_help(form.validationInscriptions) }}
 				</div>
-                        <button class="btn btn-primary">{{ button_label|default('Valider') }}</button>
+                        <button class="btn btn-primary">{{ button_label|default('Créer le tournoi') }}</button>
 			</form>
-                               
 
-            
+
+
 		</div>
 
 	</div>
 </div>
 {{ form_end(form) }}
-
-                
-
-

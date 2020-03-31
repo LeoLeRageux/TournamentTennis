@@ -43,36 +43,36 @@
                 <td>{{ tennis_tournoi.statut }}</td>
                 {% if tennis_tournoi.statut == "Commencé" %}
                 <td>
-                    <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}"><i class="far fa-eye"></i></a>
+                    <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}"><i class="far fa-eye" title="Voir"></i></a>
 					-
-					<a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users"></i></a>
+					<a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users" title="Liste des inscrits"></i></a>
 					-
-					<a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol"></i></a>
+					<a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol" title="Voir l'avancement"></i></a>
 					-
-                    <a href="{{ path('tennis_tournoi_edit', {'id': tennis_tournoi.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                    <a href="{{ path('tennis_tournoi_edit', {'id': tennis_tournoi.id}) }}"><i class="fas fa-pencil-alt" title="Modifier"></i></a>
                 </td>
                 {% elseif tennis_tournoi.statut == "Terminé" %}
                 <td>
-                    <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}"><i class="far fa-eye"></i></a>
+                    <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}"><i class="far fa-eye" title="Voir"></i></a>
 					-
-					<a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users"></i></a>
+					<a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users" title="Liste des inscrits"></i></a>
 					-
-					<a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol"></i></a>
+					<a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol" title="Voir l'avancement"></i></a>
 					-
-                    <a href="/tournois/supprimer/{{ tennis_tournoi.id }}"><i class="fas fa-trash-alt"></i></a>
+                    <a href="/tournois/supprimer/{{ tennis_tournoi.id }}"><i class="fas fa-trash-alt" title="Supprimer"></i></a>
 
                 </td>
                 {% else %}
                 <td>
-                    <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}"><i class="far fa-eye"></i></a>
+                    <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}"><i class="far fa-eye" title="Voir"></i></a>
 					-
-					<a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users"></i></a>
+					<a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users" title="Liste des inscrits"></i></a>
 					-
-					<a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol"></i></a>
+					<a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol" title="Voir l'avancement"></i></a>
 					-
-                    <a href="{{ path('tennis_tournoi_edit', {'id': tennis_tournoi.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                    <a href="{{ path('tennis_tournoi_edit', {'id': tennis_tournoi.id}) }}"><i class="fas fa-pencil-alt" title="Modifier"></i></a>
 					-
-					<a href="/tournois/supprimer/{{ tennis_tournoi.id }}"><i class="fas fa-trash-alt"></i></a>
+					<a href="/tournois/supprimer/{{ tennis_tournoi.id }}"><i class="fas fa-trash-alt" title="Supprimer"></i></a>
                 </td>
 							{% endif %}
             </tr>
