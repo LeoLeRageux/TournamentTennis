@@ -57,7 +57,7 @@
 	        <tbody>
 	        {% for tennis_tour in tennis_tours %}
 	            <tr>
-	                {% if tennis_tour.type == "Intermédiaire" %}
+	                {% if tennis_tour.type == "Intermédiaire" or tennis_tour.type == "Intermediaire" %}
 	                    <td>Tour {{ tennis_tour.numero }}</td>
 	                {% else %}
 	                    <td>{{ tennis_tour.type }}</td>
