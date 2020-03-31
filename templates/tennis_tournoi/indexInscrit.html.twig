@@ -9,10 +9,10 @@
 {% block body %}
 <ul class="nav">
   <li class="nav-item">
-    <a class="nav-link" href="/tournois">Tournois crées</a>
+    <a class="nav-link" href="/tournois">Mes tournois (organisateur)</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/tournois/inscrits">Tournois inscrits</a>
+    <a class="nav-link" href="/tournois/inscrits">Mes tournois (joueur)</a>
   </li>
 	<li class="nav-item">
     <a class="nav-link" href="/tournois/rechercher">S'inscrire à un tournoi</a>
@@ -54,11 +54,8 @@
                 {% endif %}
                 <td>
                     <a href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}"><i class="far fa-eye" title="Voir"></i></a>
-					          -
 					          <a href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users" title="Liste des inscrits"></i></a>
-					          -
 					          <a href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol" title="Voir l'avancement"></i></a>
-                    -
                     <a href="/tournois/desinscription/{{ tennis_tournoi.id }}/{{ app.user.id }}"><i class="far fa-times-circle" title="Se désinscire"></i></a>
                 </td>
             </tr>
