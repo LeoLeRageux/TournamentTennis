@@ -35,6 +35,7 @@
             </tr>
         </thead>
         <tbody>
+				{% set id = 1 %}
         {% for tennis_tournoi in tennis_tournois %}
             <tr>
                 <td>{{ tennis_tournoi.nom }}</td>
@@ -42,24 +43,24 @@
                 <td>{{ tennis_tournoi.dateFinTournoi ? tennis_tournoi.dateFinTournoi|date('d-m-Y') : '' }}</td>
                 <td>{{ tennis_tournoi.statut }}</td>
                 <td>
-                    <a id="1" href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}" disabled><i class="far fa-eye" title="Voir"></i></a>
-										<a id="2" href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users" title="Liste des inscrits"></i></a>
-										<a id="3" href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol" title="Voir l'avancement"></i></a>
-                    <a id="4" href="{{ path('tennis_tournoi_edit', {'id': tennis_tournoi.id}) }}"><i class="fas fa-pencil-alt" title="Modifier"></i></a>
-										<a id="5" href="/tournois/supprimer/{{ tennis_tournoi.id }}"><i class="fas fa-trash-alt" title="Supprimer"></i></a>
+                    <a id="{{ id }}" href="{{ path('tennis_tournoi_show', {'id': tennis_tournoi.id}) }}" disabled><i class="far fa-eye" title="Voir"></i></a>
+										<a id="{{ id + 1 }}" href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}"><i class="fas fa-users" title="Liste des inscrits"></i></a>
+										<a id="{{ id + 2 }}" href="/tours/tours-tournoi/{{ tennis_tournoi.id }}"><i class="fas fa-list-ol" title="Voir l'avancement"></i></a>
+                    <a id="{{ id + 3 }}" href="{{ path('tennis_tournoi_edit', {'id': tennis_tournoi.id}) }}"><i class="fas fa-pencil-alt" title="Modifier"></i></a>
+										<a id="{{ id + 4 }}" href="/tournois/supprimer/{{ tennis_tournoi.id }}"><i class="fas fa-trash-alt" title="Supprimer"></i></a>
                 </td>
+								<script>
 								{% if tennis_tournoi.statut == "Commencé" %}
-								<script>
-									document.getElementById("5").style.pointerEvents = "none";
-									document.getElementById("5").style.color = "grey";
-								</script>
-                {% elseif tennis_tournoi.statut == "Terminé" %}
-								<script>
-									document.getElementById("4").style.pointerEvents = "none";
-									document.getElementById("4").style.color = "grey";
-								</script>
+									document.getElementById("{{ id + 4 }}").style.pointerEvents = "none";
+									document.getElementById("{{ id + 4 }}").style.color = "grey";
 								{% endif %}
+                {% if tennis_tournoi.statut == "Terminé" %}
+									document.getElementById("{{ id + 3 }}").style.pointerEvents = "none";
+									document.getElementById("{{ id + 3 }}").style.color = "grey";
+								{% endif %}
+								</script>
             </tr>
+						{% set id = id + 5 %}
         {% else %}
             <tr>
                 <td colspan="19">Aucun tournoi crée</td>
