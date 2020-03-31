@@ -257,8 +257,11 @@ class TennisTournoiController extends AbstractController
        $form->handleRequest($request);
 
        if ($form->isSubmitted()) { //&& $form->isValid()
-          $this->getDoctrine()->getManager()->flush();
-          return $this->redirectToRoute('tennis_tournoi_inscrire_utilisateur', ['id' => $tennisTournoi->getId()]);
+            $nbJoueurs = count($form->getData()->getTennisUtilisateursParticipant()->toArray());
+            if($nbJoueurs <= $tennisTournoi->getNbPlaces() - count($tennisTournoi->getTennisUtilisateursParticipant()->toArray())){
+              $this->getDoctrine()->getManager()->flush();
+              return $this->redirectToRoute('tennis_tournoi_inscrire_utilisateur', ['id' => $tennisTournoi->getId()]);
+          }
        }
 
        return $this->render('tennis_tournoi/inscrireUtilisateur.html.twig', [
