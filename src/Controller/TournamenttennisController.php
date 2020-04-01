@@ -52,12 +52,4 @@ class TournamenttennisController extends AbstractController
         return $this->render('tournamenttennis\changement_de_date.html.twig');
     }
 
-    /**
-     * @Route("/creer-compte", name="creation_compte")
-     */
-    public function creerCompte()
-    {
-        return $this->render('tournamenttennis/creer_compte.html.twig');
-    }
-
 }
