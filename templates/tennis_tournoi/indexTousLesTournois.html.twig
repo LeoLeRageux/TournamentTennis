@@ -1,36 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des tournois{% endblock %}
+{% block title %} TournamentTennis - Liste de tous les tournois{% endblock %}
 
-{% block titre %}<h1><center>Liste des tournois crées</center></h1>{% endblock %}
+{% block titre %}<h1><center>Liste de tous les tournois</center></h1>{% endblock %}
 {% block stylesheets %}
 	{{ parent() }}
 {% endblock %}
 {% block body %}
-<nav class="navbar navbar-expand-sm navbar-light bg-light">
-  <div class="nav" id="navbarNav">
-	<ul class="nav navbar-nav">
-	  <li class="nav-item">
-	    <a class="nav-link" href="/tournois">Mes tournois (organisateur)</a>
-	  </li>
-	  <li class="nav-item">
-	    <a class="nav-link" href="/tournois/inscrits">Mes tournois (joueur)</a>
-	  </li>
-		<li class="nav-item">
-	    <a class="nav-link" href="/tournois/rechercher">S'inscrire à un tournoi</a>
-	  </li>
-		<li class="nav-item active">
-	    <a class="nav-link" href="/tournois/all">Tous les tournois</a>
-	  </li>
-	</ul>
-  </div>
-</nav>
-<div class="card shadow mb-4">
-            <div class="card-body">
+<ul class="nav nav-tabs">
+	<li class="nav-item ">
+		<a class="nav-link" href="/tournois">Les tournois que vous organisez</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link" href="/tournois/inscrits">Les tournois auxquels vous participez</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link" href="/tournois/rechercher">S'inscrire à un tournoi</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link active" href="/tournois/all">Tous les tournois</a>
+	</li>
+</ul>
+</br>
 <div class="table-responsive">
-    <table class="display" id="myTable">
+    <table class="table table-striped table-bordered" id="myTable">
         <thead>
-            <tr>
+            <tr class="table-primary">
                 <th>Nom</th>
                 <th>Date de debut du tournoi</th>
                 <th>Date de fin du tournoi</th>
@@ -65,13 +60,16 @@
 {% endblock %}
 {% block javascripts %}
 	{{ parent() }}
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
-	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 	<script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/plug-ins/1.10.20/sorting/date-eu.js"></script>
 	<script>
 		$(document).ready(function() {
 		$('#myTable').DataTable({
+			info: false,
+
 		"language": {"url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"},
 		columnDefs: [
 					{"sType": "date-eu", targets: 1},

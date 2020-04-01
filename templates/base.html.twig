@@ -9,7 +9,7 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 		<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
   	{% endblock %}
-
+    <link rel="icon" href="{{asset('/image/logo2.ico')}}" />
     </head>
     <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -27,13 +27,13 @@
   <ul class="navbar-nav ml-md-auto">
 <div class="row">
          {% block utilisateur %}
-         <li class="nav-item active">
+         <li class="nav-item">
             <a class="nav-link" href="{{path('tennis_utilisateur_show',{'id':app.user.id})}}">
             <i class="fas fa-user"></i>  {{ app.user.prenom }} {{ app.user.nom }} </a>
             <span class="sr-only">(current)</span></a>
           </li>
 
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="{{path('app_logout')}}">  Déconnexion  </a>
             <span class="sr-only">(current)</span></a>
             </li>
@@ -52,7 +52,7 @@
 		<div class="col-4">
 		</div>
 		</div>
-		<div class="row">
+		<div class="row" style="margin-top:15px;">
 		<div class="col-12">
       <div class="card shadow">
          <div class="card-body">
