@@ -3,19 +3,19 @@
 {% block title %}Liste des inscrits de {{ tennis_tournoi.nom }} {% endblock %}
 {% block titre %}<center><h1>Liste des inscrits du tournoi {{ tennis_tournoi.nom }}</h1></center> {% endblock %}
 {% block body %}
-<ul class="nav">
-  <li class="nav-item">
-    <a class="nav-link" href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}">Liste des inscrits</a>
-  </li>
-  {% if tennis_tournoi.statut == "Phase d'incriptions" and tennis_tournoi.tennisUtilisateur == app.user%}
-  <li class="nav-item">
-    <a class="nav-link" href="#">Demandes d'inscriptions</a>
-  </li>
-  {% endif %}
+<ul class="nav nav-tabs">
+<li class="nav-item">
+  <a id="1" class="nav-link" href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}">Liste des inscrits</a>
+</li>
+{% if tennis_tournoi.statut == "Phase d'incriptions" and tennis_tournoi.tennisUtilisateur == app.user%}
+<li class="nav-item">
+  <a id="2" class="nav-link" href="#">Demandes d'inscriptions</a>
+</li>
+{% endif %}
 </ul>
-  <div class="card shadow mb-4">
-              <div class="card-body">
-  <div class="table-responsive">
+<div class="card shadow mb-4">
+<div class="card-body">
+<div class="table-responsive">
       <table class="display" id="myTable">
           <thead>
               <tr>

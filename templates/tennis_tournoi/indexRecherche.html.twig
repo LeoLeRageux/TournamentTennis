@@ -2,24 +2,24 @@
 
 {% block title %}Rechercher un tournoi{% endblock %}
 
-{% block titre %}<h1><center>Liste des tournois</center></h1>{% endblock %}
+{% block titre %}<h1><center>Liste des tournois ou vous pouvez vous inscrire</center></h1>{% endblock %}
 {% block stylesheets %}
 	{{ parent() }}
 {% endblock %}
 {% block body %}
-<ul class="nav">
-  <li class="nav-item">
-    <a class="nav-link" href="/tournois">Mes tournois (organisateur)</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="/tournois/inscrits">Mes tournois (joueur)</a>
-  </li>
+<ul class="nav nav-tabs">
+	<li class="nav-item ">
+		<a class="nav-link" href="/tournois">Mes tournois (organisateur)</a>
+	</li>
 	<li class="nav-item">
-    <a class="nav-link" href="/tournois/rechercher">S'inscrire à un tournoi</a>
-  </li>
+		<a class="nav-link" href="/tournois/inscrits">Mes tournois (joueur)</a>
+	</li>
 	<li class="nav-item">
-    <a class="nav-link" href="/tournois/all">Tous les tournois</a>
-  </li>
+		<a class="nav-link active" href="/tournois/rechercher">S'inscrire à un tournoi</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link" href="/tournois/all">Tous les tournois</a>
+	</li>
 </ul>
 <div class="card shadow mb-4">
             <div class="card-body">
