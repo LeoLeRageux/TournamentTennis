@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
 class TennisUtilisateurType extends AbstractType
@@ -18,7 +19,12 @@ class TennisUtilisateurType extends AbstractType
             //->add('password')  -> affiche le mdp crypté
             ->add('nom')
             ->add('prenom')
-            ->add('genreHomme')
+            ->add('genreHomme', ChoiceType::class, array(
+                'label' => 'Genre',
+                'choices'  => array(
+                    'Homme' => true,
+                    'Femme' => false,),
+                ))
             ->add('dateNaissance',DateType::class,[
                 'widget' => 'choice',
                 'years' => range(date('Y'), date('Y')-100),
