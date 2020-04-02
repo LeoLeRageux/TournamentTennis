@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\TennisTournoi;
+use App\Entity\TennisUtilisateur;
 use App\Form\TennisTournoiType;
 use App\Form\TennisTournoiDateFin;
 use App\Form\TennisTournoiDateDebut;
@@ -206,9 +207,15 @@ class TennisTournoiController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         if($tennisTournoi->getStatut() == "Non Commencé"){
-          $tennisTournoi->setStatut("Phase d'incriptions");
-        } else if($tennisTournoi->getStatut() == "Phase d'incriptions"){
-          $tennisTournoi->setStatut("Commencé");
+          $tennisTournoi->setStatut("Phase d'inscriptions");
+        } else if($tennisTournoi->getStatut() == "Phase d'inscriptions"){
+          $tours = $tennisTournoi->getTennisTours()->toArray();
+          $nbTours = count($tours);
+          if($nbTours > 0){
+              $tennisTournoi->setStatut("Commencé");
+              $tennisTournoi->setDateDebutTournoi(new \dateTime());
+              $tours[0]->setStatut("Commencé");
+          }
         } else if($tennisTournoi->getStatut() == "Commencé"){
             $tennisTournoi->setStatut("Terminé");
         }
@@ -222,7 +229,7 @@ class TennisTournoiController extends AbstractController
     public function afficherTournoiRecherche(Request $request, TennisTournoi $tennisTournoi): Response {
 
       if($tennisTournoi->getMotDePasse() == null){
-        
+
       }
 
       $form = $this->createFormBuilder()

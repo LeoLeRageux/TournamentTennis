@@ -17,7 +17,7 @@ class AppFixtures extends Fixture
         $faker = \Faker\Factory::create('fr_FR'); // create a French faker
 
         // On crée un Tournoi
-		$tableauStatutTournoi = array("Non Commencé", "Phase d'incriptions", "Commencé", "Terminé");
+		$tableauStatutTournoi = array("Non Commencé", "Phase d'inscriptions", "Commencé", "Terminé");
 		$listeSurfaces = array("Dur", "Gazon", "Terre Battue", "Indoor");
 
 		$leo = new TennisUtilisateur();
@@ -167,7 +167,7 @@ class AppFixtures extends Fixture
 			$tournoi->setDateDebuttournoi($faker->dateTimeBetween($startDate = '+2 month', $endDate = '+3 month', $timezone = null));
 			$tournoi->setDateFintournoi($faker->dateTimeBetween($startDate = '+3 month', $endDate = '+4 month', $timezone = null));
 		}
-		else if($tournoi->getStatut() == "Phase d'incriptions"){
+		else if($tournoi->getStatut() == "Phase d'inscriptions"){
 			$tournoi->setDateDebutInscriptions($faker->dateTimeBetween($startDate = '-1 month', $endDate = 'now', $timezone = null));
 			$tournoi->setDateFinInscriptions($faker->dateTimeBetween($startDate = 'now', $endDate = '+1 month', $timezone = null));
 			$tournoi->setDateDebuttournoi($faker->dateTimeBetween($startDate = '+1 month', $endDate = '+2 month', $timezone = null));
@@ -188,7 +188,7 @@ class AppFixtures extends Fixture
 
         $manager->persist($tournoi);
         // Ajout de tours dans ce Tournoi (sauf s tournoi non commencé ou en phase d'inscriptions (pas possible de creer de tour & matchs)
-		if($tournoi->getStatut() != "Non Commencé" && $tournoi->getStatut() != "Phase d'incriptions"){
+		if($tournoi->getStatut() != "Non Commencé" && $tournoi->getStatut() != "Phase d'inscriptions"){
 			$tableauStatutTour = array("Terminé", "Commencé", "Organisation");
             for($i=1; $i<=3; $i++){
                 $tour = new TennisTour();
