@@ -39,20 +39,15 @@
                 <td>{{ tennis_match.etat }}</td>
                 {% endif %}
 				<td>
-					<a id="{{ id }}" href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}"><i class="far fa-eye"></i></a>
-					-
-					<a id="{{ id + 1 }}" href="{{path('tennis_match_notifier_joueurs', {'id' : tennis_match.id})}}">Notifier les joueurs</a>
-					-
-					<a id="{{ id + 2 }}" href="{{path('tennis_match_edit', {'id' : tennis_match.id})}}">Modifier les joueurs</a>
-					-
+					<a id="{{ id }}" href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}" title="Voir les détails du match"><i class="far fa-eye"></i></a>
+					<a id="{{ id + 1 }}" href="{{path('tennis_match_notifier_joueurs', {'id' : tennis_match.id})}}" title="Notifier les joueurs"><i class="far fa-envelope"></i></a>
+					<a id="{{ id + 2 }}" href="{{path('tennis_match_edit', {'id' : tennis_match.id})}}" title="Modifier les joueurs"><i class="fas fa-pencil-alt"></i></a>
 					{% if tennis_match.etat != "Terminé" %}
-					<a id="{{ id + 3 }}" href="{{ path('tennis_match_saisir_resultat', {'id': tennis_match.id}) }}">Saisir les resultats</a>
+					<a id="{{ id + 3 }}" href="{{ path('tennis_match_saisir_resultat', {'id': tennis_match.id}) }}" title="Saisir les résultats"><i class="far fa-clipboard"></i></a>
 					{% else %}
-					<a id="{{ id + 3 }}" href="{{path('tennis_match_modifier_resultat', {'id' : tennis_match.id})}}">Modifier le resultat</a>
+					<a id="{{ id + 3 }}" href="{{path('tennis_match_modifier_resultat', {'id' : tennis_match.id})}}" title="Modifier les résultats"><i class="far fa-clipboard"></i></a>
 					{% endif %}
-					-
-					<a id="{{ id + 4 }}" href="">Eliminer un joueur</a>
-					-
+					<a id="{{ id + 4 }}" href="" title="Eliminer un joueur"><i class="far fa-times-circle"></i></a>
 					<a id="{{ id + 5 }}" href="{{ path('tennis_match_supprimer', {'id': tennis_match.id}) }}"><i class="fas fa-trash-alt"></i></a>
 				</td>
 				<script>
