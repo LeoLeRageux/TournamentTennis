@@ -297,4 +297,30 @@ class TennisMatchController extends AbstractController
             'utilisateurs' => $tennisMatch
         ]);
       }
+
+      /**
+       * @Route("/eliminer-perdant/{id}", name="tennis_match_eliminer_perdant")
+       */
+       public function eliminerPerdant(TennisMatch $tennisMatch){
+         $nbSetsJ1 = 0;
+         $nbSetsJ2 = 0;
+         foreach($tennisMatch->getTennisSets() as $set){
+           if($set->getNbJeuxDuGagnant() > $set->getNbJeuxDuPerdant()){
+             $nbSetsJ1++;
+           } else if($set->getNbJeuxDuGagnant() < $set->getNbJeuxDuPerdant()){
+             $nbSetsJ2++;
+           }
+         }
+         if($nbSetsJ1 > $nbSetsJ2){
+           $perdant = $tennisMatch->getTennisUtilisateurs()[1];
+         } else if($nbSetsJ1 < $nbSetsJ2){
+           $perdant = $tennisMatch->getTennisUtilisateurs()[0];
+         }
+         $tennisMatch->getTennisTour()->getTennisTournoi()->removeTennisUtilisateursParticipant($perdant);
+         $entityManager = $this->getDoctrine()->getManager();
+         $entityManager->persist($tennisMatch);
+         $entityManager->flush();
+         return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
+       }
+
 }
