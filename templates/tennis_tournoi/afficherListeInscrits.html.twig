@@ -36,11 +36,11 @@
                   <td>{{ utilisateur.niveau }}</td>
                   {% if app.user == tennis_tournoi.tennisUtilisateur %}
                   <td>
-                    <a href="/tournois/desinscription/{{ tennis_tournoi.id }}/{{ utilisateur.id }}"><i class="far fa-times-circle"></i></a>
+                    <a href="/tournois/desinscription/{{ tennis_tournoi.id }}/{{ utilisateur.id }}" title="Désinscre le joueur"><i class="far fa-times-circle"></i></a>
                   </td>
                   {% elseif app.user == tennis_tournoi.tennisUtilisateursParticipant[indexUser] %}
                   <td>
-                    <a href="/tournois/desinscription/{{ tennis_tournoi.id }}/{{ app.user.id }}"><i class="far fa-times-circle"></i></a>
+                    <a href="/tournois/desinscription/{{ tennis_tournoi.id }}/{{ app.user.id }}" title="Se désinscrire"><i class="far fa-times-circle"></i></a>
                   </td>
                   {% else %}
                   <td>

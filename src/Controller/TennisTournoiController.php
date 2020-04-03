@@ -305,6 +305,6 @@ class TennisTournoiController extends AbstractController
           }
         }
         $entityManager->flush();
-        return $this->redirectToRoute('tennis_tournoi_index');
+        return $this->redirectToRoute('tennis_tournoi_afficher_liste_inscrits', [ 'id' => $tennisTournoi->getId()]);
      }
 }
