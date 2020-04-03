@@ -2,18 +2,11 @@
 
 {% block title %}Liste des matchs{% endblock %}
 {% block titre %}<h1><center>Liste des matchs</center></h1>{% endblock %}
-{% block stylesheets %}
-	{{ parent() }}
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
-{% endblock %}
 {% block body %}
-<div class="card shadow mb-4">
-<div class="card-body">
 <div class="table-responsive">
-    <table class="display" id="myTable">
+    <table class="table table-striped table-bordered" id="myTable">
         <thead>
-            <tr>
-                <th>Numero</th>
+            <tr class="table-primary">
                 <th>Joueur 1</th>
                 <th>Joueur 2</th>
                 <th>Resultat</th>
@@ -21,11 +14,9 @@
             </tr>
         </thead>
         <tbody>
-        {% set num = 1 %}
+				{% set id = 1 %}
         {% for tennis_match in tennis_matches %}
             <tr>
-                <td>{{ num }}</td>
-                {% set num = num + 1 %}
 								{% set joueurs = tennis_match.tennisUtilisateurs %}
 								{% if joueurs|length > 0 %}
 								{% for joueur in joueurs %}
@@ -47,53 +38,58 @@
                 {% else %}
                 <td>{{ tennis_match.etat }}</td>
                 {% endif %}
-				{% if app.user in tennis_tour.tennisTournoi.tennisUtilisateursParticipant or tennis_tour.tennisTournoi.tennisUtilisateur == app.user %}
-				{% if tennis_tour.statut=="Organisation" %}
 				<td>
-                    <a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}"><i class="far fa-eye"></i></a>
-                    -
-                    <a href="{{ path('tennis_match_supprimer', {'id': tennis_match.id}) }}"><i class="fas fa-trash-alt"></i></a>
-
-                </td>
-				{% elseif tennis_tour.statut=="Commencé" %}
-					{% if tennis_match.etat != "Pas encore joué" %}
-					<td>
-						<a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}"><i class="far fa-eye"></i></a>
-						{% if tennis_tour.tennisTournoi.tennisUtilisateur == app.user or app.user in tennis_match.tennisUtilisateurs %}
-						-
-						<a href="{{path('tennis_match_modifier_resultat', {'id' : tennis_match.id})}}">Modifier le resultat</a>
-						{% endif %}
-						{% if tennis_tour.tennisTournoi.tennisUtilisateur == app.user %}
-						-
-						<a href="">Eliminer le perdant</a>
-						{% endif %}
-					</td>
+					<a id="{{ id }}" href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}"><i class="far fa-eye"></i></a>
+					-
+					<a id="{{ id + 1 }}" href="{{path('tennis_match_notifier_joueurs', {'id' : tennis_match.id})}}">Notifier les joueurs</a>
+					-
+					<a id="{{ id + 2 }}" href="{{path('tennis_match_edit', {'id' : tennis_match.id})}}">Modifier les joueurs</a>
+					-
+					{% if tennis_match.etat != "Terminé" %}
+					<a id="{{ id + 3 }}" href="{{ path('tennis_match_saisir_resultat', {'id': tennis_match.id}) }}">Saisir les resultats</a>
 					{% else %}
-					<td>
-						<a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}"><i class="far fa-eye"></i></a>
-						{% if tennis_tour.tennisTournoi.tennisUtilisateur == app.user %}
-						-
-						<a href="{{path('tennis_match_notifier_joueurs', {'id' : tennis_match.id})}}">Notifier les joueurs</a>
-						-
-						<a href="{{path('tennis_match_edit', {'id' : tennis_match.id})}}">Modifier les joueurs</a>
-						{% endif %}
-						{% if tennis_tour.tennisTournoi.tennisUtilisateur == app.user or app.user in tennis_match.tennisUtilisateurs %}
-						-
-						<a href="{{ path('tennis_match_saisir_resultat', {'id': tennis_match.id}) }}">Saisir les resultats</a>
-						{% endif %}
-						{% if tennis_tour.tennisTournoi.tennisUtilisateur == app.user %}
-						-
-						<a href="{{ path('tennis_match_supprimer', {'id': tennis_match.id}) }}"><i class="fas fa-trash-alt"></i></a>
-						{% endif %}
-					</td>
+					<a id="{{ id + 3 }}" href="{{path('tennis_match_modifier_resultat', {'id' : tennis_match.id})}}">Modifier le resultat</a>
 					{% endif %}
-				{% else %}
-				<td>
-					<a href="{{ path('tennis_match_show', {'id': tennis_match.id}) }}"><i class="far fa-eye"></i></a>
+					-
+					<a id="{{ id + 4 }}" href="">Eliminer un joueur</a>
+					-
+					<a id="{{ id + 5 }}" href="{{ path('tennis_match_supprimer', {'id': tennis_match.id}) }}"><i class="fas fa-trash-alt"></i></a>
 				</td>
+				<script>
+				{% if app.user not in tennis_tour.tennisTournoi.tennisUtilisateursParticipant and tennis_tour.tennisTournoi.tennisUtilisateur != app.user %}
+					document.getElementById("{{ id + 1 }}").style.pointerEvents = "none";
+					document.getElementById("{{ id + 1 }}").style.color = "grey";
+					document.getElementById("{{ id + 2 }}").style.pointerEvents = "none";
+					document.getElementById("{{ id + 2 }}").style.color = "grey";
+					document.getElementById("{{ id + 3 }}").style.pointerEvents = "none";
+					document.getElementById("{{ id + 3 }}").style.color = "grey";
+					document.getElementById("{{ id + 4 }}").style.pointerEvents = "none";
+					document.getElementById("{{ id + 4 }}").style.color = "grey";
+					document.getElementById("{{ id + 5 }}").style.pointerEvents = "none";
+					document.getElementById("{{ id + 5 }}").style.color = "grey";
+				{% else %}
+					{% if tennis_tour.tennisTournoi.tennisUtilisateur != app.user %} <!-- pas createur mais dans la liste des participants -->
+						document.getElementById("{{ id + 1 }}").style.pointerEvents = "none";
+						document.getElementById("{{ id + 1 }}").style.color = "grey";
+						document.getElementById("{{ id + 2 }}").style.pointerEvents = "none";
+						document.getElementById("{{ id + 2 }}").style.color = "grey";
+						document.getElementById("{{ id + 4 }}").style.pointerEvents = "none";
+						document.getElementById("{{ id + 4 }}").style.color = "grey";
+					{% if app.user not in tennis_match.tennisUtilisateurs %} <!-- ne fait pas partie du match mais dans la liste des participants -->
+						document.getElementById("{{ id + 3 }}").style.pointerEvents = "none";
+						document.getElementById("{{ id + 3 }}").style.color = "grey";
+					{% endif %}
+						document.getElementById("{{ id + 5 }}").style.pointerEvents = "none";
+						document.getElementById("{{ id + 5 }}").style.color = "grey";
+					{% else %} <!-- est le createur du tournoi -->
+						{% if tennis_match.etat != "Terminé" %}
+						document.getElementById("{{ id + 4 }}").style.pointerEvents = "none";
+						document.getElementById("{{ id + 4 }}").style.color = "grey";
+						{% endif %}
+					{% endif %}
 				{% endif %}
-        </tr>
-				{% endif %}
+				</script>
+				{% set id = id + 6 %}
         {% else %}
             <tr>
                 <td colspan="3">Aucun match crée</td>
@@ -104,7 +100,7 @@
 </div>
 </div>
 </div>
-{% if tennis_tour.statut != "Terminé" %}
+{% if tennis_tour.statut != "Terminé" and tennis_tour.tennisTournoi.tennisUtilisateur == app.user %}
 <div class="row">
 <div class="col-md-12">
 <center><input type="button" class="btn btn-primary" onclick="window.location.href = '{{path('tennis_match_new', {'id' : tennis_tour.id})}}' " value="Creer un nouveau match"></center>
@@ -120,14 +116,18 @@
 {% endblock %}
 {% block javascripts %}
 	{{ parent() }}
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
-	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 	<script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/plug-ins/1.10.20/sorting/date-eu.js"></script>
 	<script>
 		$(document).ready(function() {
 		$('#myTable').DataTable({
-		"language": {"url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"}
+			info: false,
+
+		"language": {"url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"},
+			"order" : [[1 ,"asc"]]
 		});
 	});
 	</script>
