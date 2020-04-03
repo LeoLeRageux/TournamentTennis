@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}TennisUtilisateur{% endblock %}
-
+{% block title %}Profil de {{tennis_utilisateur.nom}} {{tennis_utilisateur.prenom}}{% endblock %}
+{% block titre %} <h1>Profil de {{tennis_utilisateur.nom}} {{tennis_utilisateur.prenom}}</h1> {% endblock %}
 {% block body %}
-    <center><h1>Profil de {{tennis_utilisateur.nom}} {{tennis_utilisateur.prenom}} </h1></center>
 
-    <table class="table">
+
+    <table class="table table-striped">
         <tbody>
-            <tr>
+            <tr >
                 <th>Nom</th>
                 <td>{{ tennis_utilisateur.nom }}</td>
             </tr>
@@ -28,10 +28,6 @@
                 {% endif %}
             </tr>
             <tr>
-                <th>Password</th>
-                <td>**********</td>
-            </tr>
-            <tr>
                 <th>DateNaissance</th>
                 <td>{{ tennis_utilisateur.dateNaissance ? tennis_utilisateur.dateNaissance|date('Y-m-d') : '' }}</td>
             </tr>
@@ -50,5 +46,5 @@
 
     <a href="{{ path('tennis_utilisateur_edit', {'id': tennis_utilisateur.id}) }}" class="btn btn-primary">Modifier</a>
     <br />
-    
+
 {% endblock %}
