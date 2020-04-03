@@ -20,7 +20,11 @@
 								{% set joueurs = tennis_match.tennisUtilisateurs %}
 								{% if joueurs|length > 0 %}
 								{% for joueur in joueurs %}
+									{% if joueur in tennis_tour.tennisTournoi.tennisUtilisateursParticipant %}
                 	<td>{{joueur.nomComplet}}</td>
+									{% else %}
+										<td>{{joueur.nomComplet}} (éliminé)</td>
+									{% endif %}
 								{% endfor %}
 								{% else %}
 									<td>Pas d'entité utilisateur</td>
@@ -48,10 +52,10 @@
 					{% if tennis_match.etat != "Terminé" %}
 					<a id="{{ id + 3 }}" href="{{ path('tennis_match_saisir_resultat', {'id': tennis_match.id}) }}">Saisir les resultats</a>
 					{% else %}
-					<a id="{{ id + 3 }}" href="{{path('tennis_match_modifier_resultat', {'id' : tennis_match.id})}}">Modifier le resultat</a>
+					<a id="{{ id + 3 }}" href="{{ path('tennis_match_modifier_resultat', {'id' : tennis_match.id})}}">Modifier le resultat</a>
 					{% endif %}
 					-
-					<a id="{{ id + 4 }}" href="">Eliminer un joueur</a>
+					<a id="{{ id + 4 }}" href="{{ path('tennis_match_eliminer_perdant', {'id' : tennis_match.id})}}">Eliminer le perdant</a>
 					-
 					<a id="{{ id + 5 }}" href="{{ path('tennis_match_supprimer', {'id': tennis_match.id}) }}"><i class="fas fa-trash-alt"></i></a>
 				</td>

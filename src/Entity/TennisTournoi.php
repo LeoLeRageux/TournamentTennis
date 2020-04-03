@@ -447,4 +447,30 @@ class TennisTournoi
         return $this;
     }
 
+    /**
+     * @return Collection|TennisUtilisateur[]
+     */
+    public function getTennisUtilisateursElimines(): Collection
+    {
+        return $this->tennisUtilisateursElimines;
+    }
+
+    public function addTennisUtilisateursElimine(TennisUtilisateur $tennisUtilisateursElimine): self
+    {
+        if (!$this->tennisUtilisateursElimines->contains($tennisUtilisateursElimine)) {
+            $this->tennisUtilisateursElimines[] = $tennisUtilisateursElimine;
+        }
+
+        return $this;
+    }
+
+    public function removeTennisUtilisateursElimine(TennisUtilisateur $tennisUtilisateursElimine): self
+    {
+        if ($this->tennisUtilisateursElimines->contains($tennisUtilisateursElimine)) {
+            $this->tennisUtilisateursElimines->removeElement($tennisUtilisateursElimine);
+        }
+
+        return $this;
+    }
+
 }
