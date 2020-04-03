@@ -70,7 +70,6 @@ class AppFixtures extends Fixture
 
     $utilisateurs = [$leo, $thomas, $hugo, $matthieu];
 
-
     $luc = new TennisUtilisateur();
 		$luc->setEmail("luc.dupont@gmail.com");
 		$luc->setRoles(["ROLE_USER"]);
@@ -113,11 +112,13 @@ class AppFixtures extends Fixture
 		$gabriel->setPassword('$2y$10$zK6RI4Ha8yvbT2ZCFXe2eOcujZlVwWLMXU.Y61oXQ.QmcDAoKRn9y');
     $gabriel->setPrenom("Gabriel");
     $gabriel->setNom("Durand");
-    $gabriel->setDateNaissance(new DateTime('02/08/2009'));
+    $gabriel->setDateNaissance(new DateTime('03/08/2009'));
 		$gabriel->setTelephone("0610024120");
 		$gabriel->setNiveau("30/1");
     $gabriel->setGenreHomme(true);
 		$manager->persist($gabriel);
+
+    $enfants = [$luc, $gabriel, $killian, $bastien];
 
     $tournoi = new TennisTournoi();
     $tournoi->setTennisUtilisateur($matthieu);
@@ -138,36 +139,77 @@ class AppFixtures extends Fixture
     $tournoi->setDateFintournoi(new DateTime("06/04/2020"));
     $manager->persist($tournoi);
 
+    $yon = new TennisUtilisateur();
+		$yon->setEmail("yon.dourisboure@gmail.com");
+		$yon->setRoles(["ROLE_USER"]);
+		$yon->setPassword('$2y$10$rKaFqZlhQN/nKo0kXMQgmeQ8sLXKnx7By/hEe.vvrX3.uMGPRx2Xi');
+    $yon->setPrenom("Yon");
+    $yon->setNom("Dourisboure");
+    $yon->setDateNaissance(new DateTime('05/07/1980'));
+		$yon->setTelephone("0559574336");
+		$yon->setNiveau("30/1");
+    $yon->setGenreHomme(true);
+		$manager->persist($yon);
+
+    $chakib = new TennisUtilisateur();
+		$chakib->setEmail("chakib.alami@gmail.com");
+		$chakib->setRoles(["ROLE_USER"]);
+		$chakib->setPassword('$2y$10$6lK0dMvqC5Qs4.FD3PVKiOM./9JQd9/6f2VvrOOoDvhDYN.gEWq96');
+    $chakib->setPrenom("Chakib");
+    $chakib->setNom("Alami");
+    $chakib->setDateNaissance(new DateTime('12/09/1985'));
+		$chakib->setTelephone("0559574336");
+		$chakib->setNiveau("18/1");
+    $chakib->setGenreHomme(true);
+		$manager->persist($chakib);
+
+    $patrick = new TennisUtilisateur();
+		$patrick->setEmail("patrick.etchevery@gmail.com");
+		$patrick->setRoles(["ROLE_USER"]);
+		$patrick->setPassword('$2y$10$6lK0dMvqC5Qs4.FD3PVKiOM./9JQd9/6f2VvrOOoDvhDYN.gEWq96');
+    $patrick->setPrenom("Patrick");
+    $patrick->setNom("Etchevery");
+    $patrick->setDateNaissance(new DateTime('08/21/1980'));
+		$patrick->setTelephone("0559574336");
+		$patrick->setNiveau("18/1");
+    $patrick->setGenreHomme(true);
+		$manager->persist($patrick);
+
+    $jury = [$chakib, $yon, $patrick];
+    $joueurs = array_merge($utilisateurs, $jury);
+
+    $villes = ["Mont de Marsan", "Bayonne", "Anglet", "Pau", "Biarritz", "Bidart", "St Jean de luz", "Orthez", "Perpignan", "Toulouse", "Marseille"];
+    $saison = ["Primptems", "Eté", "Automne", "Hiver"];
+    $categoriesDage = ["11/12", "13/14", "15/16", "17/18", "35", "40", "45", "50", "55", "60", "65", "70", "75", "seniors"];
 
     for($t=1; $t<=12; $t++){
         $tournoi = new TennisTournoi();
-        $tournoi->setTennisUtilisateur($utilisateurs[$faker->numberBetween(0,3)]);
-        $tournoi->setNom($faker->realText($maxNbChars = 10, $indexSize = 2));
-        $tournoi->setAdresse($faker->realText($maxNbChars = 10, $indexSize = 2));
+        $tournoi->setTennisUtilisateur($faker->randomElement($utilisateurs));
+        $temp_joueurs = array_diff($joueurs, [$tournoi->getTennisUtilisateur()]);
+        $tournoi->setNom("Tournoi ".$faker->randomElement($villes)." ".$faker->randomElement($saison)." 2020");
+        $tournoi->setAdresse($faker->address);
         $tournoi->setEstVisible($faker->boolean($chanceOfGettingTrue = 50));
         $tournoi->setSurface($faker->randomElement($listeSurfaces));
-        foreach($utilisateurs as $participant) {
-          $tournoi->addTennisUtilisateursParticipant($participant);
-        }
-		$age=$faker->regexify('[1-5][0-9]');
-		$ageplusdeux=$age+2;
-        $tournoi->setCategorieAge("".$age."/".$ageplusdeux."");
         $tournoi->setGenreHomme($faker->boolean($chanceOfGettingTrue = 50));
         $tournoi->setDescription($faker->realText($maxNbChars = 50, $indexSize = 2));
         $tournoi->setInscriptionsManuelles($faker->boolean($chanceOfGettingTrue = 50));
         $tournoi->setNbPlaces($faker->numberBetween(10,20));
         $tournoi->setMotDePasse($faker->realText($maxNbChars = 10, $indexSize = 2));
         $tournoi->setValidationInscriptions($faker->boolean($chanceOfGettingTrue = 50));
-		$nbSetsGagnants=$faker->numberBetween(2,3);
+		    $nbSetsGagnants=$faker->numberBetween(2,3);
         $tournoi->setNbSetsGagnants($nbSetsGagnants);
         $tournoi->setStatut($tableauStatutTournoi[($t-1)%4]);
+        $tournoi->setCategorieAge($faker->randomElement($categoriesDage));
+        foreach($utilisateurs as $participant) {
+          $tournoi->addTennisUtilisateursParticipant($participant);
+        }
 		if($tournoi->getStatut() == "Non Commencé"){
 			$tournoi->setDateDebutInscriptions($faker->dateTimeBetween($startDate = 'now', $endDate = '+1 month', $timezone = null));
 			$tournoi->setDateFinInscriptions($faker->dateTimeBetween($startDate = '+1 month', $endDate = '+2 month', $timezone = null));
 			$tournoi->setDateDebuttournoi($faker->dateTimeBetween($startDate = '+2 month', $endDate = '+3 month', $timezone = null));
 			$tournoi->setDateFintournoi($faker->dateTimeBetween($startDate = '+3 month', $endDate = '+4 month', $timezone = null));
-		}
-		else if($tournoi->getStatut() == "Phase d'inscriptions"){
+	  }
+    else if($tournoi->getStatut() == "Phase d'inscriptions"){
 			$tournoi->setDateDebutInscriptions($faker->dateTimeBetween($startDate = '-1 month', $endDate = 'now', $timezone = null));
 			$tournoi->setDateFinInscriptions($faker->dateTimeBetween($startDate = 'now', $endDate = '+1 month', $timezone = null));
 			$tournoi->setDateDebuttournoi($faker->dateTimeBetween($startDate = '+1 month', $endDate = '+2 month', $timezone = null));
@@ -223,13 +265,11 @@ class AppFixtures extends Fixture
 					else if($tour->getStatut() == "Commencé")
 					{
 						$match->setEtat($tableauEtatMatch[$j-1]);
-            $rnd = $faker->numberBetween(0, 3);
-            $joueur1 = $utilisateurs[$rnd];
-            $rnd2 = $faker->numberBetween(0, 3);
-            while($rnd2 == $rnd){
-                $rnd2 = $faker->numberBetween(0, 3);
+            $joueur1 = $faker->randomElement($temp_joueurs);
+            $joueur2 = $faker->randomElement($temp_joueurs);
+            while($joueur1 == $joueur2){
+                $joueur2 = $faker->randomElement($temp_joueurs);
             }
-            $joueur2 = $utilisateurs[$rnd2];
             $match->addTennisUtilisateur($joueur1);
             $match->addTennisUtilisateur($joueur2);
 					}
