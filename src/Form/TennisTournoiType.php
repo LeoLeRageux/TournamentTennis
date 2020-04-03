@@ -25,8 +25,7 @@ class TennisTournoiType extends AbstractType
             ->add('dateDebutTournoi', DateType::class,[
                 'widget' => 'choice',
                 'years' => range(date('Y'), date('Y')+10),
-                'format' => 'dd-MM-yyyy',
-                ])
+                'format' => 'dd-MM-yyyy'])
             ->add('dateFinTournoi', DateType::class,[
                 'widget' => 'choice',
                 'years' => range(date('Y'), date('Y')+10),
@@ -38,7 +37,6 @@ class TennisTournoiType extends AbstractType
                     'Non' => false,),
                     'help' => 'un tournoi non visible n\'apparaît pas dans le moteur de recherche de tournois de l\'application',
                 ))
-
             ->add('surface', ChoiceType::class, array(
                 'choices'  => array(
                     'Dur' => "dur",
@@ -104,8 +102,7 @@ class TennisTournoiType extends AbstractType
                 'choices'  => array(
                     '2' => 2,
                     '3' => 3,
-                )))
-        ;
+                )));
     }
 
     public function configureOptions(OptionsResolver $resolver)
