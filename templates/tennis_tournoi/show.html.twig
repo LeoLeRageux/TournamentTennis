@@ -3,7 +3,20 @@
 {% block title %}Détails tournoi {{ tennis_tournoi.nom }} {% endblock %}
 {% block titre %}<center><h1>Détails tournoi {{ tennis_tournoi.nom }}</h1></center> {% endblock %}
 {% block body %}
-    
+<ul class="nav nav-tabs">
+	  <li class="nav-item ">
+	    <a class="nav-link" href="/tournois">Les tournois que vous organisez</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="/tournois/inscrits">Les tournois auxquels vous participez</a>
+	  </li>
+		<li class="nav-item">
+	    <a class="nav-link" href="/tournois/rechercher">S'inscrire à un tournoi</a>
+ 		</li>
+		<li class="nav-item">
+	    <a class="nav-link" href="/tournois/all">Tous les tournois</a>
+	  </li>
+	</ul>
 
 <div class="container-fluid">
 	<div class="row">
@@ -86,6 +99,6 @@
 		</div>
 		<div class="col-md-1">
         </div>
-</div>	    
+</div>
 </div>
 {% endblock %}
