@@ -41,8 +41,9 @@
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('tennis_utilisateur_edit', {'id': tennis_utilisateur.id}) }}" class="btn btn-primary">Modifier</a>
+    {% if tennis_utilisateur == app.user %}
+      <a href="{{ path('tennis_utilisateur_edit', {'id': tennis_utilisateur.id}) }}" class="btn btn-primary">Modifier</a>
+    {% endif %}
     <br />
 
 {% endblock %}
