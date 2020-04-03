@@ -2,55 +2,73 @@
 
 {% block title %}Liste des tours{% endblock %}
 {% block titre %}<h1><center>Liste des tours du tournoi {{tournoi.nom}} </center></h1>{% endblock %}
-{% block stylesheets %}
-	{{ parent() }}
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
-{% endblock %}
 {% block body %}
 	<h2><center>
-	{% if tournoi.tennisUtilisateur == app.user %}
 		{% if tournoi.statut == "Non Commencé" %}
 			Ouverture des inscriptions dans {{ date().settime(0,0).diff(tournoi.dateFinInscriptions).days }} jour(s)
-			<a href=""> Repousser </a><br>
 		{% elseif tournoi.statut == "Phase d'inscriptions" %}
 			Debut du tournoi dans {{ tournoi.dateDebutTournoi.diff(date().settime(0,0)).days }} jour(s)
-			<a href="{{ path('tennis_tournoi_repousser_date_deb', {'id' : tournoi.id}) }}"> Repousser </a><br>
 		{% elseif tournoi.statut == "Commencé" %}
-
 		{% set num = null %}
 		{% for tennis_tour in tennis_tours %}
 		    {% if tennis_tour.statut == "Commencé" %}
 		        {% set num = tennis_tour.numero - 1 %}
 		    {% endif %}
 		{% endfor %}
-
-		{% include 'tennis_tournoi/_terminer_form.html.twig' %}
-
-		Fin du tournoi dans {{ date().settime(0,0).diff(tournoi.dateFinTournoi).days }} jour(s)
-		<a href="{{path("tennis_tournoi_repousser_date_fin", {'id' : tournoi.id})}}"> Repousser </a><br>
-
-		Tour {{ num + 1 }} en cours,
-		fin dans {{ tennis_tours[num].dateFinTour.diff(date().settime(0,0)).days }} jour(s)
-		<a href="{{path("tennis_tour_repousser_date_fin", {'id' : tennis_tours[num].id})}}"> Repousser </a><br>
-
+		Fin du tournoi dans {{ date().settime(0,0).diff(tournoi.dateFinTournoi).days }} jour(s)<br/>
+		Tour {{ num + 1 }} en cours, fin dans {{ tennis_tours[num].dateFinTour.diff(date().settime(0,0)).days }} jour(s)
 		{% elseif tournoi.statut == "Terminé" %}
 			Tournoi terminé le {{ tournoi.dateFinTournoi.format("d/m/Y")}}<br>
 		{% endif %}
-		{% if tournoi.statut != "Terminé" %}
-			{% if tounoi.statut == "Phase d'inscriptions" %}
-					<a id="changer_statut_msg" href="{{path("tennis_tournoi_changer_statut", {'id' : tournoi.id})}}" title="Le tournoi doit avoir au moins un tour pour passer à la phase suivante !"> Passer à la phase suivante </a><br>
-			{% else %}
-				<a href="{{path("tennis_tournoi_changer_statut", {'id' : tournoi.id})}}"> Passer à la phase suivante </a><br>
-			{% endif %}
-		{% endif %}
-	{% endif %}
 	</center></h2>
+
+	{% if tournoi.tennisUtilisateur == app.user %}
+	<ul class="nav nav-tabs">
+		{% if tournoi.statut == "Non Commencé" %}
+		<li class="nav-item">
+			<a class="nav-link" href=""> Repousser la date de début de la phase d'inscriptions</a>
+		</li>
+		<li class="nav-item">
+			{% include 'tennis_tournoi/_terminer_form.html.twig' %}
+		</li>
+		{% endif %}
+		{% if tournoi.statut == "Phase d'inscriptions" %}
+		<li class="nav-item">
+			<a class="nav-link" href="{{ path('tennis_tournoi_repousser_date_deb', {'id' : tournoi.id}) }}"> Repousser la date de début du tournoi</a>
+		</li>
+		<li class="nav-item">
+			{% include 'tennis_tournoi/_terminer_form.html.twig' %}
+		</li>
+		{% endif %}
+		{% if tournoi.statut == "Commencé" %}
+		<li class="nav-item">
+			<a class="nav-link" href="{{path("tennis_tournoi_repousser_date_fin", {'id' : tournoi.id})}}"> Repousser la date de fin du tournoi </a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="{{path("tennis_tour_repousser_date_fin", {'id' : tennis_tours[num].id})}}"> Repousser la date de fin du tour en cours </a>
+		</li>
+		<li class="nav-item">
+			{% include 'tennis_tournoi/_terminer_form.html.twig' %}
+		</li>
+		{% endif %}
+		{% if tournoi.statut != "Terminé" and tournoi.statut != "Commencé" %}
+			<li class="nav-item">
+			{% if tounoi.statut == "Phase d'inscriptions" %}
+					<a class="nav-link" id="changer_statut_msg" href="{{path("tennis_tournoi_changer_statut", {'id' : tournoi.id})}}" title="Le tournoi doit avoir au moins un tour pour passer à la phase suivante !"> Commencer le tournoi </a>
+			{% else %}
+				<a class="nav-link" href="{{path("tennis_tournoi_changer_statut", {'id' : tournoi.id})}}"> Passer à la phase d'inscriptions </a>
+			{% endif %}
+			</li>
+		{% endif %}
+	</ul>
+	{% endif %}
+
 	<div class="card shadow mb-4">
 	<div class="card-body">
 	<div class="table-responsive">
-	    <table class="display" id="myTable">
+	    <table class="table table-striped table-bordered" id="myTable">
 	        <thead>
-	            <tr>
+	            <tr class="table-primary">
 	                <th>Nom</th>
 	                <th>Date limite</th>
 	                <th>Matchs joués</th>
@@ -134,18 +152,22 @@
 	{% endblock %}
 	{% block javascripts %}
 		{{ parent() }}
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
-		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 		<script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/plug-ins/1.10.20/sorting/date-eu.js"></script>
 		<script>
 			$(document).ready(function() {
 			$('#myTable').DataTable({
+				info: false,
+
 			"language": {"url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"},
 			columnDefs: [
 						{"sType": "date-eu", targets: 1}
-			        ]
+			        ],
+				"order" : [[1 ,"asc"]]
 			});
 		});
 		</script>
-{% endblock %}
+	{% endblock %}

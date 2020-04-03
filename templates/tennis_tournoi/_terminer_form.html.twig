@@ -1,3 +1,12 @@
-<form id="my_form4" method="post" action="{{ path('tennis_tournoi_terminer', {'id': tournoi.id}) }}" onsubmit="return confirm('Voulez vous vraiment terminer ce tournoi ?');">
-    <center><button class="btn btn-primary">Terminer le tournoi</button></center>
+<form id="my_form4" method="post" action="{{ path('tennis_tournoi_terminer', {'id': tournoi.id}) }}">
+    <a class="nav-link" href="javascript:{}" onclick="confirmation();">Terminer le tournoi</a>
 </form>
+<script>
+function confirmation(){
+  if(confirm('Voulez vous vraiment terminer ce tournoi ?')){
+    document.getElementById('my_form4').submit();
+  } else {
+    return false;
+  }
+}
+</script>
