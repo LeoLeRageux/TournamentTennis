@@ -5,15 +5,18 @@ Créer un compte
 {% endblock %}
 
 {% block titre %}
-<h1 align="center">Création de compte</h1>
+
 {% endblock %}
 
 {% block body %}
 <div class="row">
 <div class="col-md-4"></div>
 <div class="col-md-4">
-<div class="card">
-<div class="p-4">
+<div class="card shadow">
+  <div class="h3 card-header">
+Création de compte
+    </div>
+<div class="card-body">
 {{ form_start(form) }}
 {{ form_row(form.nom, {'attr':{'placeholder':"ex: Dupont ..."}}) }}
 {{ form_row(form.prenom, {'attr':{'placeholder':"ex: Pierre ..."}}) }}
@@ -26,9 +29,10 @@ Créer un compte
 {{ form_label(form.niveau,"Niveau de tennis") }}
 {{ form_widget(form.niveau, {'attr':{'placeholder':"ex: 30/1 "}}) }}
 {{ form_row(form.password) }}
-<div class="pt-2">
+
 <center><button type="submit" class="btn btn-primary"> S'inscrire </button></center>
 {{ form_end(form) }}
+
 </div>
 <div class="col-md-4"></div>
 {% endblock %}

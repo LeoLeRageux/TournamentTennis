@@ -1,0 +1,150 @@
+<script>
+	function getVillesDepart(){
+		document.getElementById("listeVillesDepart").innerHTML="";
+		var code = document.getElementById("form").elements["codePostalDepart"].value;
+		var client = new XMLHttpRequest();
+		client.open("GET", "http://api.zippopotam.us/fr/"+code+"", true);
+		client.onreadystatechange = function() {
+			if(client.readyState == 4) {
+				if(code.length>4){
+					for (var i=0; i<(JSON.parse(client.responseText).places).length; i++){
+						var node = document.createElement("LI");
+						var radio = document.createElement("input");
+						radio.setAttribute("type", "radio");
+						radio.setAttribute("name", "radioBtnDepart");
+						radio.setAttribute("value", JSON.parse(client.responseText).places[i]["longitude"]+","+JSON.parse(client.responseText).places[i]["latitude"])
+						node.appendChild(radio);
+						document.getElementById("listeVillesDepart").appendChild(node);
+						var textnode = document.createTextNode(JSON.parse(client.responseText).places[i]["place name"]);
+						node.appendChild(textnode);
+						document.getElementById("listeVillesDepart").appendChild(node);
+					}
+				}
+			};
+		};
+		client.send();
+	}
+	function getVillesArrivee(){
+		document.getElementById("listeVillesArrivee").innerHTML="";
+		var code = document.getElementById("form").elements["codePostalArrivée"].value;
+		var client = new XMLHttpRequest();
+		client.open("GET", "http://api.zippopotam.us/fr/"+code+"", true);
+		client.onreadystatechange = function() {
+			if(client.readyState == 4) {
+				if(code.length>4){
+					for (var i=0; i<(JSON.parse(client.responseText).places).length; i++){
+						var node = document.createElement("LI");
+						var radio = document.createElement("input");
+						radio.setAttribute("type", "radio");
+						radio.setAttribute("name", "radioBtnArrivee");
+						radio.setAttribute("value", JSON.parse(client.responseText).places[i]["longitude"]+","+JSON.parse(client.responseText).places[i]["latitude"])
+						node.appendChild(radio);
+						document.getElementById("listeVillesArrivee").appendChild(node);
+						var textnode = document.createTextNode(JSON.parse(client.responseText).places[i]["place name"]);
+						node.appendChild(textnode);
+						document.getElementById("listeVillesArrivee").appendChild(node);
+					}
+				}
+			};
+		};
+		client.send();
+	}
+	function getInputs(){
+		var inputs = document.getElementsByTagName("input");
+		var valeursBouttonsRadiosCoches = new Array();
+		var j=0;
+		for(var i=0; i<inputs.length; i++){
+			if(inputs[i].getAttribute("type")=="radio"){
+				if(inputs[i].checked){
+					valeursBouttonsRadiosCoches[j] = inputs[i].value;
+					j++;
+				}
+			}
+		}
+		return valeursBouttonsRadiosCoches;
+	}
+	function getMeteoVilleArrivee(){
+		valeursBouttonsRadiosCoches = getInputs();
+		var coords = valeursBouttonsRadiosCoches[1].split(",");
+		var client = new XMLHttpRequest();
+		client.open("GET", "https://www.infoclimat.fr/public-api/gfs/json?_ll="+coords[1]+","+coords[0]+"&_auth=CBICFVMtXX9RfFFmD3kBKAdvDjtcKlVyAX0GZV86VypUPwVkDm4BZ1Q6AXxQf1ZgV3oDYA41UGAKYQB4WylfPghiAm5TOF06UT5RNA8gASoHKQ5vXHxVcgFjBmhfMVcqVDIFYQ5zAWFUOQFmUH5WYFdhA2AOLlB3CmgAYls%2BXz8IYwJkUzddNlE5UTsPIAEqBzEOO1xlVWoBZgYyXzJXZVQzBTQOPwFqVDoBZFB%2BVmtXZQNmDjNQbwpvAGBbN18jCHQCH1NDXSJRflFxD2oBcwcpDjtcPVU5&_c=c31a55f2e82d46959ae1202f81d24c40", true);
+		client.onreadystatechange = function() {
+			if(client.readyState == 4) {
+				// liste des heures ou la météo est relevée sur l'api météo
+				var heuresPossibles=[1,4,7,10,13,16,19,22];
+				// heure d'arrivée du trajet
+				var heureDarrivee = new Date().getHours()+parseInt(document.getElementById("duree").innerHTML.split(":")[0]);
+				var joursEnPlus = 0;
+				// si trajet > 24h on ajoute un jour pour la météo
+				while(heureDarrivee > 23){
+					heureDarrivee = heureDarrivee-24;
+					joursEnPlus++;
+				}
+				
+				var nbJours = parseInt(new Date().toISOString().slice(8, 10))+joursEnPlus;
+				var moisEnPlus = 0;
+				var joursMois = [31,28,31,30,31,30,31,31,30,31,30,31];
+				
+				// Ne marche pas quand on change de mois car dans le cas ou on passe du mois de mars au mois d'avril, les heures possibles changent
+				while(nbJours > joursMois[new Date().toISOString().slice(5,7)-1]){
+					nbJours = nbJours - joursMois[new Date().toISOString().slice(5,7)-1];
+					alert(nbJours);
+					moisEnPlus++;
+				}
+				
+				var nbMois = parseInt(new Date().toISOString().slice(5,7))+moisEnPlus;
+				
+				// on cherche l'heure qui est la plus proche de l'heure d'arrivée
+				var heurePlusProche = heuresPossibles.reduce(function(prev, curr) {
+					return (Math.abs(curr - heureDarrivee) < Math.abs(prev - heureDarrivee) ? curr : prev);
+				});
+				
+				var dateAujourdhui= new Date().toISOString().slice(0, 5)+(nbMois < 10 ? "0" : "")+nbMois+"-"+(nbJours < 10 ? "0" : "")+nbJours;
+				var date = dateAujourdhui+" "+(heurePlusProche < 10 ? "0" : "")+heurePlusProche+":00:00";
+				
+				document.getElementById("temp").innerHTML = (JSON.parse(client.responseText)[date]["temperature"]["sol"]-273.15).toFixed(2)+"°C"+" le "+date.slice(0,10)+" à "+date.slice(10,19);
+			};
+		};
+		client.send();
+	}
+	
+	function callApi(){
+		valeursBouttonsRadiosCoches = getInputs();
+		var client = new XMLHttpRequest();
+		client.open("GET", "https://wxs.ign.fr/choisirgeoportail/itineraire/rest/route.json?origin="+valeursBouttonsRadiosCoches[0]+"&destination="+valeursBouttonsRadiosCoches[1]+"&graphName="+document.getElementById("moyen-select").value, true);
+		client.onreadystatechange = function() {
+			if(client.readyState == 4) {
+				document.getElementById("distance").innerHTML = JSON.parse(client.responseText).distance;
+				document.getElementById("duree").innerHTML = JSON.parse(client.responseText).duration;
+				getMeteoVilleArrivee();
+			};
+		};
+		client.send();
+	}
+</script>
+
+<body>
+<form id="form">
+	<p>Code postal de la ville de départ</p>
+    <input type="text" name="codePostalDepart" onkeyup="getVillesDepart()">
+    <ul id="listeVillesDepart">
+    </ul>
+    <p>Code postal de la ville d'arrivée</p>
+    <input type="text" name="codePostalArrivée" onkeyup="getVillesArrivee()">
+    <ul id="listeVillesArrivee">
+	</ul>
+	<p>Moyen de déplacement</p>
+	<select name="moyen" id="moyen-select">
+		<option value="">--Choisir une option--</option>
+		<option value="Pieton">Pieton</option>
+		<option value="Voiture">Voiture</option>
+	</select>
+	<input type="button" onclick="callApi()" value="Valider">
+</form>
+	<p>La distance entre ces deux villes est :
+	<p id="distance"></p></p>
+	<p>La durée du trajet est :
+	<p id="duree"></p></p>
+	<p>La temperature à la ville d'arrivée est de :
+	<p id="temp"></p></p>
+</body>
