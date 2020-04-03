@@ -16,6 +16,7 @@
         <tbody>
 				{% set id = 1 %}
         {% for tennis_match in tennis_matches %}
+						{% set joueurElimine = false %}
             <tr>
 								{% set joueurs = tennis_match.tennisUtilisateurs %}
 								{% if joueurs|length > 0 %}
@@ -24,6 +25,7 @@
                 	  <td><a href="{{path("tennis_utilisateur_show", {'id' : joueur.id })}}" title="Voir le profil de {{joueur.nomComplet}}">{{joueur.nomComplet}}</a></td>
 									{% else %}
 										<td><a href="{{path("tennis_utilisateur_show", {'id' : joueur.id })}}" title="Voir le profil de {{joueur.nomComplet}}">{{joueur.nomComplet}}</a> (éliminé)</td>
+										{% set joueurElimine = true %}
 									{% endif %}
 								{% endfor %}
 								{% else %}
@@ -51,8 +53,13 @@
 					{% else %}
 					<a id="{{ id + 3 }}" href="{{path('tennis_match_modifier_resultat', {'id' : tennis_match.id})}}" title="Modifier les résultats"><i class="far fa-clipboard"></i></a>
 					{% endif %}
+<<<<<<< HEAD
 					<a id="{{ id + 4 }}" href="" title="Eliminer un joueur"><i class="far fa-times-circle"></i></a>
 					<a id="{{ id + 5 }}" href="{{ path('tennis_match_supprimer', {'id': tennis_match.id}) }}"><i class="fas fa-trash-alt"></i></a>
+=======
+					<a id="{{ id + 4 }}" href="{{ path('tennis_match_eliminer_perdant', {'id': tennis_match.id}) }}" title="Eliminer un joueur"><i class="far fa-times-circle"></i></a>
+					<a id="{{ id + 5 }}" href="{{ path('tennis_match_supprimer', {'id': tennis_match.id}) }}" title="Supprimer le match"><i class="fas fa-trash-alt"></i></a>
+>>>>>>> 0be5ede3f6a0c43686bcf831f28d2e08909d6d8e
 				</td>
 				<script>
 				{% if app.user not in tennis_tour.tennisTournoi.tennisUtilisateursParticipant and tennis_tour.tennisTournoi.tennisUtilisateur != app.user %}
@@ -82,6 +89,15 @@
 						document.getElementById("{{ id + 5 }}").style.color = "grey";
 					{% else %} <!-- est le createur du tournoi -->
 						{% if tennis_match.etat != "Terminé" %}
+						document.getElementById("{{ id + 4 }}").style.pointerEvents = "none";
+						document.getElementById("{{ id + 4 }}").style.color = "grey";
+						{% else %}
+						document.getElementById("{{ id + 1 }}").style.pointerEvents = "none";
+						document.getElementById("{{ id + 1 }}").style.color = "grey";
+						document.getElementById("{{ id + 2 }}").style.pointerEvents = "none";
+						document.getElementById("{{ id + 2 }}").style.color = "grey";
+						{% endif %}
+						{% if joueurElimine %}
 						document.getElementById("{{ id + 4 }}").style.pointerEvents = "none";
 						document.getElementById("{{ id + 4 }}").style.color = "grey";
 						{% endif %}
