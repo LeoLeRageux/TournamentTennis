@@ -36,14 +36,15 @@
         <tbody>
 				{% set listeTournois = [] %}
         {% for tennis_tournoi in tennis_tournois %}
+					{{ date().settime(0,0).diff(app.user.dateNaissance).days / 365 }}
 					{% if
 					tennis_tournoi.estVisible and
 					tennis_tournoi.tennisUtilisateur != app.user and
 					app.user not in tennis_tournoi.tennisUtilisateursParticipant and
 					app.user not in tennis_tournoi.tennisUtilisateursDemandeInscription and
 					tennis_tournoi.statut == "Phase d'inscriptions" and
-					date().settime(0,0).diff(app.user.dateNaissance).days / 365 < tennis_tournoi.categorieAge|split('/')[0] or
-					date().settime(0,0).diff(app.user.dateNaissance).days / 365 > tennis_tournoi.categorieAge|split('/')[1] and
+					(date().settime(0,0).diff(app.user.dateNaissance).days / 365)|round(0, 'floor') >= tennis_tournoi.categorieAge|split('/')[0]|number_format and
+					(date().settime(0,0).diff(app.user.dateNaissance).days / 365)|round(0, 'floor') <= tennis_tournoi.categorieAge|split('/')[1]|number_format and
 					tennis_tournoi.inscriptionsManuelles == false and
 					tennis_tournoi.tennisUtilisateursParticipant|length >= tennis_tournoi.nbPlaces
 					%}
@@ -52,7 +53,7 @@
 				{% endfor %}
 				{% for tennis_tournoi in listeTournois %}
             <tr>
-                <td>{{ tennis_tournoi.nom }} {{ app.request.pathinfo }}</td>
+                <td>{{ tennis_tournoi.nom }}</td>
                 <td>{{ tennis_tournoi.adresse }}</td>
                 <td>{{ tennis_tournoi.categorieAge }}</td>
                 <td>{{ tennis_tournoi.genreHomme == 1 ? "Homme" : "Femme" }}</td>

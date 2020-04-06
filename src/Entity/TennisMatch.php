@@ -150,6 +150,25 @@ class TennisMatch
         return $this;
     }
 
+    public function getWinner(): TennisUtilisateur {
+       if($this->getEtat() == "Terminé") {
+          $participants = $this->getTennisUtilisateurs();
+          $nb1 = 0; $nb2 = 0;
+          foreach($this->getTennisSets() as $set){
+            if($set->getTennisUtilisateurGagnant() == $participants[0]){
+              $nb1++;
+            } else {
+              $nb2++;
+            }
+          }
+          if($nb1 > $nb2){
+            return $participants[0];
+          } else {
+            return $participants[1];
+          }
+       }
+    }
+
     public function __toString(){
 
         return $this->getEtat();

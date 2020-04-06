@@ -100,7 +100,7 @@ class AppFixtures extends Fixture
     		$killian->setPassword('$2y$10$Jmt0Pzu0o.MaDIbGbSAAH.HMKUASbM5tPsVAMnOh6i4a.fzCfpzR2');
         $killian->setPrenom("Killian");
         $killian->setNom("Mouche");
-        $killian->setDateNaissance(new DateTime('09/01/2010'));
+        $killian->setDateNaissance(new DateTime('01/01/2010'));
     		$killian->setTelephone("0692147582");
     		$killian->setNiveau("30/1");
         $killian->setGenreHomme(true);
@@ -219,6 +219,7 @@ class AppFixtures extends Fixture
         $categoriesDage = ["11/12", "13/14", "15/16", "17/18", "35", "40", "45", "50", "55", "60", "65", "70", "75", "seniors"];
 
         for($t=1; $t<=12; $t++){
+            // CREATION DU TOURNOI
             $tournoi = new TennisTournoi();
             $tournoi->setTennisUtilisateur($faker->randomElement($utilisateurs));
             $temp_joueurs = array_diff($joueurs, [$tournoi->getTennisUtilisateur()]);
@@ -236,9 +237,11 @@ class AppFixtures extends Fixture
             $tournoi->setNbSetsGagnants($nbSetsGagnants);
             $tournoi->setStatut($tableauStatutTournoi[($t-1)%4]);
             $tournoi->setCategorieAge($faker->randomElement($categoriesDage));
+            //AJOUT DES PARTICIPANTS
             foreach($temp_joueurs as $participant) {
               $tournoi->addTennisUtilisateursParticipant($participant);
             }
+            // DATES EN FONCTION DU STATUT
         		if($tournoi->getStatut() == "Non Commencé"){
         			$tournoi->setDateDebutInscriptions($faker->dateTimeBetween($startDate = 'now', $endDate = '+1 month', $timezone = null));
         			$tournoi->setDateFinInscriptions($faker->dateTimeBetween($startDate = '+1 month', $endDate = '+2 month', $timezone = null));
@@ -267,50 +270,62 @@ class AppFixtures extends Fixture
             // Ajout de tours dans ce Tournoi (sauf s tournoi non commencé ou en phase d'inscriptions (pas possible de creer de tour & matchs)
 		        if($tournoi->getStatut() != "Non Commencé" && $tournoi->getStatut() != "Phase d'inscriptions"){
 			           $tableauStatutTour = array("Terminé", "Commencé", "Organisation");
-
-                  // TRAITER LE CAS D'UN TOURNOI DEJA FINI
+                 // $temp_joueurs Liste des participants
+                  // SI LE TOURNOI EST DEJA FINI
                   if($tournoi->getStatut() == "Terminé"){
                     $tabTypeTours = ["Quart de finale", "Demi finale", "Finale"];
+                    // CREATION DE 3 TOURS
+                    $participants = $temp_joueurs;
+                    $gagants = array();
                     for($i=0; $i<3; $i++){
                       $tour = new TennisTour();
                       $tour->setStatut("Terminé");
                       $tour->setNumero($i+1);
                       $tour->setType($tabTypeTours[$i]);
-                      $tour->setDateFinTour($faker->dateTimeBetween($startDate = '-5 months', $endDate = 'now', $timezone = null));
+                      $tour->setDateFinTour($faker->dateTimeBetween($startDate = ('-'.(3-$i).' months'), $endDate = ('-'.(2-$i).' months'), $timezone = null));
 
-                      $participants = $tournoi->getTennisUtilisateursParticipant()->toArray();
+                      // PARTICIPANTS = GAGNANTS DU TOUR PRECEDENT
+                      var_dump("Tour n°".($i+1)." participants: ".count($participants)." gagants : ".count($gagants));
+                      $participants = array_merge($participants, $gagants);
+                      $gagants = array();
 
+                      // calcul nb de matchs pour le tour en fonction du nombre de participants restants
                       $nbMatchs = intdiv(count($participants), 2);
 
                       for($j=0; $j<$nbMatchs; $j++){
                         $match = new TennisMatch();
                         $match->setEtat("Terminé");
                         $j1 = $faker->randomElement($participants);
-                        array_diff($participants, [$j1]);
+                        $participants = array_diff($participants, [$j1]);
                         $j2 = $faker->randomElement($participants);
-                        array_diff($participants, [$j2]);
+                        $participants = array_diff($participants, [$j2]);
                         $match->addTennisUtilisateur($j1);
                         $match->addTennisUtilisateur($j2);
 
+                        // CREATION DES SETS
                         for($k=1; $k<=$nbSetsGagnants; $k++){
                             $set = new TennisSet();
                             $set->setNbJeuxDuGagnant(6);
-                            $temp_match_participants = [$j1, $j2];
+
+                            $temp_match_participants = array($j1, $j2);
+                            // Choisir vainqueur
                             $numeroGagnant = $faker->numberBetween(0,1);
                             $set->setTennisUtilisateurGagnant($temp_match_participants[$numeroGagnant]);
-                            array_diff($temp_match_participants, [$temp_match_participants[$numeroGagnant]]);
+
                             $set->setNbJeuxDuPerdant($faker->numberBetween(0,4));
-                            $set->setTennisUtilisateurPerdant($participantsMatch[0]);
+                            $set->setTennisUtilisateurPerdant($temp_match_participants[($numeroGagnant == 1 ? 0 : 1)]);
+
                             $set->setTennisMatch($match);
                             $match->addTennisSet($set);
                             $manager->persist($set);
                         }
 
+                        // CALCUL DU NOMBRE DE SETS POUR TROUVER LE GAGNANT DU MATCH
                         $nbSetJoueur1 = 0;
                         $nbSetJoueur2 = 0;
 
                         foreach($match->getTennisSets() as $matchSet){
-                           if($matchSet->getTennisUtilisateurGagnant() == $participantsMatch[0]){
+                           if($matchSet->getTennisUtilisateurGagnant() == $j1){
                              $nbSetJoueur1++;
                            } else {
                              $nbSetJoueur2++;
@@ -318,13 +333,15 @@ class AppFixtures extends Fixture
                         }
 
                         if($nbSetJoueur1 > $nbSetJoueur2){
-                          // JOUEUR 1 GAGNANT
-                          array_diff($participants, [$participantsMatch[1]]);
-                          $tournoi->removeTennisUtilisateursParticipant($participantsMatch[1]);
+                          // JOUEUR 1 GAGNANT - ELIMINATION JOUEUR 2
+                          $participants = array_diff($participants, [$j2]);
+                          $tournoi->removeTennisUtilisateursParticipant($j2);
+                          array_push($gagants, $j1);
                         } else {
-                          // JOUEUR 2 GAGNANT
-                          array_diff($participants, [$participantsMatch[0]]);
-                          $tournoi->removeTennisUtilisateursParticipant($participantsMatch[0]);
+                          // JOUEUR 2 GAGNANT - ELIMINATION JOUEUR 1
+                          $participants = array_diff($participants, [$j1]);
+                          $tournoi->removeTennisUtilisateursParticipant($j1);
+                          array_push($gagants, $j2);
                         }
 
                         $match->setTennisTour($tour);
@@ -343,11 +360,21 @@ class AppFixtures extends Fixture
                     $tour1->setNumero(1);
                     $tour1->setDateFinTour($faker->dateTimeBetween($startDate = '-1 months', $endDate = '-1 days', $timezone = null));
 
-                    $joueurs_tour1 = $tournoi->getTennisUtilisateursParticipant()->toArray();
+                    $joueurs_tour1 = $temp_joueurs;
+                    $joueurs_tour2 = array();
 
-                    for($i=0; $i<intdiv(count($joueurs_tour1), 2); $i++){
+                    $nbMatchs = intdiv(count($joueurs_tour1), 2);
+
+                    for($i=0; $i<$nbMatchs; $i++){
                       $match = new TennisMatch();
-                      $participantsMatch = array($joueurs_tour1[$i*2], $joueurs_tour1[($i*2)+1]);
+                      var_dump("nb joueurs tour 1 Match ".($i+1)." : ".count($joueurs_tour1));
+                      $j1 = $faker->randomElement($joueurs_tour1);
+                      $joueurs_tour1 = array_diff($joueurs_tour1, [$j1]);
+                      $j2 = $faker->randomElement($joueurs_tour1);
+                      $joueurs_tour1 = array_diff($joueurs_tour1, [$j2]);
+
+                      $participantsMatch = array($j1, $j2);
+
                       $match->setEtat("Terminé");
                       $match->addTennisUtilisateur($participantsMatch[0]);
                       $match->addTennisUtilisateur($participantsMatch[1]);
@@ -356,11 +383,12 @@ class AppFixtures extends Fixture
                           $set = new TennisSet();
                           $set->setNbJeuxDuGagnant(6);
                           $temp_match_participants = $participantsMatch;
+                          // Choisir vainqueur
                           $numeroGagnant = $faker->numberBetween(0,1);
                           $set->setTennisUtilisateurGagnant($temp_match_participants[$numeroGagnant]);
-                          array_diff($temp_match_participants, [$temp_match_participants[$numeroGagnant]]);
                           $set->setNbJeuxDuPerdant($faker->numberBetween(0,4));
-                          $set->setTennisUtilisateurPerdant($temp_match_participants[0]);
+                          $set->setTennisUtilisateurPerdant($temp_match_participants[($numeroGagnant == 1 ? 0 : 1)]);
+
                           $set->setTennisMatch($match);
                           $match->addTennisSet($set);
                           $manager->persist($set);
@@ -381,10 +409,12 @@ class AppFixtures extends Fixture
                         // JOUEUR 1 GAGNANT
                         array_diff($joueurs_tour1, [$participantsMatch[1]]);
                         $tournoi->removeTennisUtilisateursParticipant($participantsMatch[1]);
+                        array_push($joueurs_tour2, $participantsMatch[0]);
                       } else {
                         // JOUEUR 2 GAGNANT
                         array_diff($joueurs_tour1, [$participantsMatch[0]]);
                         $tournoi->removeTennisUtilisateursParticipant($participantsMatch[0]);
+                        array_push($joueurs_tour2, $participantsMatch[1]);
                       }
 
                       $match->setTennisTour($tour1);
@@ -402,31 +432,30 @@ class AppFixtures extends Fixture
                     $tour2->setType("Demi finale");
                     $tour2->setStatut("Commencé");
                     $tour2->setNumero(2);
-                    $tour2->setDateFinTour($faker->dateTimeBetween($startDate = 'now', $endDate = '+1 month', $timezone = null));
-
-                    $joueurs_tour2 = $tournoi->getTennisUtilisateursParticipant()->toArray();
+                    $tour2->setDateFinTour($faker->dateTimeBetween($startDate = '+1 days', $endDate = '+1 month', $timezone = null));
 
                     $nbMatchs = intdiv(count($joueurs_tour2), 2);
 
                     for($p=0; $p<$nbMatchs; $p++){
                       $match = new TennisMatch();
                       $j1 = $faker->randomElement($joueurs_tour2);
-                      array_diff($joueurs_tour2, [$j1]);
+                      $joueurs_tour2 = array_diff($joueurs_tour2, [$j1]);
                       $j2 = $faker->randomElement($joueurs_tour2);
-                      array_diff($joueurs_tour2, [$j2]);
+                      $joueurs_tour2 = array_diff($joueurs_tour2, [$j2]);
                       $match->addTennisUtilisateur($j1);
                       $match->addTennisUtilisateur($j2);
-                      if($i == 0){
+                      if($p == 0){
                         $match->setEtat("Terminé");
                         for($k=1; $k<=$nbSetsGagnants; $k++){
                             $set = new TennisSet();
                             $set->setNbJeuxDuGagnant(6);
-                            $temp_match_participants = $participantsMatchTour2;
+                            $temp_match_participants = array($j1, $j2);
+
                             $numeroGagnant = $faker->numberBetween(0,1);
                             $set->setTennisUtilisateurGagnant($temp_match_participants[$numeroGagnant]);
-                            array_diff($temp_match_participants, [$temp_match_participants[$numeroGagnant]]);
                             $set->setNbJeuxDuPerdant($faker->numberBetween(0,4));
-                            $set->setTennisUtilisateurPerdant($temp_match_participants[0]);
+                            $set->setTennisUtilisateurPerdant($temp_match_participants[($numeroGagnant == 1 ? 0 : 1)]);
+
                             $set->setTennisMatch($match);
                             $match->addTennisSet($set);
                             $manager->persist($set);

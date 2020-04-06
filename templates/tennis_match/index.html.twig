@@ -37,7 +37,11 @@
                 <td>
                 {% for tennis_set in tennis_sets %}
                     {% if tennis_set.tennisMatch.id == tennis_match.id %}
+                        {% if tennis_match.winner == tennis_match.tennisUtilisateurs[0] %}
                         {{tennis_set.nbJeuxDuGagnant}}/{{tennis_set.nbJeuxDuPerdant}}
+                        {% else %}
+                          {{tennis_set.nbJeuxDuPerdant}}/{{tennis_set.nbJeuxDuGagnant}}
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
                 </td>
@@ -53,13 +57,9 @@
 					{% else %}
 					<a id="{{ id + 3 }}" href="{{path('tennis_match_modifier_resultat', {'id' : tennis_match.id})}}" title="Modifier les résultats"><i class="far fa-clipboard"></i></a>
 					{% endif %}
-<<<<<<< HEAD
-					<a id="{{ id + 4 }}" href="" title="Eliminer un joueur"><i class="far fa-times-circle"></i></a>
-					<a id="{{ id + 5 }}" href="{{ path('tennis_match_supprimer', {'id': tennis_match.id}) }}"><i class="fas fa-trash-alt"></i></a>
-=======
 					<a id="{{ id + 4 }}" href="{{ path('tennis_match_eliminer_perdant', {'id': tennis_match.id}) }}" title="Eliminer un joueur"><i class="far fa-times-circle"></i></a>
 					<a id="{{ id + 5 }}" href="{{ path('tennis_match_supprimer', {'id': tennis_match.id}) }}" title="Supprimer le match"><i class="fas fa-trash-alt"></i></a>
->>>>>>> 0be5ede3f6a0c43686bcf831f28d2e08909d6d8e
+
 				</td>
 				<script>
 				{% if app.user not in tennis_tour.tennisTournoi.tennisUtilisateursParticipant and tennis_tour.tennisTournoi.tennisUtilisateur != app.user %}
