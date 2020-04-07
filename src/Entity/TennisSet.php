@@ -115,7 +115,6 @@ class TennisSet
     public function setTennisUtilisateurPerdant(?TennisUtilisateur $tennisUtilisateurPerdant): self
     {
         $this->tennisUtilisateurPerdant = $tennisUtilisateurPerdant;
-
         return $this;
     }
 }
