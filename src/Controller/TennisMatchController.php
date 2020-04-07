@@ -43,11 +43,20 @@ class TennisMatchController extends AbstractController
       $utilisateurs = $tennisTournoi->getTennisUtilisateursParticipant()->toArray();
 
       $names = array();
-      foreach ($utilisateurs as $user){
+      $utilisateurs2 = array();
+      $participants = array(); // joueurs qui sont déja dans un match
+      foreach($tennisTour->getTennisMatchs() as $match){
+        foreach($match->getTennisUtilisateurs() as $user){
+          array_push($participants, $user);
+        }
+      }
+      $joueursNonParticipant = array_diff($utilisateurs, $participants);
+      foreach($joueursNonParticipant as $user){
         array_push($names, $user->getNomComplet());
+        array_push($utilisateurs2, $user);
       }
 
-      $choix = array_combine($names, $utilisateurs);
+      $choix = array_combine($names, $utilisateurs2);
 
       $tennisMatch = new TennisMatch();
 
@@ -80,6 +89,8 @@ class TennisMatchController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
+          } else {
+            echo "<script>alert('Vous devez selectionner deux joueurs differents')</script>";
           }
 
 
