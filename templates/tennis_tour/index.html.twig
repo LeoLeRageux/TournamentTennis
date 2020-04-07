@@ -133,6 +133,7 @@
 	</div>
 	</div>
 	</div>
+	<a href="{{ path('tennis_tournoi_index') }}"><i class="fas fa-arrow-left"></i> Retour vers la liste des tournois</a>
 	{% if tournoi.tennisUtilisateur == app.user %}
 	    {% if tournoi.statut == "Commencé" or tournoi.statut == "Phase d'inscriptions" %}
 		<div class="row">

@@ -115,6 +115,7 @@
 </div>
 </div>
 </div>
+<a href="{{ path('tennis_tour_index', {'id': tennis_tour.tennisTournoi.id}) }}"><i class="fas fa-arrow-left"></i> Retour vers la liste des tours</a>
 {% if tennis_tour.statut != "Terminé" and tennis_tour.tennisTournoi.tennisUtilisateur == app.user %}
 <div class="row">
 <div class="col-md-12">
