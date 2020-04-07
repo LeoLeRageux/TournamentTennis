@@ -37,11 +37,7 @@
                 <td>
                 {% for tennis_set in tennis_sets %}
                     {% if tennis_set.tennisMatch.id == tennis_match.id %}
-                        {% if tennis_match.winner == tennis_match.tennisUtilisateurs[0] %}
-                        {{tennis_set.nbJeuxDuGagnant}}/{{tennis_set.nbJeuxDuPerdant}}
-                        {% else %}
-                          {{tennis_set.nbJeuxDuPerdant}}/{{tennis_set.nbJeuxDuGagnant}}
-                        {% endif %}
+                        {{tennis_set.nbjeuxDuJoueurUn}}/{{tennis_set.nbjeuxDuJoueurDeux}}
                     {% endif %}
                 {% endfor %}
                 </td>

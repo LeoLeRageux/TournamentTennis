@@ -9,8 +9,8 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>NbJeuxDuGagnant</th>
-                <th>NbJeuxDuPerdant</th>
+                <th>NbjeuxDuJoueurUn</th>
+                <th>NbjeuxDuJoueurDeux</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -18,8 +18,8 @@
         {% for tennis_set in tennis_sets %}
             <tr>
                 <td>{{ tennis_set.id }}</td>
-                <td>{{ tennis_set.nbJeuxDuGagnant }}</td>
-                <td>{{ tennis_set.nbJeuxDuPerdant }}</td>
+                <td>{{ tennis_set.nbjeuxDuJoueurUn }}</td>
+                <td>{{ tennis_set.nbjeuxDuJoueurDeux }}</td>
                 <td>
                     <a href="{{ path('tennis_set_show', {'id': tennis_set.id}) }}">show</a>
                     <a href="{{ path('tennis_set_edit', {'id': tennis_set.id}) }}">edit</a>

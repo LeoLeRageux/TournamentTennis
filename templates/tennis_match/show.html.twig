@@ -24,7 +24,7 @@
     <p class="card-text">Résultat :
 	{% if tennis_match.etat == "Terminé" %}
 		{% for tennis_set in tennis_match.tennisSets %}
-			{{tennis_set.nbJeuxDuGagnant}}/{{tennis_set.nbJeuxDuPerdant}}
+			{{tennis_set.nbjeuxDuJoueurUn}}/{{tennis_set.nbjeuxDuJoueurDeux}}
 		{% endfor %}
 	{% else %}
 		{{ tennis_match.etat }} </p>
@@ -35,9 +35,9 @@
 	{% set nbSetsJ1 = 0 %}
 	{% set nbSetsJ2 = 0 %}
 	{% for tennis_set in tennis_match.tennisSets %}
-		{% if tennis_set.nbJeuxDuGagnant > tennis_set.nbJeuxDuPerdant %}
+		{% if tennis_set.nbjeuxDuJoueurUn > tennis_set.nbjeuxDuJoueurDeux %}
 			{% set nbSetsJ1 = nbSetsJ1 + 1 %}
-		{% elseif tennis_set.nbJeuxDuGagnant < tennis_set.nbJeuxDuPerdant %}
+		{% elseif tennis_set.nbjeuxDuJoueurUn < tennis_set.nbjeuxDuJoueurDeux %}
 			{% set nbSetsJ2 = nbSetsJ2 + 1 %}
 		{% endif %}
 	{% endfor %}

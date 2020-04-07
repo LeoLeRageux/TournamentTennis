@@ -26,7 +26,7 @@ class TennisSet
      *      maxMessage = "Le nombre de jeux doit être plus petit que {{ limit }}"
      * )
      */
-    private $nbJeuxDuGagnant;
+    private $nbJeuxDuJoueurUn;
 
     /**
      * @ORM\Column(type="integer")
@@ -37,7 +37,7 @@ class TennisSet
      *      maxMessage = "Le nombre de jeux doit être plus petit que {{ limit }}"
      * )
      */
-    private $nbJeuxDuPerdant;
+    private $nbJeuxDuJoueurDeux;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\TennisMatch", inversedBy="tennisSets")
@@ -45,40 +45,40 @@ class TennisSet
     private $tennisMatch;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\TennisUtilisateur", inversedBy="tennisSetsGagn�es")
+     * @ORM\ManyToOne(targetEntity="App\Entity\TennisUtilisateur", inversedBy="tennisSetsJoueurUn")
      */
-    private $tennisUtilisateurGagnant;
+    private $tennisJoueurUn;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\TennisUtilisateur", inversedBy="tennisSetsPerdus")
+     * @ORM\ManyToOne(targetEntity="App\Entity\TennisUtilisateur", inversedBy="tennisSetsJoueurDeux")
      */
-    private $tennisUtilisateurPerdant;
+    private $tennisJoueurDeux;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNbJeuxDuGagnant(): ?int
+    public function getNbJeuxDuJoueurUn(): ?int
     {
-        return $this->nbJeuxDuGagnant;
+        return $this->nbJeuxDuJoueurUn;
     }
 
-    public function setNbJeuxDuGagnant(int $nbJeuxDuGagnant): self
+    public function setNbJeuxDuJoueurUn(int $nbJeuxDuJoueurUn): self
     {
-        $this->nbJeuxDuGagnant = $nbJeuxDuGagnant;
+        $this->nbJeuxDuJoueurUn = $nbJeuxDuJoueurUn;
 
         return $this;
     }
 
-    public function getNbJeuxDuPerdant(): ?int
+    public function getNbJeuxDuJoueurDeux(): ?int
     {
-        return $this->nbJeuxDuPerdant;
+        return $this->nbJeuxDuJoueurDeux;
     }
 
-    public function setNbJeuxDuPerdant(int $nbJeuxDuPerdant): self
+    public function setNbJeuxDuJoueurDeux(int $nbJeuxDuJoueurDeux): self
     {
-        $this->nbJeuxDuPerdant = $nbJeuxDuPerdant;
+        $this->nbJeuxDuJoueurDeux = $nbJeuxDuJoueurDeux;
 
         return $this;
     }
@@ -95,26 +95,26 @@ class TennisSet
         return $this;
     }
 
-    public function getTennisUtilisateurGagnant(): ?TennisUtilisateur
+    public function getTennisJoueurUn(): ?TennisUtilisateur
     {
-        return $this->tennisUtilisateurGagnant;
+        return $this->tennisJoueurUn;
     }
 
-    public function setTennisUtilisateurGagnant(?TennisUtilisateur $tennisUtilisateurGagnant): self
+    public function setTennisJoueurUn(?TennisUtilisateur $tennisJoueurUn): self
     {
-        $this->tennisUtilisateurGagnant = $tennisUtilisateurGagnant;
+        $this->tennisJoueurUn = $tennisJoueurUn;
 
         return $this;
     }
 
-    public function getTennisUtilisateurPerdant(): ?TennisUtilisateur
+    public function getTennisJoueurDeux(): ?TennisUtilisateur
     {
-        return $this->tennisUtilisateurPerdant;
+        return $this->tennisJoueurDeux;
     }
 
-    public function setTennisUtilisateurPerdant(?TennisUtilisateur $tennisUtilisateurPerdant): self
+    public function setTennisJoueurDeux(?TennisUtilisateur $tennisJoueurDeux): self
     {
-        $this->tennisUtilisateurPerdant = $tennisUtilisateurPerdant;
+        $this->tennisJoueurDeux = $tennisJoueurDeux;
         return $this;
     }
 }

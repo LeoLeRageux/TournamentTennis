@@ -81,14 +81,14 @@ class TennisUtilisateur implements UserInterface
     private $tennisMatchs;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TennisSet", mappedBy="tennisUtilisateurGagnant")
+     * @ORM\OneToMany(targetEntity="App\Entity\TennisSet", mappedBy="tennisjoueurUn")
      */
-    private $tennisSetsGagn�es;
+    private $tennisSetsJoueurUn;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TennisSet", mappedBy="tennisUtilisateurPerdant")
+     * @ORM\OneToMany(targetEntity="App\Entity\TennisSet", mappedBy="tennisjoueurDeux")
      */
-    private $tennisSetsPerdus;
+    private $tennisSetsJoueurDeux;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\tennisTournoi", inversedBy="tennisUtilisateursParticipant")
@@ -109,8 +109,8 @@ class TennisUtilisateur implements UserInterface
     {
         $this->tennisTournoi = new ArrayCollection();
         $this->tennisMatchs = new ArrayCollection();
-        $this->tennisSetsGagn�es = new ArrayCollection();
-        $this->tennisSetsPerdus = new ArrayCollection();
+        $this->tennisSetsJoueurUn = new ArrayCollection();
+        $this->tennisSetsJoueurDeux = new ArrayCollection();
         $this->tennisTournoisParticiper = new ArrayCollection();
         $this->tennisTournoisDemandes = new ArrayCollection();
 
@@ -336,28 +336,28 @@ class TennisUtilisateur implements UserInterface
     /**
      * @return Collection|TennisSet[]
      */
-    public function getTennisSetsGagn�es(): Collection
+    public function getTennisSetsJoueurUn(): Collection
     {
-        return $this->tennisSetsGagn�es;
+        return $this->tennisSetsJoueurUn;
     }
 
-    public function addTennisSetsGagnE(TennisSet $tennisSetsGagnE): self
+    public function addTennisSetsJoueurUn(TennisSet $tennisSetsJoueurUn): self
     {
-        if (!$this->tennisSetsGagn�es->contains($tennisSetsGagnE)) {
-            $this->tennisSetsGagn�es[] = $tennisSetsGagnE;
-            $tennisSetsGagnE->setTennisUtilisateurGagnant($this);
+        if (!$this->tennisSetsJoueurUn->contains($tennisSetsJoueurUn)) {
+            $this->tennisSetsJoueurUn[] = $tennisSetsJoueurUn;
+            $tennisSetsJoueurUn->setTennisjoueurUn($this);
         }
 
         return $this;
     }
 
-    public function removeTennisSetsGagnE(TennisSet $tennisSetsGagnE): self
+    public function removeTennisSetsJoueurUn(TennisSet $tennisSetsJoueurUn): self
     {
-        if ($this->tennisSetsGagn�es->contains($tennisSetsGagnE)) {
-            $this->tennisSetsGagn�es->removeElement($tennisSetsGagnE);
+        if ($this->tennisSetsJoueurUn->contains($tennisSetsJoueurUn)) {
+            $this->tennisSetsJoueurUn->removeElement($tennisSetsJoueurUn);
             // set the owning side to null (unless already changed)
-            if ($tennisSetsGagnE->getTennisUtilisateurGagnant() === $this) {
-                $tennisSetsGagnE->setTennisUtilisateurGagnant(null);
+            if ($tennisSetsJoueurUn->getTennisjoueurUn() === $this) {
+                $tennisSetsJoueurUn->setTennisjoueurUn(null);
             }
         }
 
@@ -367,28 +367,28 @@ class TennisUtilisateur implements UserInterface
     /**
      * @return Collection|TennisSet[]
      */
-    public function getTennisSetsPerdus(): Collection
+    public function getTennisSetsJoueurDeux(): Collection
     {
-        return $this->tennisSetsPerdus;
+        return $this->tennisSetsJoueurDeux;
     }
 
-    public function addTennisSetsPerdus(TennisSet $tennisSetsPerdus): self
+    public function addTennisSetsJoueurDeux(TennisSet $tennisSetsJoueurDeux): self
     {
-        if (!$this->tennisSetsPerdus->contains($tennisSetsPerdus)) {
-            $this->tennisSetsPerdus[] = $tennisSetsPerdus;
-            $tennisSetsPerdus->setTennisUtilisateurPerdant($this);
+        if (!$this->tennisSetsJoueurDeux->contains($tennisSetsJoueurDeux)) {
+            $this->tennisSetsJoueurDeux[] = $tennisSetsJoueurDeux;
+            $tennisSetsJoueurDeux->setTennisjoueurDeux($this);
         }
 
         return $this;
     }
 
-    public function removeTennisSetsPerdus(TennisSet $tennisSetsPerdus): self
+    public function removeTennisSetsJoueurDeux(TennisSet $tennisSetsJoueurDeux): self
     {
-        if ($this->tennisSetsPerdus->contains($tennisSetsPerdus)) {
-            $this->tennisSetsPerdus->removeElement($tennisSetsPerdus);
+        if ($this->tennisSetsJoueurDeux->contains($tennisSetsJoueurDeux)) {
+            $this->tennisSetsJoueurDeux->removeElement($tennisSetsJoueurDeux);
             // set the owning side to null (unless already changed)
-            if ($tennisSetsPerdus->getTennisUtilisateurPerdant() === $this) {
-                $tennisSetsPerdus->setTennisUtilisateurPerdant(null);
+            if ($tennisSetsJoueurDeux->getTennisjoueurDeux() === $this) {
+                $tennisSetsJoueurDeux->setTennisjoueurDeux(null);
             }
         }
 

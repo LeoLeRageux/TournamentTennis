@@ -305,15 +305,15 @@ class AppFixtures extends Fixture
                         // CREATION DES SETS
                         for($k=1; $k<=$nbSetsGagnants; $k++){
                             $set = new TennisSet();
-                            $set->setNbJeuxDuGagnant(6);
+                            $set->setNbjeuxDuJoueurUn(6);
 
                             $temp_match_participants = array($j1, $j2);
                             // Choisir vainqueur
                             $numeroGagnant = $faker->numberBetween(0,1);
-                            $set->setTennisUtilisateurGagnant($temp_match_participants[$numeroGagnant]);
+                            $set->setTennisjoueurUn($temp_match_participants[$numeroGagnant]);
 
-                            $set->setNbJeuxDuPerdant($faker->numberBetween(0,4));
-                            $set->setTennisUtilisateurPerdant($temp_match_participants[($numeroGagnant == 1 ? 0 : 1)]);
+                            $set->setNbjeuxDuJoueurDeux($faker->numberBetween(0,4));
+                            $set->setTennisjoueurDeux($temp_match_participants[($numeroGagnant == 1 ? 0 : 1)]);
 
                             $set->setTennisMatch($match);
                             $match->addTennisSet($set);
@@ -325,7 +325,7 @@ class AppFixtures extends Fixture
                         $nbSetJoueur2 = 0;
 
                         foreach($match->getTennisSets() as $matchSet){
-                           if($matchSet->getTennisUtilisateurGagnant() == $j1){
+                           if($matchSet->getTennisjoueurUn() == $j1){
                              $nbSetJoueur1++;
                            } else {
                              $nbSetJoueur2++;
@@ -381,13 +381,13 @@ class AppFixtures extends Fixture
 
                       for($k=1; $k<=$nbSetsGagnants; $k++){
                           $set = new TennisSet();
-                          $set->setNbJeuxDuGagnant(6);
+                          $set->setNbjeuxDuJoueurUn(6);
                           $temp_match_participants = $participantsMatch;
                           // Choisir vainqueur
                           $numeroGagnant = $faker->numberBetween(0,1);
-                          $set->setTennisUtilisateurGagnant($temp_match_participants[$numeroGagnant]);
-                          $set->setNbJeuxDuPerdant($faker->numberBetween(0,4));
-                          $set->setTennisUtilisateurPerdant($temp_match_participants[($numeroGagnant == 1 ? 0 : 1)]);
+                          $set->setTennisjoueurUn($temp_match_participants[$numeroGagnant]);
+                          $set->setNbjeuxDuJoueurDeux($faker->numberBetween(0,4));
+                          $set->setTennisjoueurDeux($temp_match_participants[($numeroGagnant == 1 ? 0 : 1)]);
 
                           $set->setTennisMatch($match);
                           $match->addTennisSet($set);
@@ -398,7 +398,7 @@ class AppFixtures extends Fixture
                       $nbSetJoueur2 = 0;
 
                       foreach($match->getTennisSets() as $matchSet){
-                         if($matchSet->getTennisUtilisateurGagnant() == $participantsMatch[0]){
+                         if($matchSet->getTennisjoueurUn() == $participantsMatch[0]){
                            $nbSetJoueur1++;
                          } else {
                            $nbSetJoueur2++;
@@ -448,13 +448,13 @@ class AppFixtures extends Fixture
                         $match->setEtat("Terminé");
                         for($k=1; $k<=$nbSetsGagnants; $k++){
                             $set = new TennisSet();
-                            $set->setNbJeuxDuGagnant(6);
+                            $set->setNbjeuxDuJoueurUn(6);
                             $temp_match_participants = array($j1, $j2);
 
                             $numeroGagnant = $faker->numberBetween(0,1);
-                            $set->setTennisUtilisateurGagnant($temp_match_participants[$numeroGagnant]);
-                            $set->setNbJeuxDuPerdant($faker->numberBetween(0,4));
-                            $set->setTennisUtilisateurPerdant($temp_match_participants[($numeroGagnant == 1 ? 0 : 1)]);
+                            $set->setTennisjoueurUn($temp_match_participants[$numeroGagnant]);
+                            $set->setNbjeuxDuJoueurDeux($faker->numberBetween(0,4));
+                            $set->setTennisjoueurDeux($temp_match_participants[($numeroGagnant == 1 ? 0 : 1)]);
 
                             $set->setTennisMatch($match);
                             $match->addTennisSet($set);

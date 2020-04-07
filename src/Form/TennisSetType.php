@@ -12,8 +12,8 @@ class TennisSetType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nbJeuxDuGagnant')
-            ->add('nbJeuxDuPerdant')
+            ->add('nbjeuxDuJoueurUn')
+            ->add('nbjeuxDuJoueurDeux')
             ->add('tennisMatch')
         ;
     }

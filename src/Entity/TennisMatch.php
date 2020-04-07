@@ -155,7 +155,7 @@ class TennisMatch
           $participants = $this->getTennisUtilisateurs();
           $nb1 = 0; $nb2 = 0;
           foreach($this->getTennisSets() as $set){
-            if($set->getTennisUtilisateurGagnant() == $participants[0]){
+            if($set->getTennisjoueurUn() == $participants[0]){
               $nb1++;
             } else {
               $nb2++;

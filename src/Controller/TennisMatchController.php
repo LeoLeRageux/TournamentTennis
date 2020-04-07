@@ -265,8 +265,8 @@ class TennisMatchController extends AbstractController
 
          for($i=1; $i<=$tennisMatch->getTennisTour()->getTennisTournoi()->getNbSetsGagnants(); $i++){
            $set = new TennisSet();
-           $set->setNbJeuxDuGagnant($form->getData()["jeuG".$i]);
-           $set->setNbJeuxDuPerdant($form->getData()["jeuD".$i]);
+           $set->setNbjeuxDuJoueurUn($form->getData()["jeuG".$i]);
+           $set->setNbjeuxDuJoueurDeux($form->getData()["jeuD".$i]);
            $tennisMatch->addTennisSet($set);
            $tennisMatch->setEtat("Terminé");
          }
@@ -302,8 +302,8 @@ class TennisMatchController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
           $i = 1;
           foreach ($tennisMatch->getTennisSets() as $set) {
-            $set->setNbJeuxDuGagnant($form->getData()["jeuG".$i]);
-            $set->setNbJeuxDuPerdant($form->getData()["jeuD".$i]);
+            $set->setNbjeuxDuJoueurUn($form->getData()["jeuG".$i]);
+            $set->setNbjeuxDuJoueurDeux($form->getData()["jeuD".$i]);
             $tennisMatch->addTennisSet($set);
             $i++;
           }
@@ -326,9 +326,9 @@ class TennisMatchController extends AbstractController
          $nbSetsJ1 = 0;
          $nbSetsJ2 = 0;
          foreach($tennisMatch->getTennisSets() as $set){
-           if($set->getNbJeuxDuGagnant() > $set->getNbJeuxDuPerdant()){
+           if($set->getNbjeuxDuJoueurUn() > $set->getNbjeuxDuJoueurDeux()){
              $nbSetsJ1++;
-           } else if($set->getNbJeuxDuGagnant() < $set->getNbJeuxDuPerdant()){
+           } else if($set->getNbjeuxDuJoueurUn() < $set->getNbjeuxDuJoueurDeux()){
              $nbSetsJ2++;
            }
          }
