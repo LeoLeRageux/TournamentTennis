@@ -121,7 +121,7 @@ class TennisMatchController extends AbstractController
         $tennisTournoi = $tennisTour->getTennisTournoi();
         $utilisateurs = $tennisTournoi->getTennisUtilisateursParticipant()->toArray();
 
-        array_diff($utilisateurs, $tennisMatch->getTennisUtilisateurs()->toArray());
+        $utilisateurs = array_diff($utilisateurs, $tennisMatch->getTennisUtilisateurs()->toArray());
 
         $joueurActuel1 = $tennisMatch->getTennisUtilisateurs()[0];
         $joueurActuel2 = $tennisMatch->getTennisUtilisateurs()[1];
