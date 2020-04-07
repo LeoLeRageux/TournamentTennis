@@ -396,13 +396,12 @@ class AppFixtures extends Fixture
 
                       $nbSetJoueur1 = 0;
                       $nbSetJoueur2 = 0;
-
-                      foreach($match->getTennisSets() as $matchSet){
-                         if($matchSet->getTennisjoueurUn() == $participantsMatch[0]){
-                           $nbSetJoueur1++;
-                         } else {
-                           $nbSetJoueur2++;
-                         }
+                      foreach($match->getTennisSets() as $set){
+                        if($set->getNbjeuxDuJoueurUn() > $set->getNbjeuxDuJoueurDeux()){
+                          $nbSetJoueur1++;
+                        } else if($set->getNbjeuxDuJoueurUn() < $set->getNbjeuxDuJoueurDeux()){
+                          $nbSetJoueur2++;
+                        }
                       }
 
                       if($nbSetJoueur1 > $nbSetJoueur2){

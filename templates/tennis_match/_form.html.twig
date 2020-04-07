@@ -1,33 +1,51 @@
+<body onload="changeEltListe2()">
 {{ form_start(form) }}
-
-
-	<div class="row">
+<div class="row">
+	<div class="col-md-4">
+		</div>
+			<div class="col-md-4">
+				<form role="form">
+					<div class="form-group">
+						{{ form_label(form.joueur_1,'Joueur 1') }}
+						{{ form_errors(form.joueur_1) }}
+						{{ form_widget(form.joueur_1, { 'attr': {'onChange': 'changeEltListe2()'} }) }}
+					</div>
+					<div class="form-group">
+						{{ form_label(form.joueur_2,'Joueur 2') }}
+            {{ form_errors(form.joueur_2) }}
+            {{ form_widget(form.joueur_2) }}
+					</div>
+					<button class="btn btn-primary" id="btn">{{ button_label|default('Valider') }}</button>
+				</form>
+			</div>
 		<div class="col-md-4">
-		</div>
-		<div class="col-md-4">
-
-        <form role="form">
-
-		<div class="form-group">
-                        {{ form_label(form.joueur_1,'Joueur 1') }}
-                        {{ form_errors(form.joueur_1) }}
-                        {{ form_widget(form.joueur_1) }}
-
-		</div>
-
-        <div class="form-group">
-                        {{ form_label(form.joueur_2,'Joueur 2') }}
-                        {{ form_errors(form.joueur_2) }}
-                        {{ form_widget(form.joueur_2) }}
-		</div>
-				<button class="btn btn-primary">{{ button_label|default('Valider') }}</button>
-			</form>
-      <br/>
-
-		</div>
-    <div class="col-md-4">
 	</div>
-
-	</div>
-
+</div>
+<div id="calque"></div>
 {{ form_end(form) }}
+</body>
+<script>
+function changeEltListe2(){
+	var sel1 = document.getElementById("form_joueur_1");
+	var sel2 = document.getElementById("form_joueur_2");
+	var i = sel2.length;
+	while(i >= 0){
+		i--;
+	}
+	var eltACacher = document.getElementById("form_joueur_1").options[document.getElementById('form_joueur_1').selectedIndex].text;
+	for(var i=0; i<sel2.length; i++){
+		if(sel2.options[i].text == eltACacher){
+			sel2.options[i].disabled = true;
+			sel2.options[i].label = "---";
+		} else {
+			sel2.options[i].disabled = false;
+			sel2.options[i].label = sel1.options[i].label;
+		}
+	}
+	if(document.getElementById("form_joueur_2").options[document.getElementById('form_joueur_2').selectedIndex].label == "---"){
+		document.getElementById("btn").style.visibility = 'hidden';
+	} else {
+		document.getElementById("btn").style.visibility = 'visible';
+	}
+}
+</script>

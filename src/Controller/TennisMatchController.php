@@ -76,20 +76,17 @@ class TennisMatchController extends AbstractController
 
           $tennisMatch->setEtat('Pas encore joué');
 
+
           $joueur1 = $form->getData()["joueur_1"];
           $joueur2 = $form->getData()["joueur_2"];
 
-          if($joueur1 != $joueur2){
-            $tennisMatch->addTennisUtilisateur($joueur1);
-            $tennisMatch->addTennisUtilisateur($joueur2);
+          $tennisMatch->addTennisUtilisateur($joueur1);
+          $tennisMatch->addTennisUtilisateur($joueur2);
 
-            $entityManager->persist($tennisMatch);
-            $entityManager->flush();
+          $entityManager->persist($tennisMatch);
+          $entityManager->flush();
 
-            return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
-          } else {
-            echo "<script>alert('Vous devez selectionner deux joueurs differents')</script>";
-          }
+          return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
       }
 
       return $this->render('tennis_match/new.html.twig', [
