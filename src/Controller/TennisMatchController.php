@@ -68,11 +68,9 @@ class TennisMatchController extends AbstractController
             ->getForm();
 
       $form->handleRequest($request);
-
       if ($form->isSubmitted()) {
           $entityManager = $this->getDoctrine()->getManager();
 
-          // RELATION BI-DIRECTIONELLE AVEC TENNIS_TOUR
           $tennisMatch->setTennisTour($tennisTour);
           $tennisTour->addTennisMatch($tennisMatch);
 
@@ -92,8 +90,6 @@ class TennisMatchController extends AbstractController
           } else {
             echo "<script>alert('Vous devez selectionner deux joueurs differents')</script>";
           }
-
-
       }
 
       return $this->render('tennis_match/new.html.twig', [
@@ -121,13 +117,35 @@ class TennisMatchController extends AbstractController
         $tennisTournoi = $tennisTour->getTennisTournoi();
         $utilisateurs = $tennisTournoi->getTennisUtilisateursParticipant()->toArray();
 
+        $names = array();
+        $utilisateurs2 = array();
+        $participants = array(); // joueurs qui sont déja dans un match
+
         array_diff($utilisateurs, $tennisMatch->getTennisUtilisateurs()->toArray());
+
+        foreach($tennisTour->getTennisMatchs() as $match){
+          if($match->getId() != $tennisMatch->getId()){
+            foreach($match->getTennisUtilisateurs() as $user){
+              array_push($participants, $user);
+            }
+          }
+        }
+        $joueursNonParticipant = array_diff($utilisateurs, $participants);
+        foreach($joueursNonParticipant as $user){
+          array_push($names, $user->getNomComplet());
+          array_push($utilisateurs2, $user);
+        }
+
+        $choix = array_combine($names, $utilisateurs2);
+
+        /* array_diff($utilisateurs, $tennisMatch->getTennisUtilisateurs()->toArray());
 
         $joueurActuel1 = $tennisMatch->getTennisUtilisateurs()[0];
         $joueurActuel2 = $tennisMatch->getTennisUtilisateurs()[1];
 
         $utilisateursJoueurs1 = $utilisateurs;
         array_unshift($utilisateursJoueurs1, $joueurActuel1);
+
 
         $utilisateursJoueurs2 = $utilisateurs;
         array_unshift($utilisateursJoueurs2, $joueurActuel2);
@@ -144,12 +162,12 @@ class TennisMatchController extends AbstractController
 
         $choixJ1 = array_combine($namesJ1, $utilisateursJoueurs1);
         $choixJ2 = array_combine($namesJ2, $utilisateursJoueurs2);
-
+*/
         $form = $this->createFormBuilder()
               ->add('joueur_1', ChoiceType::class, [
-                'choices' => $choixJ1])
+                'choices' => $choix])
               ->add('joueur_2', ChoiceType::class, [
-                  'choices' => $choixJ2])
+                  'choices' => $choix])
               ->getForm();
 
         $form->handleRequest($request);
