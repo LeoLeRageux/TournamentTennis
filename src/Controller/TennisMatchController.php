@@ -117,11 +117,9 @@ class TennisMatchController extends AbstractController
         $tennisTournoi = $tennisTour->getTennisTournoi();
         $utilisateurs = $tennisTournoi->getTennisUtilisateursParticipant()->toArray();
 
-        $names = array();
         $utilisateurs2 = array();
-        $participants = array(); // joueurs qui sont déja dans un match
-
-        array_diff($utilisateurs, $tennisMatch->getTennisUtilisateurs()->toArray());
+        $participants = array();
+        $names = array();
 
         foreach($tennisTour->getTennisMatchs() as $match){
           if($match->getId() != $tennisMatch->getId()){

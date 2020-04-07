@@ -145,7 +145,7 @@ class AppFixtures extends Fixture
     		$yon->setPassword('$2y$10$rKaFqZlhQN/nKo0kXMQgmeQ8sLXKnx7By/hEe.vvrX3.uMGPRx2Xi');
         $yon->setPrenom("Yon");
         $yon->setNom("Dourisboure");
-        $yon->setDateNaissance(new DateTime('05/07/1980'));
+        $yon->setDateNaissance(new DateTime('05/07/2002'));
     		$yon->setTelephone("0559574336");
     		$yon->setNiveau("30/1");
         $yon->setGenreHomme(true);
@@ -157,7 +157,7 @@ class AppFixtures extends Fixture
     		$chakib->setPassword('$2y$10$6lK0dMvqC5Qs4.FD3PVKiOM./9JQd9/6f2VvrOOoDvhDYN.gEWq96');
         $chakib->setPrenom("Chakib");
         $chakib->setNom("Alami");
-        $chakib->setDateNaissance(new DateTime('12/09/1985'));
+        $chakib->setDateNaissance(new DateTime('05/06/2002'));
     		$chakib->setTelephone("0559574336");
     		$chakib->setNiveau("18/1");
         $chakib->setGenreHomme(true);
@@ -169,7 +169,7 @@ class AppFixtures extends Fixture
     		$patrick->setPassword('$2y$10$hsJQODjP.tda9PTihM.M1.temKmF/J48fSkzfmNTyulbAvCnJeHSO');
         $patrick->setPrenom("Patrick");
         $patrick->setNom("Etchevery");
-        $patrick->setDateNaissance(new DateTime('08/21/1980'));
+        $patrick->setDateNaissance(new DateTime('05/05/2002'));
     		$patrick->setTelephone("0559574336");
     		$patrick->setNiveau("18/1");
         $patrick->setGenreHomme(true);
@@ -193,7 +193,7 @@ class AppFixtures extends Fixture
     		$roose->setPassword('$2y$10$FWw7QIcJoYkf7G1rXeLLGOfcU03adMmWWoEJ1tqAkRxyEqc6Bz/Tu');
         $roose->setPrenom("Philippe");
         $roose->setNom("Roose");
-        $roose->setDateNaissance(new DateTime('08/21/1980'));
+        $roose->setDateNaissance(new DateTime('05/09/2002'));
     		$roose->setTelephone("0559574336");
     		$roose->setNiveau("18/1");
         $roose->setGenreHomme(true);
@@ -205,7 +205,7 @@ class AppFixtures extends Fixture
     		$yann->setPassword('$2y$10$sZWYwAV.mpvqPyFEpEEr.uRi3SvyY3XvT9U3yL.OhzPB8yc9LBrIW');
         $yann->setPrenom("Yann");
         $yann->setNom("Carpentier");
-        $yann->setDateNaissance(new DateTime('08/21/1980'));
+        $yann->setDateNaissance(new DateTime('05/11/2002'));
     		$yann->setTelephone("0559574336");
     		$yann->setNiveau("18/1");
         $yann->setGenreHomme(true);
