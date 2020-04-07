@@ -128,24 +128,14 @@ class TennisMatchController extends AbstractController
             }
           }
         }
-        $joueursNonParticipant = array_diff($utilisateurs, $participants);
-        foreach($joueursNonParticipant as $user){
-          array_push($names, $user->getNomComplet());
-          array_push($utilisateurs2, $user);
-        }
-
-        $choix = array_combine($names, $utilisateurs2);
-
-        /* array_diff($utilisateurs, $tennisMatch->getTennisUtilisateurs()->toArray());
-
         $joueurActuel1 = $tennisMatch->getTennisUtilisateurs()[0];
         $joueurActuel2 = $tennisMatch->getTennisUtilisateurs()[1];
 
-        $utilisateursJoueurs1 = $utilisateurs;
+        $utilisateursJoueurs1 = array_diff($utilisateurs, $participants);
         array_unshift($utilisateursJoueurs1, $joueurActuel1);
 
 
-        $utilisateursJoueurs2 = $utilisateurs;
+        $utilisateursJoueurs2 = array_diff($utilisateurs, $participants);
         array_unshift($utilisateursJoueurs2, $joueurActuel2);
 
         $namesJ1 = array();
@@ -160,12 +150,12 @@ class TennisMatchController extends AbstractController
 
         $choixJ1 = array_combine($namesJ1, $utilisateursJoueurs1);
         $choixJ2 = array_combine($namesJ2, $utilisateursJoueurs2);
-*/
+
         $form = $this->createFormBuilder()
               ->add('joueur_1', ChoiceType::class, [
-                'choices' => $choix])
+                'choices' => $choixJ1])
               ->add('joueur_2', ChoiceType::class, [
-                  'choices' => $choix])
+                  'choices' => $choixJ2])
               ->getForm();
 
         $form->handleRequest($request);
@@ -176,8 +166,10 @@ class TennisMatchController extends AbstractController
             $j2 = $form->getData()["joueur_2"];
 
             if($j1 != $j2){
-              if($j1 != $tennisMatch->getTennisUtilisateurs()[0] || $j2 != $tennisMatch->getTennisUtilisateurs()[1]){
+              if($j1 != $tennisMatch->getTennisUtilisateurs()[0]){
                 $tennisMatch->removeTennisUtilisateur($joueurActuel1);
+              }
+              if($j2 != $tennisMatch->getTennisUtilisateurs()[1]){
                 $tennisMatch->removeTennisUtilisateur($joueurActuel2);
               }
 
@@ -187,6 +179,8 @@ class TennisMatchController extends AbstractController
               $this->getDoctrine()->getManager()->flush();
 
               return $this->redirectToRoute('tennis_match_index', ['id' => $tennisMatch->getTennisTour()->getId()]);
+            } else {
+              echo "<script>alert('Vous devez selectionner deux joueurs differents')</script>";
             }
 
         }
