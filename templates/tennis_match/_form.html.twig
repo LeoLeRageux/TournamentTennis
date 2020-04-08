@@ -13,7 +13,7 @@
 					<div class="form-group">
 						{{ form_label(form.joueur_2,'Joueur 2') }}
             {{ form_errors(form.joueur_2) }}
-            {{ form_widget(form.joueur_2) }}
+            {{ form_widget(form.joueur_2, { 'attr': {'onChange': 'griserButton()'} }) }}
 					</div>
 					<button class="btn btn-primary" id="btn">{{ button_label|default('Valider') }}</button>
 				</form>
@@ -28,10 +28,6 @@
 function changeEltListe2(){
 	var sel1 = document.getElementById("form_joueur_1");
 	var sel2 = document.getElementById("form_joueur_2");
-	var i = sel2.length;
-	while(i >= 0){
-		i--;
-	}
 	var eltACacher = document.getElementById("form_joueur_1").options[document.getElementById('form_joueur_1').selectedIndex].text;
 	for(var i=0; i<sel2.length; i++){
 		if(sel2.options[i].text == eltACacher){
@@ -42,6 +38,9 @@ function changeEltListe2(){
 			sel2.options[i].label = sel1.options[i].label;
 		}
 	}
+	griserButton()
+}
+function griserButton(){
 	if(document.getElementById("form_joueur_2").options[document.getElementById('form_joueur_2').selectedIndex].label == "---"){
 		document.getElementById("btn").style.visibility = 'hidden';
 	} else {
