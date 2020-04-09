@@ -42,12 +42,25 @@
 					app.user not in tennis_tournoi.tennisUtilisateursParticipant and
 					app.user not in tennis_tournoi.tennisUtilisateursDemandeInscription and
 					tennis_tournoi.statut == "Phase d'inscriptions" and
-					(date().settime(0,0).diff(app.user.dateNaissance).days / 365)|round(0, 'floor') >= tennis_tournoi.categorieAge|split('/')[0]|number_format and
-					(date().settime(0,0).diff(app.user.dateNaissance).days / 365)|round(0, 'floor') <= tennis_tournoi.categorieAge|split('/')[1]|number_format and
 					tennis_tournoi.inscriptionsManuelles and
 					tennis_tournoi.tennisUtilisateursParticipant|length <= tennis_tournoi.nbPlaces
 					%}
-						{% set listeTournois = listeTournois|merge([tennis_tournoi]) %}
+					{% if tennis_tournoi.categorieAge matches '{^[0-9]+\/[0-9]+}' %}
+						{% if (date().settime(0,0).diff(app.user.dateNaissance).days / 365)|round(0, 'floor') >= tennis_tournoi.categorieAge|split('/')[0]|number_format
+						and (date().settime(0,0).diff(app.user.dateNaissance).days / 365)|round(0, 'floor') <= tennis_tournoi.categorieAge|split('/')[1]|number_format %}
+							{% set listeTournois = listeTournois|merge([tennis_tournoi]) %}
+						{% endif %}
+					{% elseif tennis_tournoi.categorieAge matches '{^[0-9]+\+}' %}
+						{% if (date().settime(0,0).diff(app.user.dateNaissance).days / 365)|round(0, 'floor') >= tennis_tournoi.categorieAge|split('+')[0]|number_format
+						and (date().settime(0,0).diff(app.user.dateNaissance).days / 365)|round(0, 'floor') <= tennis_tournoi.categorieAge|split('+')[0]|number_format + 5 %}
+							{% set listeTournois = listeTournois|merge([tennis_tournoi]) %}
+						{% endif %}
+					{% else %}
+						{% if (date().settime(0,0).diff(app.user.dateNaissance).days / 365)|round(0, 'floor') >= 19
+						and (date().settime(0,0).diff(app.user.dateNaissance).days / 365)|round(0, 'floor') <= 34 %}
+							{% set listeTournois = listeTournois|merge([tennis_tournoi]) %}
+						{% endif %}
+					{% endif %}
 					{% endif %}
 				{% endfor %}
 				{% for tennis_tournoi in listeTournois %}
