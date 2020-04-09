@@ -39,27 +39,38 @@ class TennisTourController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
+            $tourExiteDeja = false;
+            if($tennisTour->getType() != "Intermédiaire"){
+              foreach($tournoiAssocie->getTennisTours() as $tour){
+                if($tennisTour->getType() == $tour->getType()){ // le tour quart / demi / finale existe déja
+                  $tourExiteDeja = true;
+                }
+              }
+            }
+            if($tourExiteDeja == false){
+              $numeroTournoi = sizeof($tournoiAssocie->getTennisTours()) +1;
 
-            $numeroTournoi = sizeof($tournoiAssocie->getTennisTours()) +1;
+              // Définir le statut du tour
+              $tennisTour->setStatut("Organisation");
 
-            // Définir le statut du tour
-            $tennisTour->setStatut("Organisation");
+              // Définir le statut du tour
+              $tennisTour->setNumero($numeroTournoi);
 
-            // Définir le statut du tour
-            $tennisTour->setNumero($numeroTournoi);
+              //Définir le tournoi associé au tour
+              $tennisTour->setTennisTournoi($tournoiAssocie);
 
-            //Définir le tournoi associé au tour
-            $tennisTour->setTennisTournoi($tournoiAssocie);
+              $entityManager = $this->getDoctrine()->getManager();
+              $entityManager->persist($tennisTour);
+              $entityManager->flush();
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($tennisTour);
-            $entityManager->flush();
+              $numeroTournoi ++;
 
-            $numeroTournoi ++;
-
-            return $this->redirectToRoute('tennis_tour_index', [
-                'id' => $tennisTour->getTennisTournoi()->getId()
-            ]);
+              return $this->redirectToRoute('tennis_tour_index', [
+                  'id' => $tennisTour->getTennisTournoi()->getId()
+              ]);
+            } else {
+              echo "<script>alert('Il y a déja un tour du même type que vous essayez de créer')</script>";
+            }
         }
 
         return $this->render('tennis_tour/new.html.twig', [
