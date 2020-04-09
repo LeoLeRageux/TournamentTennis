@@ -40,7 +40,7 @@ class TennisTourController extends AbstractController
 
         if ($form->isSubmitted()) {
             $tourExiteDeja = false;
-            if($tennisTour->getType() != "Intermédiaire"){
+            if($tennisTour->getType() != "Intermediaire"){
               foreach($tournoiAssocie->getTennisTours() as $tour){
                 if($tennisTour->getType() == $tour->getType()){ // le tour quart / demi / finale existe déja
                   $tourExiteDeja = true;
@@ -69,7 +69,7 @@ class TennisTourController extends AbstractController
                   'id' => $tennisTour->getTennisTournoi()->getId()
               ]);
             } else {
-              echo "<script>alert('Il y a déja un tour du même type que vous essayez de créer')</script>";
+              echo "<script>alert('Il ne peut y avoir uniquement un seul tour avec ce type par tournoi')</script>";
             }
         }
 
@@ -99,10 +99,24 @@ class TennisTourController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) { // && $form->isValid()
+          $tourExiteDeja = false;
+          if($tennisTour->getType() != "Intermediaire"){
+            foreach($tennisTour->getTennisTournoi()->getTennisTours() as $tour){
+              if($tennisTour->getId() != $tour->getId()){
+                if($tennisTour->getType() == $tour->getType()){ // le tour quart / demi / finale existe déja
+                  $tourExiteDeja = true;
+                }
+              }
+            }
+          }
+          if($tourExiteDeja == false){
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('tennis_tour_index', [
                 'id' => $tennisTour->getTennisTournoi()->getId()
             ]);
+          } else {
+            echo "<script>alert('Il ne peut y avoir uniquement un seul tour avec ce type par tournoi')</script>";
+          }
         }
 
         return $this->render('tennis_tour/edit.html.twig', [
