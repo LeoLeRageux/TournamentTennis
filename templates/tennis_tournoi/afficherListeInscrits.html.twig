@@ -30,8 +30,8 @@
             {% set indexUser = 0 %}
             {% for utilisateur in tennis_tournoi.tennisUtilisateursParticipant %}
               <tr>
-                  <td>{{ utilisateur.nom }}</td>
-                  <td>{{ utilisateur.prenom }}</td>
+                  <td><a href="/tennis/utilisateur/profil/{{ utilisateur.id }}" title="Consulter le profil de {{ utilisateur.prenom }} {{ utilisateur.nom }}">{{ utilisateur.nom }}</a></td>
+                  <td><a href="/tennis/utilisateur/profil/{{ utilisateur.id }}" title="Consulter le profil de {{ utilisateur.prenom }} {{ utilisateur.nom }}">{{ utilisateur.prenom }}</a></td>
                   <td>{{ utilisateur.dateNaissance|date('d-m-Y') }}</td>
                   <td>{{ utilisateur.niveau }}</td>
                   {% if app.user == tennis_tournoi.tennisUtilisateur %}

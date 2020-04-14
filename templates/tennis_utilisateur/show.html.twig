@@ -31,10 +31,12 @@
                 <th>DateNaissance</th>
                 <td>{{ tennis_utilisateur.dateNaissance ? tennis_utilisateur.dateNaissance|date('Y-m-d') : '' }}</td>
             </tr>
+            {% if tennis_utilisateur == app.user %}
             <tr>
                 <th>Telephone</th>
                 <td>{{ tennis_utilisateur.telephone }}</td>
             </tr>
+            {% endif %}
             <tr>
                 <th>Niveau</th>
                 <td>{{ tennis_utilisateur.niveau }}</td>
