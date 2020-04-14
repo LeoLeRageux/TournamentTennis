@@ -307,4 +307,47 @@ class TennisTournoiController extends AbstractController
         $entityManager->flush();
         return $this->redirectToRoute('tennis_tournoi_afficher_liste_inscrits', [ 'id' => $tennisTournoi->getId()]);
      }
+
+     /**
+      * @Route("/afficher-demandes-inscriptions/{id}", name="tennis_tournoi_afficher_demandes_inscriptions")
+      */
+     public function afficherDemandesInscriptions(TennisTournoi $tennisTournoi): Response
+     {
+       return $this->render('tennis_tournoi/demandesInscriptions.html.twig', [
+           'tennis_tournoi' => $tennisTournoi,
+       ]);
+     }
+
+     /**
+      * @Route("/accepter/{id}/{utilisateur}", name="tennis_tournoi_accepter")
+      */
+     public function accepterJoueur(TennisTournoiRepository $tennisTournoiRepository, $id, $utilisateur): Response
+     {
+        $tennisTournoi = $tennisTournoiRepository->find($id);
+        $entityManager = $this->getDoctrine()->getManager();
+        foreach($tennisTournoi->getTennisUtilisateursDemandeInscription() as $user){
+          if($user->getId() == $utilisateur){
+            $tennisTournoi->removeTennisUtilisateursDemandeInscription($user);
+            $tennisTournoi->addTennisUtilisateursParticipant($user);
+          }
+        }
+        $entityManager->flush();
+        return $this->redirectToRoute('tennis_tournoi_afficher_demandes_inscriptions', [ 'id' => $tennisTournoi->getId()]);
+     }
+
+     /**
+      * @Route("/refuser/{id}/{utilisateur}", name="tennis_tournoi_refuser")
+      */
+     public function refuserJoueur(TennisTournoiRepository $tennisTournoiRepository, $id, $utilisateur): Response
+     {
+        $tennisTournoi = $tennisTournoiRepository->find($id);
+        $entityManager = $this->getDoctrine()->getManager();
+        foreach($tennisTournoi->getTennisUtilisateursDemandeInscription() as $user){
+          if($user->getId() == $utilisateur){
+            $tennisTournoi->removeTennisUtilisateursDemandeInscription($user);
+          }
+        }
+        $entityManager->flush();
+        return $this->redirectToRoute('tennis_tournoi_afficher_demandes_inscriptions', [ 'id' => $tennisTournoi->getId()]);
+     }
 }

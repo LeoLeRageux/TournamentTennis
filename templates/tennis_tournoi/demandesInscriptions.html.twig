@@ -1,17 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des inscrits de {{ tennis_tournoi.nom }} {% endblock %}
-{% block titre %}<center><h1>Liste des inscrits du tournoi {{ tennis_tournoi.nom }}</h1></center> {% endblock %}
+{% block title %}Demandes d'inscriptions pour {{ tennis_tournoi.nom }} {% endblock %}
+{% block titre %}<center><h1>Demandes d'inscriptions pour {{ tennis_tournoi.nom }}</h1></center> {% endblock %}
 {% block body %}
 <ul class="nav nav-tabs">
 <li class="nav-item">
-  <a id="1" class="nav-link active" href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}">Liste des inscrits</a>
+  <a id="1" class="nav-link" href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}">Liste des inscrits</a>
 </li>
-{% if tennis_tournoi.statut == "Phase d'inscriptions" and tennis_tournoi.tennisUtilisateur == app.user %}
 <li class="nav-item">
-  <a id="2" class="nav-link" href="/tournois/afficher-demandes-inscriptions/{{ tennis_tournoi.id }}">Demandes d'inscriptions</a>
+  <a id="2" class="nav-link active" href="/tournois/afficher-demandes-inscriptions/{{ tennis_tournoi.id }}">Demandes d'inscriptions</a>
 </li>
-{% endif %}
 </ul>
 <div class="card shadow mb-4">
 <div class="card-body">
@@ -28,30 +26,22 @@
           </thead>
           <tbody>
             {% set indexUser = 0 %}
-            {% for utilisateur in tennis_tournoi.tennisUtilisateursParticipant %}
+            {% for utilisateur in tennis_tournoi.tennisUtilisateursDemandeInscription %}
               <tr>
                   <td>{{ utilisateur.nom }}</td>
                   <td>{{ utilisateur.prenom }}</td>
                   <td>{{ utilisateur.dateNaissance|date('d-m-Y') }}</td>
                   <td>{{ utilisateur.niveau }}</td>
-                  {% if app.user == tennis_tournoi.tennisUtilisateur %}
                   <td>
-                    <a href="/tournois/desinscription/{{ tennis_tournoi.id }}/{{ utilisateur.id }}" title="Désinscre le joueur"><i class="far fa-times-circle"></i></a>
+                    <!-- <a href="/tournois/desinscription/{{ tennis_tournoi.id }}/{{ app.user.id }}" title="Se désinscrire"><i class="far fa-times-circle"></i></a> -->
+                    <a href="/tournois/accepter/{{ tennis_tournoi.id }}/{{ utilisateur.id }}" title="Accepter la demande"><i class="fas fa-check"></i></a>
+                    <a href="/tournois/refuser/{{ tennis_tournoi.id }}/{{ utilisateur.id }}" title="Refuser la demande"><i class="fas fa-times"></i></a>
                   </td>
-                  {% elseif app.user == tennis_tournoi.tennisUtilisateursParticipant[indexUser] %}
-                  <td>
-                    <a href="/tournois/desinscription/{{ tennis_tournoi.id }}/{{ app.user.id }}" title="Se désinscrire"><i class="far fa-times-circle"></i></a>
-                  </td>
-                  {% else %}
-                  <td>
-                    -
-                  </td>
-                  {% endif %}
               </tr>
               {% set indexUser = indexUser + 1 %}
               {% else %}
                   <tr>
-                      <td colspan="19">Aucune demande d'inscription</td>
+                      <td colspan="19">Aucun utilisateur inscrit</td>
                   </tr>
               {% endfor %}
           </tbody>
@@ -59,14 +49,6 @@
     </div>
     </div>
     </div>
-{% if tennis_tournoi.tennisUtilisateur == app.user %}
-<div class="row">
-  <div class="col-md-12">
-<center><input type="button" class="btn btn-primary" onclick="window.location.href = '/tournois/inscrire-utilisateur/{{ tennis_tournoi.id }}';" value="Modifier la liste des inscrits"></center>
-  </div>
-</div>
-{% endif %}
-
 {% endblock %}
 {% block javascripts %}
   {{ parent() }}
@@ -81,9 +63,6 @@
       info: false,
 
     "language": {"url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"},
-    columnDefs: [
-          {"sType": "date-eu", targets: 2}
-            ],
       "order" : [[1 ,"asc"]]
     });
   });
