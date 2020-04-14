@@ -45,6 +45,7 @@
     </table>
     {% if tennis_utilisateur == app.user %}
       <a href="{{ path('tennis_utilisateur_edit', {'id': tennis_utilisateur.id}) }}" class="btn btn-primary">Modifier</a>
+      <a href="{{ path('tennis_utilisateur_changer_mdp', {'id': tennis_utilisateur.id}) }}" class="btn btn-primary">Changer le mot de passe</a>
     {% endif %}
     <br />
 

@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/tennis/utilisateur")
@@ -56,6 +58,47 @@ class TennisUtilisateurController extends AbstractController
         return $this->render('tennis_utilisateur/show.html.twig', [
             'tennis_utilisateur' => $tennisUtilisateur,
         ]);
+    }
+
+    /**
+     * @Route("/changer-mdp/{id}", name="tennis_utilisateur_changer_mdp")
+     */
+    public function changerMdp(UserPasswordEncoderInterface $encoder, TennisUtilisateur $tennisUtilisateur, Request $request): Response
+    {
+      $form = $this->createFormBuilder()
+        ->add('oldMdp', PasswordType::class)
+        ->add('newMdp1', PasswordType::class)
+        ->add('newMdp2', PasswordType::class)
+        ->getForm();
+      $form->handleRequest($request);
+
+      if ($form->isSubmitted()) { //&& $form->isValid()
+           if($encoder->isPasswordValid($tennisUtilisateur, $form->getData()["oldMdp"]) &&
+           $form->getData()["newMdp1"] == $form->getData()["newMdp2"] &&
+           $form->getData()["newMdp1"] != "" &&
+           $form->getData()["newMdp2"] != ""){
+               $tennisUtilisateur->setPassword($encoder->encodePassword($tennisUtilisateur, $form->getData()["newMdp1"]));
+               $entityManager = $this->getDoctrine()->getManager();
+               $entityManager->persist($tennisUtilisateur);
+               $entityManager->flush();
+               echo "<script>alert('Le mot de passe a été changé')</script>";
+           } else {
+             if(!$encoder->isPasswordValid($tennisUtilisateur, $form->getData()["oldMdp"])){
+               echo "<script>alert('L ancien mot de passe ne correpond pas')</script>";
+             }
+             if($form->getData()["newMdp1"] == null) {
+               echo "<script>alert('Le nouveau mot de passe ne peut être vide')</script>";
+             }
+             if($form->getData()["newMdp1"] != $form->getData()["newMdp2"]) {
+               echo "<script>alert('Le mot de passe de confirmation ne correspond pas')</script>";
+             }
+           }
+      }
+
+      return $this->render('tennis_utilisateur/changerMdp.html.twig', [
+          'tennis_utilisateur' => $tennisUtilisateur,
+          'form' => $form->createView()
+      ]);
     }
 
     /**

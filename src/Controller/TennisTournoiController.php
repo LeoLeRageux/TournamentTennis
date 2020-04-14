@@ -226,12 +226,8 @@ class TennisTournoiController extends AbstractController
 	  /**
      * @Route("/rechercher-tournoi/{id}", name="tennis_tournoi_afficher_tournoi_recherche")
      */
-    public function afficherTournoiRecherche(Request $request, TennisTournoi $tennisTournoi): Response {
-
-      if($tennisTournoi->getMotDePasse() == null){
-
-      }
-
+    public function afficherTournoiRecherche(Request $request, TennisTournoi $tennisTournoi): Response
+    {
       $form = $this->createFormBuilder()
         ->add('mdp', PasswordType::class)
         ->getForm();

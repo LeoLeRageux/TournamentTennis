@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}Changement de mot de passe{% endblock %}
+{% block titre %}<center><h1>Changer votre mot de passe</h1></center> {% endblock %}
+{% block body %}
+{{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+{{ form_label(form.oldMdp,"Ancien mot de passe") }}
+{{ form_errors(form.oldMdp) }}
+{{ form_widget(form.oldMdp) }}
+{{ form_label(form.newMdp1,"Nouveau mot de passe") }}
+{{ form_errors(form.newMdp1) }}
+{{ form_widget(form.newMdp1) }}
+{{ form_label(form.newMdp2,"Confirmation du nouveau mot de passe") }}
+{{ form_errors(form.newMdp2) }}
+{{ form_widget(form.newMdp2) }}
+<div class="pt-1">
+<center>
+<button class="btn btn-primary">Valider</button>
+</center>
+{{ form_end(form) }}
+{% endblock %}
