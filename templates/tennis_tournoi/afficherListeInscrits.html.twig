@@ -7,7 +7,7 @@
 <li class="nav-item">
   <a id="1" class="nav-link active" href="/tournois/liste-inscrits/{{ tennis_tournoi.id }}">Liste des inscrits</a>
 </li>
-{% if tennis_tournoi.statut == "Phase d'inscriptions" and tennis_tournoi.tennisUtilisateur == app.user %}
+{% if tennis_tournoi.statut == "Phase d'inscriptions" and tennis_tournoi.validationInscriptions and tennis_tournoi.tennisUtilisateur == app.user %}
 <li class="nav-item">
   <a id="2" class="nav-link" href="/tournois/afficher-demandes-inscriptions/{{ tennis_tournoi.id }}">Demandes d'inscriptions</a>
 </li>
